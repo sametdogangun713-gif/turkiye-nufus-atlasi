@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <!-- 24x24 sade çizimler. Kenar çizgisi koyu ton: açık ve koyu zeminde seçilsin. -->
+  <symbol id="ico-incir" viewBox="0 0 24 24">
+    <path d="M12.3 5.2c-.9 0-1.5.6-1.7 1.4C8.1 8.4 5 11.4 5 15.1a7 7 0 0 0 14 0c0-3.7-3.1-6.7-5.6-8.5-.2-.8-.6-1.4-1.1-1.4z" fill="#7B3F7A" stroke="#3E1F3D" stroke-width=".9"/>
+    <path d="M12.2 5.3c.2-1.7 1.3-2.9 3.1-3.3" fill="none" stroke="#4E7A2A" stroke-width="1.6" stroke-linecap="round"/>
+    <path d="M14.4 2.4c1.6-.6 3.2 0 3.9 1.2-1.5.6-3 .3-3.9-1.2z" fill="#6E9E3A"/>
+    <path d="M8.6 14.3c.4 2.2 1.8 3.6 3.8 3.9" fill="none" stroke="#C590C0" stroke-width="1.2" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="ico-fistik" viewBox="0 0 24 24">
+    <g transform="rotate(-28 12 12)">
+      <ellipse cx="12" cy="12" rx="6" ry="8.6" fill="#E3CFA6" stroke="#8C6A3A" stroke-width=".9"/>
+      <path d="M12 3.5c-2.6 2.2-3.7 5-3.7 8.5s1.1 6.3 3.7 8.5c2.6-2.2 3.7-5 3.7-8.5S14.6 5.7 12 3.5z" fill="#86B03E" stroke="#4C7420" stroke-width=".8"/>
+      <path d="M12 6.5c-1 1.6-1.4 3.4-1.4 5.5" fill="none" stroke="#B9D77A" stroke-width="1" stroke-linecap="round"/>
+    </g>
+  </symbol>
+  <symbol id="ico-pestil" viewBox="0 0 24 24">
+    <path d="M3 9.5c3-1.6 6-1.6 9 0s6 1.6 9 0v6c-3 1.6-6 1.6-9 0s-6-1.6-9 0z" fill="#A8432C" stroke="#5E2216" stroke-width=".9" stroke-linejoin="round"/>
+    <path d="M3 12.5c3-1.6 6-1.6 9 0s6 1.6 9 0" fill="none" stroke="#D27A5A" stroke-width="1"/>
+    <path d="M12 3.5v4" stroke="#8C6A3A" stroke-width="1.2" stroke-linecap="round"/>
+    <ellipse cx="7" cy="19" rx="2" ry="1.7" fill="#8A5A2E" stroke="#4E3016" stroke-width=".7"/>
+    <ellipse cx="12" cy="19.6" rx="2" ry="1.7" fill="#8A5A2E" stroke="#4E3016" stroke-width=".7"/>
+    <ellipse cx="17" cy="19" rx="2" ry="1.7" fill="#8A5A2E" stroke="#4E3016" stroke-width=".7"/>
+  </symbol>
+  <symbol id="ico-kunefe" viewBox="0 0 24 24">
+    <ellipse cx="12" cy="14" rx="10" ry="6.6" fill="#7A5634" stroke="#3E2A16" stroke-width=".9"/>
+    <ellipse cx="12" cy="13" rx="8.4" ry="5.2" fill="#E38A22" stroke="#9A520E" stroke-width=".7"/>
+    <path d="M6.5 12.2l2.2 2M9 10.4l3 2.6M12.6 10l2.8 2.4M15.6 10.8l2 1.8M8.6 15.2l2-1.6M12 15.8l2.6-2.2" stroke="#B5620F" stroke-width=".9" stroke-linecap="round"/>
+    <circle cx="9.6" cy="12" r=".9" fill="#7FB03A"/><circle cx="13.2" cy="13.6" r=".9" fill="#7FB03A"/>
+    <circle cx="15.8" cy="12" r=".8" fill="#7FB03A"/><circle cx="11.6" cy="11" r=".7" fill="#7FB03A"/>
+  </symbol>
+  <symbol id="ico-pismaniye" viewBox="0 0 24 24">
+    <path d="M6 18.5c-2.4 0-3.8-1.8-3.4-3.9.3-1.7 1.8-2.6 3.1-2.5.1-2.6 2.2-4.6 4.8-4.4 1-1.7 3.3-2.5 5.3-1.4 1.6.9 2.2 2.6 1.9 4.2 1.9.1 3.4 1.6 3.3 3.6-.1 2.4-2 4.4-4.4 4.4z" fill="#F4E6C6" stroke="#B08A4A" stroke-width=".9" stroke-linejoin="round"/>
+    <path d="M5.6 15.4c2.6-.9 5.2-.9 7.6.2M8.4 11.8c2-.5 4.4-.3 6.4.8M10.8 8.6c1.6-.3 3.4 0 4.8.9M12.8 16.6c2-.8 4.2-.8 6 .1" fill="none" stroke="#D2B47A" stroke-width=".8" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="ico-semazen" viewBox="0 0 24 24">
+    <path d="M10.9 1.8h2.2l.6 4.4h-3.4z" fill="#8A6542" stroke="#4A3420" stroke-width=".7" stroke-linejoin="round"/>
+    <circle cx="12.3" cy="7.6" r="1.6" fill="#E9C8A2" stroke="#8A6542" stroke-width=".6"/>
+    <path d="M12.2 9.6L4.6 21.6h15.2z" fill="#FFFFFF" stroke="#7E8794" stroke-width=".9" stroke-linejoin="round"/>
+    <path d="M9.4 15.6c1.8.6 3.8.6 5.6 0M7.4 18.8c3 .8 6.2.8 9.4 0" fill="none" stroke="#B9C0C9" stroke-width=".8" stroke-linecap="round"/>
+    <path d="M12.1 10.4L6.6 6.8M12.3 10.4L17.8 8.6" stroke="#7E8794" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M12.1 10.4L6.6 6.8M12.3 10.4L17.8 8.6" stroke="#FFFFFF" stroke-width=".9" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="ico-peribacasi" viewBox="0 0 24 24">
+    <path d="M14.6 21.5l1.8-9.8h2.4l1.9 9.8z" fill="#D6AE84" stroke="#8A5E38" stroke-width=".8" stroke-linejoin="round"/>
+    <ellipse cx="17.6" cy="11.4" rx="2.6" ry="1.4" fill="#8A5A3A" stroke="#4E3020" stroke-width=".7"/>
+    <path d="M5.4 21.5l3-13.2h3.4l3 13.2z" fill="#E2B88C" stroke="#8A5E38" stroke-width=".9" stroke-linejoin="round"/>
+    <ellipse cx="10.1" cy="7.8" rx="3.8" ry="2" fill="#7E4E32" stroke="#4E3020" stroke-width=".8"/>
+    <path d="M9.3 13.2v2.2M10.9 16.8v2" stroke="#A9784C" stroke-width="1" stroke-linecap="round"/>
+    <path d="M3 21.5h18" stroke="#8A5E38" stroke-width="1" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="ico-islamakofte" viewBox="0 0 24 24">
+    <path d="M3 13.5h18c0 4-3.6 6.5-9 6.5s-9-2.5-9-6.5z" fill="#C9484A" stroke="#7A1E20" stroke-width=".9" stroke-linejoin="round"/>
+    <path d="M5.2 15.4c.4 1.3.2 2.2-.2 3M9 16.6c.3 1 .1 2-.3 2.6M15.6 16.4c.2 1 .5 1.8 1.1 2.4" fill="none" stroke="#E07A6A" stroke-width=".9" stroke-linecap="round"/>
+    <rect x="4.6" y="10.2" width="4.4" height="3.2" rx="1.4" fill="#6E3A1E" stroke="#3A1E0E" stroke-width=".7"/>
+    <rect x="9.8" y="9.8" width="4.4" height="3.6" rx="1.4" fill="#7A4220" stroke="#3A1E0E" stroke-width=".7"/>
+    <rect x="15" y="10.2" width="4.4" height="3.2" rx="1.4" fill="#6E3A1E" stroke="#3A1E0E" stroke-width=".7"/>
+    <path d="M3.6 9.6c1-3.6 4.4-5.6 8.4-5.6s7.4 2 8.4 5.6" fill="#E3B06A" stroke="#9A6A2E" stroke-width=".9"/>
+  </symbol>
+</svg>

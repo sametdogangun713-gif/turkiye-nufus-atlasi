@@ -1,21 +1,24 @@
 /* =========================================================================
    Türkiye Nüfus Atlası — istemci
-   Bölümler: Biçim · Metrikler · Ölçek · Harita · İpucu · Lejant · Sekmeler ·
-             Başlık · Sıralama · Detay · Arama · Durum · Başlatma
+   Bölümler: Biçim · Renk · Metrikler · Ölçek · Profiller · Görünüm (zoom) ·
+             Harita · Etiketler · İpucu · Lejant · Sekmeler · Başlık ·
+             Sıralama · Detay · Arama · Durum · Başlatma
    Performans ilkeleri:
-     - Hareket = transform/opacity. Yakınlaştırma HTML katmanında (GPU).
-     - Metrik geçişi: eski haritanın HTML kopyası söner (kompozitör), SVG
-       her karede yeniden boyanmaz.
+     - Hareket = transform/opacity. Yakınlaştırma HTML katmanında; etiketler
+       ayrı bir HTML katmanında translate3d ile taşınır (yazı her ölçekte net).
+     - Fare tekerleği, sürükleme ve pinch tek rAF döngüsüne yazar.
      - Sıralama listesi mutlak konumlu; yeniden sıralama = translateY, DOM
        sırası ve düzen hesabı değişmez.
      - mousemove yalnızca hedefi kaydeder; yazımlar tek rAF döngüsünde.
    ========================================================================= */
 
 const $ = (s, r = document) => r.querySelector(s);
-const SVG_NS = "http://www.w3.org/2000/svg";
-const motionOK = !matchMedia("(prefers-reduced-motion: reduce)").matches;
+const motionQuery = matchMedia("(prefers-reduced-motion: reduce)");
+let motionOK = !motionQuery.matches;
+motionQuery.addEventListener?.("change", (e) => (motionOK = !e.matches));
 const mobile = matchMedia("(max-width: 860px)");
 const raf2 = (fn) => requestAnimationFrame(() => requestAnimationFrame(fn));
+const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
 
 /* ------------------------------------------------------------------- Biçim */
 const nf = new Intl.NumberFormat("tr-TR");
@@ -52,6 +55,55 @@ const trFold = (s) => s.replace(/I/g, "ı").replace(/İ/g, "i").toLocaleLowerCas
   .normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/ı/g, "i");
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
+/* -------------------------------------------------------------------- Renk */
+// İl rengi her temada okunur kalsın: OKLCH'de açıklık, zemine karşı hedef
+// kontrasta ulaşana dek kaydırılır (açık temada koyulaşır, koyu temada açılır).
+const Color = {
+  rgb(hex) { const n = parseInt(hex.slice(1), 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255].map((c) => c / 255); },
+  hex(rgb) { return "#" + rgb.map((c) => Math.round(clamp(c, 0, 1) * 255).toString(16).padStart(2, "0")).join(""); },
+  lin: (c) => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4),
+  gam: (c) => (c <= 0.0031308 ? 12.92 * c : 1.055 * c ** (1 / 2.4) - 0.055),
+  lum(hex) { const [r, g, b] = this.rgb(hex).map(this.lin); return 0.2126 * r + 0.7152 * g + 0.0722 * b; },
+  contrast(a, b) { const la = this.lum(a), lb = this.lum(b); return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05); },
+  toOklch(hex) {
+    const [r, g, b] = this.rgb(hex).map(this.lin);
+    const l = Math.cbrt(0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b);
+    const m = Math.cbrt(0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b);
+    const s = Math.cbrt(0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b);
+    const L = 0.2104542553 * l + 0.793617785 * m - 0.0040720468 * s;
+    const A = 1.9779984951 * l - 2.428592205 * m + 0.4505937099 * s;
+    const B = 0.0259040371 * l + 0.7827717662 * m - 0.808675766 * s;
+    return [L, Math.hypot(A, B), Math.atan2(B, A)];
+  },
+  fromOklch(L, C, h) {
+    for (let c = C; c >= 0; c -= 0.004) { // renk uzayı dışına taşarsa doygunluğu azalt
+      const A = c * Math.cos(h), B = c * Math.sin(h);
+      const l = (L + 0.3963377774 * A + 0.2158037573 * B) ** 3;
+      const m = (L - 0.1055613458 * A - 0.0638541728 * B) ** 3;
+      const s = (L - 0.0894841775 * A - 1.291485548 * B) ** 3;
+      const rgb = [
+        4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s,
+        -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s,
+        -0.0041960863 * l - 0.7034186147 * m + 1.707614701 * s,
+      ];
+      if (rgb.every((v) => v >= -0.001 && v <= 1.001)) return this.hex(rgb.map(this.gam));
+    }
+    return this.hex([L, L, L].map(this.gam));
+  },
+  /** Zemine karşı en az `min` kontrastlı ton. Yeterliyse rengin kendisi döner. */
+  readable(hex, bg, min = 4.5) {
+    if (this.contrast(hex, bg) >= min) return hex;
+    let [L, C, h] = this.toOklch(hex);
+    const dir = this.lum(bg) > 0.4 ? -1 : 1;
+    for (let i = 0; i < 100; i++) {
+      L = clamp(L + dir * 0.01, 0, 1);
+      const out = this.fromOklch(L, C, h);
+      if (this.contrast(out, bg) >= min || L === 0 || L === 1) return out;
+    }
+    return hex;
+  },
+};
+
 /* --------------------------------------------------------------- Metrikler */
 // Rampalar OKLCH'den üretildi ve dataviz doğrulayıcısından geçti
 // (tek ton, monoton açıklık, açık uç zemine karşı >= 2:1).
@@ -72,7 +124,7 @@ const RAMPS = {
     saffron: ["#734c0f", "#935f01", "#b0730b", "#ca8b2e", "#e1a556", "#f3c182", "#ffdeb1"],
     violet: ["#5d497f", "#765ba2", "#8e6fc3", "#a686de", "#bea0f3", "#d5bdff", "#ebdbff"],
     arms: { red: ["#954a3f", "#e5705f", "#ffbdb1"], turq: ["#1f716e", "#25adaa", "#a3dedb"], cobalt: ["#42629e", "#6496f4", "#b4d2ff"] },
-    neutral: "#46516a",
+    neutral: "#4a4b50",
   },
 };
 
@@ -119,7 +171,7 @@ const METRIC_KEYS = Object.keys(METRICS);
 const state = {
   provinces: [], byCode: new Map(), meta: null, lastUpdated: null,
   metric: "population", order: "desc", scale: null,
-  hovered: null, selected: null,
+  hovered: null, selected: null, colorize: false,
   theme: () => (document.documentElement.dataset.theme === "dark" ? "dark" : "light"),
 };
 
@@ -183,18 +235,270 @@ function buildScale(metric) {
   return { metric, classes, classify, min: vals[0], max: vals[vals.length - 1] };
 }
 
+/* --------------------------------------------------------------- Profiller */
+// data/province_profiles.json: simge, kültürel renk ve gerekçesi, rakım, alan
+// kodu, ilçe sayısı, yemek, ürün, gezilecek yer, etkinlik, tarihçe.
+const Profiles = {
+  data: {},
+  init() {
+    try { this.data = JSON.parse($("#profiles-data")?.textContent || "{}").provinces || {}; } catch { this.data = {}; }
+  },
+  get: (code) => Profiles.data[code] || {},
+  color: (code) => Profiles.data[code]?.color || "#7E8AA0",
+  /** Simge HTML'i: emoji ya da elle çizilmiş SVG (#ico-*). */
+  symbol(code, cls = "") {
+    const p = this.get(code);
+    if (p.icon) return `<svg class="ico ${cls}" viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-${esc(p.icon)}"/></svg>`;
+    return `<span class="emo ${cls}" aria-hidden="true">${esc(p.emoji || "•")}</span>`;
+  },
+  /** Temaya göre okunur vurgu tonları: metin (4,5:1) ve grafik (3:1). */
+  accents(code) {
+    const base = this.color(code);
+    const cs = getComputedStyle(document.documentElement);
+    const sheet = cs.getPropertyValue("--sheet").trim() || "#ffffff";
+    return { base, text: Color.readable(base, sheet, 4.5), ui: Color.readable(base, sheet, 3) };
+  },
+};
+
+/* --------------------------------------------------------- Görünüm (zoom) */
+// Harita katmanı (map-stage) translate+scale ile taşınır. Sınırlar: en az 1x
+// (tüm harita), en çok 3x. Harita hiçbir zaman ekrandan kaçmaz: çizim alanı
+// görünür alandan küçükse ortalanır, büyükse kenarları dışarı itilmez.
+const View = {
+  s: 1, x: 0, y: 0, MIN: 1, MAX: 3, FLY_MAX: 2.2,
+  anim: null, raf: 0, pointers: new Map(), dragEnd: 0, saved: null, sheetOverlap: 0,
+
+  init() {
+    this.stage = $("#map-stage");
+    this.clip = $("#map-clip");
+    this.svg = $("#turkey-map");
+    this.vb = this.svg.viewBox.baseVal;
+    this.measure();
+    // Harita alanının boyutu ızgara düzeni, yazı tipleri ve pencereyle değişir:
+    // pencere olayı yerine alanın kendisi izlenir.
+    const onResize = () => {
+      if (state.tabular) return;
+      const { W, H } = this;
+      this.measure();
+      if (W === this.W && H === this.H) return;
+      this.sheetOverlap = state.selected ? sheetOverlap() : 0;
+      if (state.selected) this.flyTo(state.selected, true);
+      else this.apply(this.clampView(W ? { s: this.s, x: this.x * (this.W / W), y: this.y * (this.H / (H || 1)) } : this));
+      Labels.layout();
+    };
+    if ("ResizeObserver" in window) new ResizeObserver(onResize).observe(this.clip);
+    else addEventListener("resize", onResize, { passive: true });
+
+    this.clip.addEventListener("wheel", (e) => {
+      if (state.tabular) return;
+      e.preventDefault();
+      const unit = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? 400 : 1;
+      const k = e.ctrlKey ? 0.01 : 0.0022; // ctrl+tekerlek = dokunmatik yüzeyde iki parmak
+      const from = this.anim?.kind === "glide" ? this.anim.to : this.cur();
+      const p = this.local(e.clientX, e.clientY);
+      this.glide(this.zoomAt(from, from.s * Math.exp(-e.deltaY * unit * k), p));
+    }, { passive: false });
+
+    this.clip.addEventListener("pointerdown", (e) => this.down(e));
+    this.clip.addEventListener("pointermove", (e) => this.move(e));
+    this.clip.addEventListener("pointerup", (e) => this.up(e));
+    this.clip.addEventListener("pointercancel", (e) => this.up(e));
+
+    $("#zoom-in").addEventListener("click", () => this.step(1.6));
+    $("#zoom-out").addEventListener("click", () => this.step(1 / 1.6));
+    $("#zoom-reset").addEventListener("click", () => (state.selected ? deselect() : this.home()));
+  },
+
+  cur() { return { s: this.s, x: this.x, y: this.y }; },
+
+  /** Ölçümler yalnızca açılışta ve boyut değişince (düzen okuması sıcak yolda yok). */
+  measure() {
+    this.W = this.stage.offsetWidth;
+    this.H = this.stage.offsetHeight;
+    this.L = this.stage.offsetLeft;
+    this.T = this.stage.offsetTop;
+    const vb = this.vb;
+    this.k = Math.min(this.W / vb.width, this.H / vb.height);
+    // map birimi -> sahne pikseli: px = ox + mx * k
+    this.ox = (this.W - vb.width * this.k) / 2 - vb.x * this.k;
+    this.oy = (this.H - vb.height * this.k) / 2 - vb.y * this.k;
+    this.d = {
+      x0: (this.W - vb.width * this.k) / 2, x1: (this.W + vb.width * this.k) / 2,
+      y0: (this.H - vb.height * this.k) / 2, y1: (this.H + vb.height * this.k) / 2,
+    };
+    this.rect = this.clip.getBoundingClientRect();
+  },
+
+  /** Görünür alan (sahne koordinatı). Mobilde alt sayfa haritanın altını örter. */
+  viewport() {
+    return { x0: 0, x1: this.W, y0: 0, y1: Math.max(this.H * 0.3, this.H - this.sheetOverlap) };
+  },
+
+  local(cx, cy) {
+    this.rect = this.clip.getBoundingClientRect();
+    return { x: cx - this.rect.left - this.L, y: cy - this.rect.top - this.T };
+  },
+
+  clampView(v) {
+    const s = clamp(v.s, this.MIN, this.MAX), vp = this.viewport(), d = this.d;
+    const axis = (pos, d0, d1, v0, v1) => {
+      const size = s * (d1 - d0);
+      if (size <= v1 - v0) return (v0 + v1) / 2 - (s * (d0 + d1)) / 2;
+      return clamp(pos, v1 - s * d1, v0 - s * d0);
+    };
+    return { s, x: axis(v.x, d.x0, d.x1, vp.x0, vp.x1), y: axis(v.y, d.y0, d.y1, vp.y0, vp.y1) };
+  },
+
+  zoomAt(from, s2, p) {
+    s2 = clamp(s2, this.MIN, this.MAX);
+    const r = s2 / from.s;
+    return this.clampView({ s: s2, x: p.x - (p.x - from.x) * r, y: p.y - (p.y - from.y) * r });
+  },
+
+  /** Doğrudan yaz: sahne dönüşümü, çizgi kalınlığı telafisi, etiket konumları. */
+  apply(v) {
+    this.s = v.s; this.x = v.x; this.y = v.y;
+    this.stage.style.transform = `translate3d(${v.x.toFixed(2)}px, ${v.y.toFixed(2)}px, 0) scale(${v.s.toFixed(4)})`;
+    this.svg.style.setProperty("--zk", v.s.toFixed(3));
+    Labels.position();
+    if (Math.abs(v.s - Labels.lastS) / v.s > 0.06) Labels.layout();
+    const zoomed = v.s > 1.01;
+    if (zoomed !== this.zoomed) {
+      this.zoomed = zoomed;
+      this.clip.classList.toggle("zoomed", zoomed);
+    }
+    const resetOn = zoomed || !!state.selected;
+    $("#zoom-reset").hidden = !resetOn;
+    $("#zoom-in").disabled = v.s >= this.MAX - 0.01;
+    $("#zoom-out").disabled = v.s <= this.MIN + 0.01;
+  },
+
+  stop() { cancelAnimationFrame(this.raf); this.raf = 0; this.anim = null; },
+
+  /** Tekerlek: hedefe üstel yaklaşma (yumuşak, ardışık tıkları biriktirir). */
+  glide(to) {
+    if (!motionOK) { this.stop(); this.apply(to); Labels.layout(); return; }
+    this.anim = { kind: "glide", to };
+    this.loop();
+  },
+
+  /** Uçuş: süreli geçiş (il seçimi, sıfırlama, düğmeler). */
+  tween(to, dur = 850) {
+    if (!motionOK || dur === 0) { this.stop(); this.apply(to); Labels.layout(); return; }
+    this.anim = { kind: "tween", from: this.cur(), to, t0: performance.now(), dur };
+    this.loop();
+  },
+
+  loop() {
+    if (this.raf) return;
+    const tick = (now) => {
+      const a = this.anim;
+      if (!a) { this.raf = 0; return; }
+      let done = false, v;
+      if (a.kind === "glide") {
+        const k = 0.24;
+        v = { s: this.s + (a.to.s - this.s) * k, x: this.x + (a.to.x - this.x) * k, y: this.y + (a.to.y - this.y) * k };
+        done = Math.abs(a.to.s - v.s) < 0.002 && Math.abs(a.to.x - v.x) < 0.3 && Math.abs(a.to.y - v.y) < 0.3;
+        if (done) v = a.to;
+      } else {
+        const t = Math.min(1, (now - a.t0) / a.dur);
+        const e = t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2; // easeInOutCubic
+        // ölçek geometrik ilerler: yakınlaşma hissi doğrusal olur
+        const s = a.from.s * (a.to.s / a.from.s) ** e;
+        v = { s, x: a.from.x + (a.to.x - a.from.x) * e, y: a.from.y + (a.to.y - a.from.y) * e };
+        done = t >= 1;
+      }
+      this.apply(v);
+      if (done) { this.anim = null; this.raf = 0; Labels.layout(); return; }
+      this.raf = requestAnimationFrame(tick);
+    };
+    this.raf = requestAnimationFrame(tick);
+  },
+
+  step(f) {
+    const vp = this.viewport();
+    const from = this.anim?.to || this.cur();
+    this.tween(this.zoomAt(from, from.s * f, { x: (vp.x0 + vp.x1) / 2, y: (vp.y0 + vp.y1) / 2 }), 380);
+  },
+
+  home() { this.tween(this.clampView({ s: 1, x: 0, y: 0 }), 700); },
+
+  /** İle uç: il görünür alanın ortasına, en çok FLY_MAX kat. */
+  flyTo(code, instant = false) {
+    const path = MapView.paths.get(code);
+    if (!path) return;
+    const bb = path.getBBox(), vp = this.viewport();
+    const w = Math.max(bb.width, 8) * this.k, h = Math.max(bb.height, 8) * this.k;
+    const s = clamp(Math.min(((vp.x1 - vp.x0) * 0.42) / w, ((vp.y1 - vp.y0) * 0.5) / h), 1.15, this.FLY_MAX);
+    const cx = this.ox + (bb.x + bb.width / 2) * this.k, cy = this.oy + (bb.y + bb.height / 2) * this.k;
+    const to = this.clampView({ s, x: (vp.x0 + vp.x1) / 2 - s * cx, y: (vp.y0 + vp.y1) / 2 - s * cy });
+    this.tween(to, instant ? 0 : 900);
+  },
+
+  /* Sürükleme ve pinch. Yakalama ancak sürükleme başlayınca alınır: aksi halde
+     tıklama hedefi kap olurdu ve il seçilemezdi. */
+  down(e) {
+    if (state.tabular || e.button > 0 || e.target.closest("button, a, input, .legend")) return;
+    this.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    this.gesture = this.pointers.size === 1
+      ? { type: "pan", sx: e.clientX, sy: e.clientY, v: this.cur(), moved: false }
+      : this.pinchStart();
+  },
+  pinchStart() {
+    const [a, b] = [...this.pointers.values()];
+    return { type: "pinch", d: Math.hypot(a.x - b.x, a.y - b.y) || 1, mid: this.local((a.x + b.x) / 2, (a.y + b.y) / 2), v: this.cur(), moved: true };
+  },
+  move(e) {
+    if (!this.pointers.has(e.pointerId)) return;
+    this.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    const g = this.gesture;
+    if (!g) return;
+    if (g.type === "pan") {
+      const dx = e.clientX - g.sx, dy = e.clientY - g.sy;
+      if (!g.moved) {
+        if (Math.hypot(dx, dy) < 6 || (this.s <= 1.01 && e.pointerType === "mouse")) return;
+        g.moved = true;
+        this.clip.setPointerCapture?.(e.pointerId);
+        this.clip.classList.add("dragging");
+        hover(null);
+      }
+      this.stop();
+      this.apply(this.clampView({ s: g.v.s, x: g.v.x + dx, y: g.v.y + dy }));
+    } else if (this.pointers.size >= 2) {
+      const [a, b] = [...this.pointers.values()];
+      const d = Math.hypot(a.x - b.x, a.y - b.y);
+      const mid = this.local((a.x + b.x) / 2, (a.y + b.y) / 2);
+      const s2 = clamp(g.v.s * (d / g.d), this.MIN, this.MAX), r = s2 / g.v.s;
+      this.stop();
+      this.apply(this.clampView({ s: s2, x: mid.x - (g.mid.x - g.v.x) * r, y: mid.y - (g.mid.y - g.v.y) * r }));
+    }
+  },
+  up(e) {
+    if (!this.pointers.delete(e.pointerId)) return;
+    if (this.gesture?.moved) this.dragEnd = performance.now();
+    if (this.pointers.size === 1) {
+      // pinch bitti, kalan parmakla kaydırmaya devam
+      const [p] = this.pointers.values();
+      this.gesture = { type: "pan", sx: p.x, sy: p.y, v: this.cur(), moved: true };
+    } else if (!this.pointers.size) {
+      this.gesture = null;
+      this.clip.classList.remove("dragging");
+      Labels.layout();
+    }
+  },
+  justDragged() { return performance.now() - this.dragEnd < 260; },
+};
+
 /* ------------------------------------------------------------------ Harita */
 const MapView = {
-  paths: new Map(), zoomed: false, anims: [],
+  paths: new Map(), anims: [],
 
   init() {
     this.svg = $("#turkey-map");
-    this.stage = $("#map-stage");
     this.group = $("#provinces");
-    this.vb = this.svg.viewBox.baseVal;
     const viewport = $("#map-viewport");
 
-    viewport.insertAdjacentHTML("beforeend", `
+    this.group.insertAdjacentHTML("afterend", `
       <g id="select-layer"><use id="select-use"/></g>
       <g id="hover-layer"><use id="hover-shadow"/><use id="hover-top"/></g>`);
     this.selUse = $("#select-use");
@@ -213,10 +517,15 @@ const MapView = {
 
     const codeOf = (e) => e.target.closest?.(".province")?.id;
     const g = this.group;
-    g.addEventListener("pointerover", (e) => { const c = codeOf(e); if (c) hover(c, e); });
+    g.addEventListener("pointerover", (e) => { const c = codeOf(e); if (c && !View.gesture?.moved) hover(c, e); });
     g.addEventListener("pointerleave", () => hover(null));
     g.addEventListener("pointermove", (e) => { if (e.pointerType === "mouse") Tooltip.follow(e.clientX, e.clientY); }, { passive: true });
-    g.addEventListener("click", (e) => { const c = codeOf(e); if (c) select(c, { zoom: true }); });
+    g.addEventListener("click", (e) => {
+      const c = codeOf(e);
+      if (!c || View.justDragged()) return;
+      if (c === state.selected) return;
+      select(c, { zoom: true });
+    });
     g.addEventListener("focusin", (e) => {
       const c = codeOf(e);
       if (!c) return;
@@ -229,61 +538,49 @@ const MapView = {
       const c = codeOf(e);
       if (c && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); select(c, { zoom: true }); }
     });
-    $("#zoom-reset").addEventListener("click", () => this.resetZoom());
-    addEventListener("resize", () => { if (this.zoomed && state.selected) this.focus(state.selected, true); }, { passive: true });
+    void viewport;
   },
 
-  /** Hover: gölge + üst kopya, yalnızca transform/opacity (WAAPI). */
+  /** Açılış: iller batıdan doğuya sırayla belirir (yalnızca opacity/transform). */
+  intro() {
+    if (!motionOK) return;
+    const xs = [...this.paths.values()].map((p) => +p.dataset.lx);
+    const lo = Math.min(...xs), hi = Math.max(...xs);
+    for (const p of this.paths.values()) {
+      p.style.animationDelay = `${Math.round(((+p.dataset.lx - lo) / (hi - lo)) * 700 + Math.random() * 120)}ms`;
+    }
+    this.svg.classList.add("intro");
+    setTimeout(() => {
+      this.svg.classList.remove("intro");
+      for (const p of this.paths.values()) p.style.animationDelay = "";
+    }, 1700);
+  },
+
+  /** Hover: gölge + hafifçe büyüyen üst kopya, yalnızca transform/opacity (WAAPI). */
   setHover(code) {
     this.anims.forEach((a) => a.cancel());
     const d = motionOK ? 1 : 0;
     if (!code) {
       this.anims = [
-        this.top.animate([{ opacity: 1, transform: "scale(1.025)" }, { opacity: 0, transform: "scale(1)" }], { duration: 140 * d, easing: "ease-out", fill: "forwards" }),
-        this.shadow.animate([{ opacity: 0.22, transform: "translate(0, 2.5px) scale(1.025)" }, { opacity: 0, transform: "none" }], { duration: 140 * d, easing: "ease-out", fill: "forwards" }),
+        this.top.animate([{ opacity: 1, transform: "scale(1.045)" }, { opacity: 0, transform: "scale(1)" }], { duration: 160 * d, easing: "ease-out", fill: "forwards" }),
+        this.shadow.animate([{ opacity: 0.2, transform: "translate(0, 3px) scale(1.045)" }, { opacity: 0, transform: "none" }], { duration: 160 * d, easing: "ease-out", fill: "forwards" }),
       ];
       return;
     }
     this.top.setAttribute("href", `#${code}`);
     this.shadow.setAttribute("href", `#${code}`);
+    // Nötr haritada üzerine gelinen il kendi kültürel rengine bürünür
+    if (state.colorize) this.top.style.removeProperty("--p-fill");
+    else this.top.style.setProperty("--p-fill", `color-mix(in oklab, ${Profiles.color(code)} 34%, var(--prov))`);
     const ease = "cubic-bezier(0.34, 1.4, 0.64, 1)";
     this.anims = [
-      this.top.animate([{ opacity: 0.6, transform: "scale(1)" }, { opacity: 1, transform: "scale(1.025)" }], { duration: 240 * d, easing: ease, fill: "forwards" }),
-      this.shadow.animate([{ opacity: 0, transform: "none" }, { opacity: 0.22, transform: "translate(0, 2.5px) scale(1.025)" }], { duration: 240 * d, easing: ease, fill: "forwards" }),
+      this.top.animate([{ opacity: 0.6, transform: "scale(1)" }, { opacity: 1, transform: "scale(1.045)" }], { duration: 260 * d, easing: ease, fill: "forwards" }),
+      this.shadow.animate([{ opacity: 0, transform: "none" }, { opacity: 0.2, transform: "translate(0, 3px) scale(1.045)" }], { duration: 260 * d, easing: ease, fill: "forwards" }),
     ];
   },
 
-  /** Geçiş katmanı: haritanın etkileşimsiz kopyası, bir kez oluşturulur.
-      Her metrik değişiminde klonlamak SVG geometrisini yeniden hesaplatırdı. */
-  buildFadeLayer() {
-    const copy = this.svg.cloneNode(true);
-    copy.removeAttribute("id");
-    copy.classList.add("fade-copy");
-    copy.setAttribute("aria-hidden", "true");
-    copy.querySelectorAll("use").forEach((el) => el.remove());
-    this.fadePaths = [];
-    for (const el of copy.querySelectorAll("[id]")) {
-      if (el.classList.contains("province")) this.fadePaths.push([el, this.paths.get(el.id)]);
-      el.removeAttribute("id");
-      el.removeAttribute("tabindex");
-      el.removeAttribute("role");
-      el.removeAttribute("aria-label");
-    }
-    copy.style.opacity = "0";
-    this.fade = copy;
-    this.stage.append(copy);
-  },
-
-  /** Renkleri uygula. Eski renkler HTML kopya katmanında söner (yalnızca opacity). */
-  paint(animate = true) {
-    if (animate && motionOK && this.painted) {
-      if (!this.fade) this.buildFadeLayer();
-      const f = this.fade;
-      for (const [copyPath, src] of this.fadePaths) copyPath.style.setProperty("--f", src.style.getPropertyValue("--f"));
-      f.style.transition = "none";
-      f.style.opacity = "1";
-      raf2(() => { f.style.transition = ""; f.style.opacity = "0"; });
-    }
+  /** Veri renkleri her zaman yazılır; görünürlükleri .colorize sınıfına bağlı (CSS geçişli). */
+  paint() {
     const { classify, classes } = state.scale;
     for (const [code, path] of this.paths) {
       const p = state.byCode.get(code);
@@ -291,7 +588,11 @@ const MapView = {
       path.style.setProperty("--f", i >= 0 ? classes[i].color : "");
       path.dataset.cls = i;
     }
-    this.painted = true;
+  },
+
+  setColorize(on) {
+    this.svg.classList.toggle("colorize", on);
+    if (state.hovered) this.setHover(state.hovered);
   },
 
   highlightClass(i) {
@@ -301,35 +602,109 @@ const MapView = {
   },
 
   markSelected(code) {
-    if (code) this.selUse.setAttribute("href", `#${code}`);
-    else this.selUse.removeAttribute("href");
+    this.paths.get(this.selCode)?.classList.remove("is-sel");
+    this.selCode = code;
+    if (code) {
+      this.selUse.setAttribute("href", `#${code}`);
+      this.paths.get(code)?.classList.add("is-sel");
+      this.selUse.style.setProperty("--sel", Profiles.accents(code).ui);
+      this.svg.style.setProperty("--sel-tint", Profiles.color(code));
+    } else {
+      this.selUse.removeAttribute("href");
+    }
+    this.svg.classList.toggle("focus", !!code);
   },
+};
 
-  /** İlin sınır kutusuna odaklan. Dönüşüm HTML katmanında: GPU ölçekler. */
-  focus(code, instant = false) {
-    const path = this.paths.get(code);
-    if (!path) return;
-    const bb = path.getBBox();
-    const W = this.stage.offsetWidth, H = this.stage.offsetHeight; // dönüşümsüz boyut
-    const k = Math.min(W / this.vb.width, H / this.vb.height);
-    const ox = (W - this.vb.width * k) / 2, oy = (H - this.vb.height * k) / 2;
-    const cx = ox + (bb.x + bb.width / 2) * k, cy = oy + (bb.y + bb.height / 2) * k;
-    const s = Math.max(1.3, Math.min(2.6, (W * 0.3) / (bb.width * k), (H * 0.38) / (bb.height * k)));
-    const tx = W / 2 - s * cx, ty = H / 2 - s * cy;
-    this.svg.style.setProperty("--zk", s.toFixed(3)); // çizgi kalınlığı sabit kalsın
-    this.stage.classList.toggle("instant", instant);
-    this.stage.style.transform = `translate3d(${tx.toFixed(1)}px, ${ty.toFixed(1)}px, 0) scale(${s.toFixed(3)})`;
-    this.zoomed = true;
-    $("#zoom-reset").hidden = false;
+/* --------------------------------------------------------------- Etiketler */
+// İl adı + simge, ülke ve deniz adları. Konumlar her karede (yalnızca
+// transform); hangi etiketin görüneceği ölçek değişince açgözlü yerleşimle
+// hesaplanır: büyük iller önce, çakışan etiket gizlenir, küçük iller ancak
+// yakınlaşınca görünür.
+const Labels = {
+  items: [], lastS: 0, byCode: new Map(),
+  init() {
+    this.layer = $("#map-labels");
+    const html = [];
+    for (const [code, path] of MapView.paths) {
+      const p = state.byCode.get(code);
+      if (!p) continue;
+      html.push(`<div class="pl" data-code="${code}"><div class="pl-in">${Profiles.symbol(code, "pl-sym")}<span class="pl-name">${esc(p.province_name)}</span></div></div>`);
+    }
+    for (const a of document.querySelectorAll("#anchors .anchor")) {
+      html.push(`<div class="ml ml-${a.dataset.kind}"><div class="pl-in"><span>${esc(a.dataset.label)}</span></div></div>`);
+    }
+    this.layer.innerHTML = html.join("");
+    const anchors = [...document.querySelectorAll("#anchors .anchor")];
+    let ai = 0;
+    for (const el of this.layer.children) {
+      if (el.dataset.code) {
+        const path = MapView.paths.get(el.dataset.code);
+        const it = { el, code: el.dataset.code, mx: +path.dataset.lx, my: +path.dataset.ly, area: +path.dataset.a, fixed: false, sym: el.querySelector(".pl-sym") };
+        this.items.push(it);
+        this.byCode.set(it.code, it);
+      } else {
+        const a = anchors[ai++];
+        this.items.push({ el, mx: +a.getAttribute("cx"), my: +a.getAttribute("cy"), fixed: true, kind: a.dataset.kind });
+      }
+    }
+    this.measure();
+    document.fonts?.ready.then(() => { this.measure(); this.layout(); });
   },
-
-  resetZoom() {
-    this.stage.classList.remove("instant");
-    this.stage.style.transform = "";
-    this.svg.style.removeProperty("--zk");
-    this.zoomed = false;
-    $("#zoom-reset").hidden = true;
+  measure() {
+    for (const it of this.items) { it.w = it.el.firstElementChild.offsetWidth; it.h = it.el.firstElementChild.offsetHeight; }
   },
+  screen(it) {
+    return { x: View.L + View.x + View.s * (View.ox + it.mx * View.k), y: View.T + View.y + View.s * (View.oy + it.my * View.k) };
+  },
+  position() {
+    for (const it of this.items) {
+      if (!it.on && !it.hot) continue;
+      const { x, y } = this.screen(it);
+      it.el.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)`;
+    }
+  },
+  layout() {
+    if (!View.W) return;
+    this.lastS = View.s;
+    const placed = [], pad = 3, cw = View.clip.clientWidth, ch = View.clip.clientHeight;
+    const fits = (b) => !placed.some((o) => b.x0 < o.x1 && b.x1 > o.x0 && b.y0 < o.y1 && b.y1 > o.y0);
+    const boxOf = (it, p) => ({ x0: p.x - it.w / 2 - pad, x1: p.x + it.w / 2 + pad, y0: p.y - it.h / 2 - pad, y1: p.y + it.h / 2 + pad });
+    const sel = state.selected;
+    const order = this.items.slice().sort((a, b) => (b.code === sel) - (a.code === sel) || b.fixed - a.fixed || (b.kind === "sea") - (a.kind === "sea") || (b.area || 0) - (a.area || 0));
+    const minSide = mobile.matches ? 26 : 30;
+    for (const it of order) {
+      const p = this.screen(it), b = boxOf(it, p);
+      const inView = p.x > -40 && p.x < cw + 40 && p.y > -20 && p.y < ch + 20;
+      let on;
+      if (it.fixed) on = inView && fits(b); // ülke/deniz adları da birbirini ezmesin (dar ekran)
+      else if (it.code === sel) on = true;
+      else on = inView && Math.sqrt(it.area) * View.k * View.s >= minSide && fits(b);
+      if (on) placed.push(b);
+      if (on !== it.on) { it.on = on; it.el.classList.toggle("on", on); }
+      it.el.classList.toggle("sel", it.code === sel && !!sel);
+    }
+    this.position();
+  },
+  hot(code) {
+    if (this.hotItem) { this.hotItem.hot = false; this.hotItem.el.classList.remove("hot"); }
+    this.hotItem = code ? this.byCode.get(code) : null;
+    const it = this.hotItem;
+    if (!it) return;
+    it.hot = true;
+    it.el.classList.add("hot");
+    const { x, y } = this.screen(it);
+    it.el.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)`;
+    if (motionOK && it.sym) {
+      it.sym.animate([
+        { transform: "translateY(0) scale(1)" },
+        { transform: "translateY(-7px) scale(1.18)", offset: 0.38 },
+        { transform: "translateY(0) scale(.96)", offset: 0.72 },
+        { transform: "translateY(0) scale(1)" },
+      ], { duration: 560, easing: "cubic-bezier(.3,.7,.4,1)" });
+    }
+  },
+  focus(on) { this.layer.classList.toggle("focus", on); },
 };
 
 /* ------------------------------------------------------------------- İpucu */
@@ -338,7 +713,7 @@ const Tooltip = {
   init() {
     this.el = $("#tooltip");
     this.box = this.el.firstElementChild;
-    this.r = Object.fromEntries(["plate", "region", "name", "value", "unit", "rank", "birth", "death", "birth-bar", "death-bar"]
+    this.r = Object.fromEntries(["plate", "region", "name", "value", "unit", "rank", "birth", "death", "birth-bar", "death-bar", "sym"]
       .map((k) => [k, $(`#tt-${k}`)]));
   },
   show(code) {
@@ -347,6 +722,7 @@ const Tooltip = {
     const m = METRICS[state.metric], r = this.r;
     r.plate.textContent = code.slice(3);
     r.region.textContent = `${p.region} Bölgesi`;
+    r.sym.innerHTML = Profiles.symbol(code);
     r.name.textContent = p.province_name;
     r.value.textContent = fmt(state.metric, p[state.metric]);
     r.unit.textContent = `${m.unit === "‰" ? "binde" : m.unit}, ${m.label.toLocaleLowerCase("tr-TR")}`;
@@ -398,6 +774,7 @@ function hover(code, evt) {
   if (code === state.hovered) return;
   state.hovered = code;
   MapView.setHover(code);
+  Labels.hot(code);
   Rank.markHot(code);
   if (!code) return Tooltip.hide();
   if (evt?.pointerType === "mouse") Tooltip.follow(evt.clientX, evt.clientY, !Tooltip.on);
@@ -407,9 +784,12 @@ function hover(code, evt) {
 /* ------------------------------------------------------------------ Lejant */
 const Legend = {
   init() {
+    this.el = $("#legend");
     this.list = $("#legend-scale");
-    this.list.addEventListener("pointerover", (e) => { const li = e.target.closest("li"); if (li) MapView.highlightClass(+li.dataset.i); });
+    this.btn = $("#colorize");
+    this.list.addEventListener("pointerover", (e) => { const li = e.target.closest("li"); if (li && state.colorize) MapView.highlightClass(+li.dataset.i); });
     this.list.addEventListener("pointerleave", () => MapView.highlightClass(null));
+    this.btn.addEventListener("click", () => setColorize(!state.colorize));
   },
   render() {
     const { classes, metric } = state.scale, m = METRICS[metric];
@@ -423,9 +803,25 @@ const Legend = {
         <div class="lg-sw" style="background:${c.color}"></div>
         <span class="lg-label">${fmt(metric, c.min, "short")}</span>
       </li>`).join("");
-    raf2(() => this.list.querySelectorAll(".lg-hist i").forEach((el) => (el.style.transform = `scaleY(${el.dataset.s})`)));
+    const sw = this.btn.querySelectorAll(".sw i");
+    [0, Math.floor(classes.length / 2), classes.length - 1].forEach((ci, i) => sw[i] && (sw[i].style.background = classes[ci].color));
+    if (state.colorize) raf2(() => this.grow());
+  },
+  grow() { this.list.querySelectorAll(".lg-hist i").forEach((el) => (el.style.transform = `scaleY(${el.dataset.s})`)); },
+  sync() {
+    this.el.classList.toggle("on", state.colorize);
+    this.btn.setAttribute("aria-pressed", String(state.colorize));
+    this.btn.querySelector(".lbl").textContent = state.colorize ? "Renkleri kapat" : "Verileri renklendir";
+    if (state.colorize) raf2(() => this.grow());
   },
 };
+
+function setColorize(on) {
+  state.colorize = on;
+  MapView.setColorize(on);
+  Legend.sync();
+  try { localStorage.setItem("tna-colorize", on ? "1" : "0"); } catch { /* yok say */ }
+}
 
 /* ---------------------------------------------------------------- Sekmeler */
 const Tabs = {
@@ -478,7 +874,7 @@ const Rank = {
     this.list.innerHTML = state.provinces.map((p) => `
       <li data-code="${p.plate_code}">
         <a href="/il/${p.slug}">
-          <span class="rk-n"></span><span class="rk-name">${esc(p.province_name)}</span>
+          <span class="rk-n"></span><span class="rk-name">${Profiles.symbol(p.plate_code, "rk-sym")}${esc(p.province_name)}</span>
           <span class="rk-track"><i class="rk-zero"></i><i class="rk-bar"></i></span><span class="rk-v"></span>
         </a>
       </li>`).join("");
@@ -549,137 +945,246 @@ const Rank = {
 
 /* ------------------------------------------------------------------- Detay */
 const DETAIL_METRICS = ["population", "population_density", "birth_rate", "death_rate", "natural_growth_rate", "net_migration_rate", "median_age"];
+const NO_DATA = `<span class="nd">veri yok</span>`;
+const TABS = ["general", "culture", "places", "demo"];
 
 const Detail = {
-  rows: new Map(), counterRaf: 0,
+  tab: "general", counterRaf: 0,
   init() {
     this.panel = $("#panel");
     this.view = $("#view-detail");
-    const box = $("#dt-rows");
-    box.innerHTML = DETAIL_METRICS.map((k) => `
-      <div class="dt-row" data-k="${k}">
-        <header><span class="dt-label">${METRICS[k].label}<span class="dt-year"></span></span><b class="dt-value"><span class="num">—</span><small>${METRICS[k].unit === "‰" ? "‰" : METRICS[k].unit}</small></b></header>
-        <div class="dt-strip">
-          <svg viewBox="0 0 100 22" preserveAspectRatio="none" aria-hidden="true"><path class="all"/><path class="peer"/><path class="nat"/></svg>
-          <div class="dt-mark"><i></i></div>
-        </div>
-        <p class="dt-rank"></p>
-        <div class="dt-trend" hidden>
-          <svg viewBox="0 0 100 22" preserveAspectRatio="none" aria-hidden="true"><path class="line"/><circle class="end" r="2.2"/></svg>
-          <span></span>
-        </div>
-      </div>`).join("");
-    for (const row of box.children) {
-      const k = row.dataset.k;
-      this.rows.set(k, {
-        num: $(".num", row), year: $(".dt-year", row), all: $(".all", row), peer: $(".peer", row), nat: $(".nat", row),
-        mark: $(".dt-mark", row), rank: $(".dt-rank", row), cur: 0,
-        trend: $(".dt-trend", row), line: $(".dt-trend .line", row), end: $(".dt-trend .end", row), trendText: $(".dt-trend span", row),
-      });
-    }
+    this.hero = $("#dt-hero");
+    this.body = $("#dtp");
+    this.tabs = $("#dt-tabs");
+    this.ink = $(".dt-tabs-ink");
+    try { const t = localStorage.getItem("tna-tab"); if (TABS.includes(t)) this.tab = t; } catch { /* yok say */ }
+    this.tabs.addEventListener("click", (e) => { const b = e.target.closest("[data-tab]"); if (b) this.show(b.dataset.tab, true); });
+    this.tabs.addEventListener("keydown", (e) => {
+      if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+      const i = TABS.indexOf(this.tab);
+      const next = TABS[(i + (e.key === "ArrowRight" ? 1 : TABS.length - 1)) % TABS.length];
+      this.show(next, true);
+      this.tabs.querySelector(`[data-tab="${next}"]`).focus();
+    });
     $("#dt-back").addEventListener("click", () => deselect());
     document.addEventListener("keydown", (e) => { if (e.key === "Escape" && state.selected && !e.target.closest?.("input")) deselect(); });
+    this.initSheet();
+    addEventListener("resize", () => this.syncInk(false), { passive: true });
   },
 
-  /** Ölçek: nüfus ve yoğunluk log, diğerleri doğrusal. */
-  pos(k, v) {
-    const vals = state.provinces.map((p) => p[k]);
-    const t = (x) => (METRICS[k].log ? Math.log10(Math.max(1, x)) : x);
-    const lo = t(Math.min(...vals)), hi = t(Math.max(...vals));
-    return Math.max(0, Math.min(100, ((t(v) - lo) / (hi - lo || 1)) * 100));
+  /** Mobil alt sayfa: tutamaktan aşağı çekince kapanır. */
+  initSheet() {
+    const h = $("#sheet-handle");
+    let y0 = null, dy = 0;
+    const end = () => {
+      if (y0 == null) return;
+      this.view.style.transition = this.view.style.transform = "";
+      if (dy > 90) deselect();
+      y0 = null; dy = 0;
+    };
+    h.addEventListener("pointerdown", (e) => { y0 = e.clientY; dy = 0; h.setPointerCapture(e.pointerId); this.view.style.transition = "none"; });
+    h.addEventListener("pointermove", (e) => {
+      if (y0 == null) return;
+      dy = Math.max(0, e.clientY - y0);
+      this.view.style.transform = `translateY(${dy}px)`;
+    });
+    h.addEventListener("pointerup", end);
+    h.addEventListener("pointercancel", end);
   },
-  /** Tüm illerin çizgileri yalnızca veri değişince çizilir (tek path). */
-  drawStrips() {
-    for (const k of DETAIL_METRICS) {
-      const r = this.rows.get(k);
-      r.year.textContent = yearOf(k) ? ` (${yearOf(k)})` : "";
-      r.all.setAttribute("d", state.provinces.map((p) => `M${this.pos(k, p[k]).toFixed(2)} 6V16`).join(""));
-      const nat = k === "population" ? state.meta.national.avg_province_population : state.meta.national[k];
-      r.nat.setAttribute("d", `M${this.pos(k, nat).toFixed(2)} 1V21`);
-    }
+
+  /** Vurgu rengi temaya göre (tema değişince de çağrılır). */
+  setAccent(code) {
+    const a = Profiles.accents(code);
+    const s = this.view.style;
+    s.setProperty("--acc", a.text);
+    s.setProperty("--acc-ui", a.ui);
+    s.setProperty("--acc-raw", a.base);
   },
 
   open(code) {
     const p = state.byCode.get(code);
     if (!p) return;
-    const nat = state.meta.national;
+    const pr = Profiles.get(code);
+    this.code = code;
+    this.setAccent(code);
     $("#dt-plate").textContent = code.slice(3);
     $("#dt-region").textContent = `${p.region} Bölgesi`;
     $("#dt-name").textContent = p.province_name;
-    const share = (p.population / nat.population) * 100;
-    const rr = regionRank(p, "population");
-    const ageDiff = p.median_age - nat.median_age;
-    $("#dt-summary").textContent =
-      `${p.region} Bölgesi'nin ${rr.rank === 1 ? "en kalabalık" : `${rr.rank}. kalabalık`} ili; Türkiye nüfusunun yüzde ${nf1.format(share)}'i burada yaşıyor. ` +
-      `Ortanca yaş Türkiye ortalamasının ${Math.abs(ageDiff) < 0.5 ? "çok yakınında" : `${nf1.format(Math.abs(ageDiff))} yıl ${ageDiff > 0 ? "üstünde" : "altında"}`}.`;
-
-    const peers = state.provinces.filter((x) => x.region === p.region);
-    const anim = [];
-    for (const k of DETAIL_METRICS) {
-      const r = this.rows.get(k);
-      r.peer.setAttribute("d", peers.map((x) => `M${this.pos(k, x[k]).toFixed(2)} 3V19`).join(""));
-      r.mark.style.transform = `translateX(${this.pos(k, p[k]).toFixed(2)}%)`;
-      const pr = regionRank(p, k);
-      r.rank.textContent = `81 il içinde ${p.ranks[k]}., bölgede ${pr.rank}/${pr.of}`;
-      anim.push({ r, k, from: r.cur, to: p[k] });
-      r.cur = p[k];
-      this.trend(r, k, p.history?.[k]);
-    }
-    this.count(anim);
+    $("#dt-sym").innerHTML = Profiles.symbol(code);
+    $("#dt-tag").textContent = pr.symbol_label || "";
+    $("#dt-src").textContent = "Nüfus: TÜİK ADNKS · Yüzölçümü: HGM · Rakım: Vikipedi (kaynaklar çelişirse boş) · Kültür bilgileri elle derlendi; emin olunmayan alanlar boş bırakıldı.";
+    // Renk dalgası ve satır animasyonları her ilde yeniden başlar
+    this.hero.classList.remove("wave");
+    void this.hero.offsetWidth;
+    this.hero.classList.add("wave");
+    this.render(true);
     this.panel.classList.add("detail");
     this.view.setAttribute("aria-hidden", "false");
     $("#view-rank").setAttribute("aria-hidden", "true");
     this.view.scrollTop = 0;
-  },
-
-  /** Yıllık seri: küçük çizgi + ilk/son yıl farkı. */
-  trend(r, k, series) {
-    const pts = Object.entries(series || {}).map(([y, v]) => [+y, v]).sort((a, b) => a[0] - b[0]);
-    if (pts.length < 2) { r.trend.hidden = true; return; }
-    const ys = pts.map((p) => p[1]);
-    const lo = Math.min(...ys), hi = Math.max(...ys), span = hi - lo || 1;
-    const x = (i) => (i / (pts.length - 1)) * 100, y = (v) => 19 - ((v - lo) / span) * 16;
-    r.line.setAttribute("d", pts.map(([, v], i) => `${i ? "L" : "M"}${x(i).toFixed(1)} ${y(v).toFixed(1)}`).join(""));
-    // daire viewBox'ta yatayda gerilmesin diye son noktayı yüzdeyle değil, sağ kenarda çiziyoruz
-    r.end.setAttribute("cx", "100");
-    r.end.setAttribute("cy", y(ys.at(-1)).toFixed(1));
-    const [y0, v0] = pts[0], [y1, v1] = pts.at(-1);
-    const diff = v1 - v0;
-    const change = k === "population" || k === "population_density"
-      ? `${diff >= 0 ? "+" : "−"}%${nf1.format(Math.abs(diff / v0) * 100)}`
-      : `${diff >= 0 ? "+" : "−"}${nf1.format(Math.abs(diff))}`;
-    r.trendText.textContent = `${y0}–${y1}: ${change}`;
-    r.trend.hidden = false;
+    raf2(() => this.syncInk(false));
   },
 
   close() {
+    this.code = null;
     this.panel.classList.remove("detail");
     this.view.setAttribute("aria-hidden", "true");
     $("#view-rank").setAttribute("aria-hidden", "false");
   },
 
-  /** Sayaçlar: tek rAF döngüsü, easeOutExpo. */
-  count(items) {
+  show(tab, animate) {
+    if (tab === this.tab && !animate) return;
+    const dir = TABS.indexOf(tab) >= TABS.indexOf(this.tab) ? 1 : -1;
+    this.tab = tab;
+    try { localStorage.setItem("tna-tab", tab); } catch { /* yok say */ }
+    this.render(false, dir);
+    this.syncInk(true);
+  },
+
+  syncInk(animate) {
+    const btn = this.tabs.querySelector(`[data-tab="${this.tab}"]`);
+    this.tabs.querySelectorAll("[role=tab]").forEach((b) => {
+      const on = b === btn;
+      b.setAttribute("aria-selected", String(on));
+      b.tabIndex = on ? 0 : -1;
+    });
+    this.body.setAttribute("aria-labelledby", btn.id);
+    if (!btn.offsetWidth) return;
+    if (!animate) this.ink.style.transition = "none";
+    this.ink.style.transform = `translateX(${btn.offsetLeft}px) scaleX(${(btn.offsetWidth / 100).toFixed(4)})`;
+    if (!animate) raf2(() => (this.ink.style.transition = ""));
+  },
+
+  render(first, dir = 1) {
+    const code = this.code;
+    if (!code) return;
+    const html = { general: () => this.general(code), culture: () => this.culture(code), places: () => this.places(code), demo: () => this.demo(code) }[this.tab]();
+    this.body.innerHTML = html;
+    this.body.style.setProperty("--dir", dir);
+    this.body.classList.remove("in");
+    void this.body.offsetWidth;
+    this.body.classList.add("in");
+    if (first) this.body.classList.add("first"); else this.body.classList.remove("first");
+    this.runCounters();
+    raf2(() => this.body.querySelectorAll(".cmp-bar").forEach((el) => (el.style.transform = `scaleX(${el.dataset.v})`)));
+  },
+
+  row(i, label, value) {
+    return `<tr style="--i:${i}"><th scope="row">${label}</th><td>${value ?? NO_DATA}</td></tr>`;
+  },
+
+  /** Türkiye il ortalamasına göre gösterge: ortalama çizgisi %33'te, 3 katı ve üstü dolu. */
+  compare(v, avg) {
+    const r = v / avg;
+    const txt = r >= 1.05 ? `il ortalamasının ${nf1.format(r)} katı` : r <= 0.95 ? `il ortalamasının %${nf.format(Math.round(r * 100))} kadarı` : "il ortalaması kadar";
+    return `<div class="cmp" title="Türkiye il ortalaması: ${nf.format(Math.round(avg))}">
+      <div class="cmp-track"><i class="cmp-bar" data-v="${Math.min(1, r / 3).toFixed(3)}"></i><i class="cmp-avg"></i></div>
+      <span class="cmp-txt">${txt}</span></div>`;
+  },
+
+  count(to, kind = "int", suffix = "") {
+    return `<b class="cnt" data-to="${to}" data-kind="${kind}">${kind === "dec" ? nf1.format(0) : "0"}</b>${suffix}`;
+  },
+
+  general(code) {
+    const p = state.byCode.get(code), pr = Profiles.get(code), nat = state.meta.national;
+    const n = state.provinces.length || 81;
+    const avgPop = nat.population / n, avgArea = (nat.area_km2 || state.provinces.reduce((s, x) => s + (x.area_km2 || 0), 0)) / n;
+    const popY = yearOf("population");
+    let i = 0;
+    const rows = [
+      this.row(i++, "Bölge", `${esc(p.region)} Bölgesi`),
+      this.row(i++, `Nüfus${popY ? ` <small>${popY}</small>` : ""}`, `${this.count(p.population)} <small>kişi</small>${this.compare(p.population, avgPop)}`),
+      this.row(i++, "Yüzölçümü", p.area_km2 ? `${this.count(p.area_km2)} <small>km²</small>${this.compare(p.area_km2, avgArea)}` : null),
+      this.row(i++, "Nüfus yoğunluğu", p.population_density != null ? `${this.count(Math.round(p.population_density))} <small>kişi/km²</small>` : null),
+      this.row(i++, "Rakım <small>il merkezi</small>", pr.elevation_m != null ? `${this.count(pr.elevation_m)} <small>m</small>` : null),
+      this.row(i++, "Telefon alan kodu", pr.area_code ? `<span class="mono">0${esc(pr.area_code)}</span>` : null),
+      this.row(i++, "İlçe sayısı", pr.district_count != null ? this.count(pr.district_count) : null),
+      this.row(i++, "Plaka kodu", `<span class="plate acc">${code.slice(3)}</span>`),
+    ];
+    return `<table class="kv"><caption class="sr">Genel bilgiler</caption><tbody>${rows.join("")}</tbody></table>
+      <section class="dt-note" style="--i:${i}"><h3>Kısa tarihçe</h3><p>${pr.history ? esc(pr.history) : NO_DATA}</p></section>`;
+  },
+
+  list(items) {
+    return items?.length ? `<ul class="chips">${items.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : null;
+  },
+
+  culture(code) {
+    const pr = Profiles.get(code);
+    let i = 0;
+    const rows = [
+      this.row(i++, "Simge", pr.symbol_label ? `<span class="sym-cell">${Profiles.symbol(code)}${esc(pr.symbol_label)}</span>` : null),
+      this.row(i++, "Meşhur yemekler", this.list(pr.foods)),
+      this.row(i++, "Meşhur ürünler", this.list(pr.products)),
+      this.row(i++, "Festival ve etkinlikler", this.list(pr.festivals)),
+      this.row(i++, "İlin rengi", pr.color ? `<span class="swatch-cell"><i class="swatch"></i><span><span class="mono">${esc(pr.color.toUpperCase())}</span><br>${esc(pr.color_reason || "")}</span></span>` : null),
+    ];
+    return `<table class="kv"><caption class="sr">Kültür ve lezzet</caption><tbody>${rows.join("")}</tbody></table>`;
+  },
+
+  places(code) {
+    const pr = Profiles.get(code);
+    if (!pr.sights?.length) return `<p class="empty">${NO_DATA}</p>`;
+    return `<ol class="places">${pr.sights.map((s, i) => `<li style="--i:${i}"><span class="pn">${i + 1}</span><span>${esc(s)}</span></li>`).join("")}</ol>`;
+  },
+
+  demo(code) {
+    const p = state.byCode.get(code), nat = state.meta.national;
+    const rows = DETAIL_METRICS.map((k, i) => {
+      const m = METRICS[k], y = yearOf(k);
+      const natV = k === "population" ? nat.avg_province_population : nat[k];
+      const unit = m.unit === "‰" ? "‰" : m.unit;
+      const v = p[k];
+      const val = v == null ? NO_DATA : k === "natural_growth_rate" || k === "net_migration_rate"
+        ? `<b>${fmt(k, v)}</b>` : this.count(v, k === "population" || k === "population_density" ? "int" : "dec");
+      return `<tr style="--i:${i}"><th scope="row">${m.label}${y ? ` <small>${y}</small>` : ""}</th>
+        <td class="num">${val} <small>${unit}</small></td><td class="num">${fmt(k, natV)}</td><td class="num">${p.ranks[k] ?? "—"}.</td></tr>`;
+    });
+    return `<table class="grid"><caption class="sr">Demografi</caption>
+      <thead><tr><th scope="col">Gösterge</th><th scope="col" class="num">Bu il</th><th scope="col" class="num">Türkiye</th><th scope="col" class="num">Sıra</th></tr></thead>
+      <tbody>${rows.join("")}</tbody></table>
+      <p class="dt-foot">Türkiye sütununda nüfus için il ortalaması verilir. Sıra 81 il içindedir (en yüksek 1.).</p>`;
+  },
+
+  /** Sayaçlar: tek rAF döngüsü, easeOutExpo. Hareket azaltılmışsa doğrudan değer. */
+  runCounters() {
     cancelAnimationFrame(this.counterRaf);
-    const t0 = performance.now(), dur = motionOK ? 700 : 1;
+    const els = [...this.body.querySelectorAll(".cnt")].map((el) => ({ el, to: +el.dataset.to, dec: el.dataset.kind === "dec" }));
+    const put = (e) => { for (const c of els) c.el.textContent = c.dec ? nf1.format(c.to * e) : nf.format(Math.round(c.to * e)); };
+    if (!motionOK) return put(1);
+    const t0 = performance.now(), dur = 900;
     const step = (now) => {
       const t = Math.min(1, (now - t0) / dur), e = t === 1 ? 1 : 1 - 2 ** (-10 * t);
-      for (const { r, k, from, to } of items) r.num.textContent = fmt(k, from + (to - from) * e);
+      put(e);
       if (t < 1) this.counterRaf = requestAnimationFrame(step);
     };
     this.counterRaf = requestAnimationFrame(step);
   },
 };
 
+/** Mobilde alt sayfa haritanın altını örter: uçuşta görünür alan küçülür. */
+function sheetOverlap() {
+  if (!mobile.matches) return 0;
+  const clip = View.clip.getBoundingClientRect();
+  const sheetH = Math.min(innerHeight * 0.58, 620);
+  return Math.max(0, clip.bottom - (innerHeight - sheetH));
+}
+
 function select(code, { zoom = false, push = true } = {}) {
   if (!state.byCode.has(code)) return;
+  if (!state.selected) View.saved = View.anim?.to || View.cur(); // kapatınca dönülecek görünüm
   state.selected = code;
   MapView.markSelected(code);
+  Labels.focus(true);
   Rank.markSelected(code);
   Table.markSelected(code);
   Detail.open(code);
   SelPill.show(code);
-  if (zoom && !state.tabular) MapView.focus(code);
+  View.sheetOverlap = sheetOverlap();
+  if (!state.tabular) View.measure(); // mobilde başlık gizlenince harita alanı büyür
+  if (zoom && !state.tabular) View.flyTo(code);
+  else Labels.layout();
   writeUrl(push);
 }
 
@@ -689,27 +1194,32 @@ function deselect({ push = true } = {}) {
   if (Detail.view.contains(document.activeElement)) $("#rank-order").focus({ preventScroll: true });
   state.selected = null;
   MapView.markSelected(null);
+  Labels.focus(false);
   Rank.markSelected(null);
   Table.markSelected(null);
   Detail.close();
   SelPill.hide();
-  MapView.resetZoom();
+  View.sheetOverlap = 0;
+  const back = View.saved ? View.clampView(View.saved) : View.clampView({ s: 1, x: 0, y: 0 });
+  View.saved = null;
+  View.tween(back, 750);
   hover(null);
+  renderLede(true); // il sayfasından gelindiyse sunucudaki ile özel başlık genele döner
   writeUrl(push);
 }
 
 /* ---------------------------------------------------------- Seçimi kapatma */
-// Üç yol: paneldeki çarpı, haritadaki "il ✕" hapı, haritada il dışında boş bir yere basmak (+ Esc).
+// Yollar: paneldeki çarpı, haritadaki "il ✕" hapı, haritada il dışında boş bir yere basmak, Esc.
 const SelPill = {
   init() {
     this.el = $("#sel-pill");
     this.area = $(".map-area");
     this.el.addEventListener("click", () => deselect());
     $("#dt-close").addEventListener("click", () => deselect());
-    // Haritanın boş alanı (deniz, kenar boşluğu, başlık bölgesi) seçimi kapatır.
-    // Denetimler, bağlantılar, lejant ve tablo görünümü hariç.
+    // Haritanın boş alanı (deniz, komşu ülke, kenar boşluğu) seçimi kapatır.
+    // Denetimler, bağlantılar, lejant ve tablo görünümü hariç; sürükleme sonrası da hariç.
     this.area.addEventListener("click", (e) => {
-      if (!state.selected || state.tabular) return;
+      if (!state.selected || state.tabular || View.justDragged()) return;
       if (e.target.closest(".province, button, a, input, .legend, .table-view, .view-switch")) return;
       deselect();
     });
@@ -719,6 +1229,7 @@ const SelPill = {
     $("#sel-plate").textContent = code.slice(3);
     $("#sel-name").textContent = p.province_name;
     this.el.setAttribute("aria-label", `${p.province_name} seçimini kapat`);
+    this.el.style.setProperty("--acc", Profiles.accents(code).text);
     this.el.tabIndex = 0;
     this.el.classList.add("show");
     this.area.classList.add("has-sel");
@@ -762,8 +1273,13 @@ const Table = {
     this.view.hidden = !on;
     $("#tab-map").setAttribute("aria-selected", String(!on));
     $("#tab-table").setAttribute("aria-selected", String(on));
-    if (on) { MapView.resetZoom(); this.highlight(); this.view.focus({ preventScroll: true }); }
-    else if (state.selected) MapView.focus(state.selected);
+    if (on) { this.highlight(); this.view.focus({ preventScroll: true }); }
+    else {
+      View.measure();
+      if (state.selected) View.flyTo(state.selected, true); else View.apply(View.clampView({ s: 1, x: 0, y: 0 }));
+      Labels.measure();
+      Labels.layout();
+    }
   },
   /** DOM düğümleri yeniden oluşturulmaz; yalnızca sırası değişir. */
   sort() {
@@ -838,7 +1354,7 @@ const Search = {
       ? this.items.map((p, i) => {
           const n = p.province_name, at = trFold(n).indexOf(q);
           const label = at >= 0 ? `${esc(n.slice(0, at))}<mark>${esc(n.slice(at, at + q.length))}</mark>${esc(n.slice(at + q.length))}` : esc(n);
-          return `<li role="option" id="sl-${i}" data-code="${p.plate_code}" aria-selected="${i === 0}"><span class="plate">${p.plate_code.slice(3)}</span><span>${label}</span><span class="sl-region">${esc(p.region)}</span></li>`;
+          return `<li role="option" id="sl-${i}" data-code="${p.plate_code}" aria-selected="${i === 0}"><span class="plate">${p.plate_code.slice(3)}</span>${Profiles.symbol(p.plate_code, "sl-sym")}<span>${label}</span><span class="sl-region">${esc(p.region)}</span></li>`;
         }).join("")
       : `<li class="sl-empty">Bu adla bir il yok</li>`;
     this.list.hidden = false;
@@ -929,7 +1445,7 @@ function setMetric(metric, animate = true) {
 function restyle(animate) {
   state.scale = buildScale(state.metric);
   Tabs.sync(animate);
-  MapView.paint(animate);
+  MapView.paint();
   Legend.render();
   Rank.update(animate);
   Table.highlight();
@@ -952,7 +1468,6 @@ async function poll() {
     if (s.last_updated !== state.lastUpdated) {
       // CLI --sync sonrası: sayfa yenilenmeden yeni veri uygulanır
       ingest(await Api.provinces());
-      Detail.drawStrips();
       restyle(true);
       renderLede(true);
       if (state.selected) Detail.open(state.selected);
@@ -962,17 +1477,42 @@ async function poll() {
   }
 }
 
+/* -------------------------------------------------------------------- Tema */
+// Varsayılan açık tema. İlk açılışta cihaz ayarı; kullanıcı seçtiyse o hatırlanır.
+const THEME_COLOR = { light: "#FFFFFF", dark: "#000000" };
+function applyTheme(next, animate = true) {
+  const root = document.documentElement;
+  if (animate && motionOK) {
+    root.classList.add("theme-anim");
+    clearTimeout(applyTheme.t);
+    applyTheme.t = setTimeout(() => root.classList.remove("theme-anim"), 650);
+  }
+  root.dataset.theme = next;
+  $('meta[name="theme-color"]').content = THEME_COLOR[next];
+  $("#theme-toggle").setAttribute("aria-label", next === "dark" ? "Açık temaya geç" : "Karanlık temaya geç");
+  restyle(false);
+  if (state.selected) {
+    Detail.setAccent(state.selected);
+    MapView.markSelected(state.selected);
+    SelPill.show(state.selected);
+  }
+  if (state.hovered) MapView.setHover(state.hovered);
+}
+
 function initTheme() {
   const btn = $("#theme-toggle");
-  const label = () => btn.setAttribute("aria-label", state.theme() === "dark" ? "Gündüz temasına geç" : "Gece temasına geç");
-  label();
+  $('meta[name="theme-color"]').content = THEME_COLOR[state.theme()];
+  btn.setAttribute("aria-label", state.theme() === "dark" ? "Açık temaya geç" : "Karanlık temaya geç");
   btn.addEventListener("click", () => {
     const next = state.theme() === "dark" ? "light" : "dark";
-    document.documentElement.dataset.theme = next;
-    $('meta[name="theme-color"]').content = next === "dark" ? "#101A2E" : "#F3F5F4";
     try { localStorage.setItem("tna-theme", next); } catch { /* yok say */ }
-    label();
-    restyle(true);
+    applyTheme(next);
+  });
+  // Kullanıcı seçim yapmadıysa cihazın tema değişimini izle
+  matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", (e) => {
+    let stored = null;
+    try { stored = localStorage.getItem("tna-theme"); } catch { /* yok say */ }
+    if (!stored) applyTheme(e.matches ? "dark" : "light");
   });
 }
 
@@ -987,6 +1527,7 @@ async function loadInitial() {
 
 async function main() {
   Tooltip.init();
+  Profiles.init();
   try {
     ingest(await loadInitial());
   } catch (err) {
@@ -998,24 +1539,32 @@ async function main() {
   }
   initTheme();
   MapView.init();
+  View.init();
+  Labels.init();
   Legend.init();
   Tabs.init();
   Rank.init();
   Detail.init();
-  Detail.drawStrips();
   Search.init();
   Table.init();
   SelPill.init();
 
   const h = readUrl();
   state.metric = h.metric || "population";
+  let colorize = !!h.metric;
+  try { colorize = colorize || localStorage.getItem("tna-colorize") === "1"; } catch { /* yok say */ }
   restyle(false);
+  setColorize(colorize);
+  View.apply(View.clampView({ s: 1, x: 0, y: 0 }));
+  Labels.layout();
   // İl sayfasında başlık sunucudan gelir (o ile özel); metrik değişince genel başlığa geçilir
   if (document.body.dataset.page !== "province" || h.metric) renderLede(false);
-  // Tek orkestrasyon anı: harita belirir, çubuklar ve histogram büyür
+  // Tek orkestrasyon anı: iller sırayla belirir, ardından etiketler, çubuklar büyür
+  MapView.intro();
   document.body.classList.add("ready");
+  setTimeout(() => $("#map-labels").classList.add("settled"), motionOK ? 1500 : 0);
   if (h.code && state.byCode.has(h.code)) {
-    setTimeout(() => { select(h.code, { zoom: true, push: false }); Rank.reveal(h.code); }, 450);
+    setTimeout(() => { select(h.code, { zoom: true, push: false }); Rank.reveal(h.code); }, motionOK ? 900 : 0);
   } else {
     writeUrl(false); // eski #... bağlantılarını temiz adrese çevir
   }

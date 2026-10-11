@@ -88,3 +88,36 @@ def test_seo_and_pwa_files(client):
 def test_static_assets_cached_immutably(client):
     r = client.get("/static/fonts/fonts.css")
     assert r.status_code == 200 and "immutable" in r.headers["cache-control"]
+
+
+def test_province_profiles_complete():
+    """İl profilleri tek dosyada: 81 il, geçerli renk, simge, 973 ilçe; boş alan null/boş liste."""
+    import json
+    from pathlib import Path
+
+    doc = json.loads((Path(app_module.ROOT) / "data" / "province_profiles.json").read_text(encoding="utf-8"))
+    prov = doc["provinces"]
+    assert sorted(prov) == [f"TR-{i:02d}" for i in range(1, 82)]
+    assert sum(p["district_count"] for p in prov.values()) == 973
+    for code, p in prov.items():
+        assert re.fullmatch(r"#[0-9A-Fa-f]{6}", p["color"]), code
+        assert p.get("emoji") or p.get("icon"), code
+        assert p["color_reason"] and p["symbol_label"], code
+        assert p["elevation_m"] is None or 0 < p["elevation_m"] < 2500, code
+        assert all(isinstance(p[k], list) for k in ("foods", "products", "festivals", "sights")), code
+
+
+def test_page_embeds_profiles_and_icons(client):
+    html = client.get("/").text
+    m = re.search(r'<script type="application/json" id="profiles-data">(.*?)</script>', html, re.S)
+    assert m and '"TR-81"' in m.group(1)
+    # emojisi olmayan illerin SVG simgeleri sayfada tanımlı
+    import json
+    from pathlib import Path
+
+    prov = json.loads((Path(app_module.ROOT) / "data" / "province_profiles.json").read_text(encoding="utf-8"))["provinces"]
+    for p in prov.values():
+        if p.get("icon"):
+            assert f'id="ico-{p["icon"]}"' in html
+    # komşu ülkeler ve deniz adları haritada
+    assert 'data-name="Yunanistan"' in html and 'data-label="Karadeniz"' in html

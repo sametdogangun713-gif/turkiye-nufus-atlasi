@@ -1,0 +1,2192 @@
+{
+ "meta": {
+  "description": "İl profilleri: simge, kültürel renk, il merkezi rakımı, telefon alan kodu, ilçe sayısı, mutfak, ürünler, etkinlikler, gezilecek yerler, kısa tarihçe.",
+  "sources": {
+   "district_count": "Elle derlendi (81 il, toplam 973 ilçe); Vikipedi bilgi kutularıyla karşılaştırıldı",
+   "elevation_m": "Vikipedi (tr il ve kent maddeleri, en kent maddesi); en az iki kaynağın uzlaştığı değer ya da çelişkisiz tek tr kent bilgi kutusu değeri; kaynaklar çelişirse boş",
+   "area_code": "Türkiye sabit hat telefon alan kodları (elle derlendi)",
+   "culture": "Elle derlenen genel bilgiler (UNESCO Dünya Mirası listesi, il tanıtımları); otomatik kaynak eşlemesi yok, emin olunmayan alanlar boş bırakıldı"
+  },
+  "colors": "Kültürel renkler önerilen tabloya göre; arayüz, temaya göre okunur tonu (WCAG 4,5:1 metin, 3:1 grafik) otomatik üretir.",
+  "updated": "2026-10-11"
+ },
+ "provinces": {
+  "TR-01": {
+   "symbol_label": "Adana kebabı",
+   "color": "#C0392B",
+   "color_reason": "Közde pişen Adana kebabı ve isotun kızılı.",
+   "elevation_m": 23,
+   "area_code": "322",
+   "district_count": 15,
+   "foods": [
+    "Adana kebabı",
+    "şalgam suyu",
+    "bici bici",
+    "analı kızlı"
+   ],
+   "products": [
+    "Çukurova pamuğu",
+    "turunçgiller"
+   ],
+   "festivals": [
+    "Uluslararası Adana Lezzet Festivali",
+    "Uluslararası Portakal Çiçeği Karnavalı"
+   ],
+   "sights": [
+    "Taşköprü",
+    "Sabancı Merkez Camii",
+    "Varda Köprüsü",
+    "Yılankale",
+    "Kapıkaya Kanyonu",
+    "Seyhan Baraj Gölü"
+   ],
+   "history": "Antik çağda Kilikya bölgesinin önemli kentlerinden biriydi; Seyhan üzerindeki Taşköprü Roma döneminden kalmadır. 14. yüzyılda Ramazanoğulları Beyliği'nin merkezi oldu, 16. yüzyılda Osmanlı yönetimine girdi. Kurtuluş Savaşı'nda Fransız işgalinden 5 Ocak 1922'de kurtuldu.",
+   "emoji": "🍢"
+  },
+  "TR-02": {
+   "symbol_label": "Nemrut Dağı heykelleri",
+   "color": "#C1502E",
+   "color_reason": "Nemrut Dağı'nda gün doğumunun kızıl-turuncusu.",
+   "elevation_m": 669,
+   "area_code": "416",
+   "district_count": 9,
+   "foods": [
+    "Adıyaman çiğ köftesi"
+   ],
+   "products": [
+    "Besni üzümü",
+    "tütün"
+   ],
+   "festivals": [],
+   "sights": [
+    "Nemrut Dağı",
+    "Arsameia",
+    "Cendere Köprüsü",
+    "Karakuş Tümülüsü",
+    "Perre Antik Kenti",
+    "Atatürk Barajı"
+   ],
+   "history": "MÖ 1. yüzyılda Kommagene Krallığı'nın merkezlerinden biriydi; Kral I. Antiokhos'un Nemrut Dağı'ndaki anıt mezarı UNESCO Dünya Mirası listesindedir. Bölge sonra Roma, Bizans, Arap ve Selçuklu yönetimlerine girdi, 16. yüzyılda Osmanlı topraklarına katıldı. 1954'te Malatya'dan ayrılarak il oldu.",
+   "emoji": "🗿"
+  },
+  "TR-03": {
+   "symbol_label": "Afyon kaymağı",
+   "color": "#6A3E8C",
+   "color_reason": "Ovaları süsleyen haşhaş çiçeğinin moru.",
+   "elevation_m": 1021,
+   "area_code": "272",
+   "district_count": 18,
+   "foods": [
+    "Afyon sucuğu",
+    "kaymaklı ekmek kadayıfı",
+    "Afyon lokumu"
+   ],
+   "products": [
+    "kaymak",
+    "mermer",
+    "termal turizm"
+   ],
+   "festivals": [],
+   "sights": [
+    "Afyon Kalesi",
+    "Kocatepe Anıtı",
+    "Frig Vadisi",
+    "Afyon Ulu Camii",
+    "Zafer Müzesi",
+    "Gazlıgöl kaplıcaları"
+   ],
+   "history": "Kente adını veren kara kayalık üzerindeki kalenin Tunç Çağı'ndan beri kullanıldığı düşünülür; bölge Frig, Roma, Bizans ve Selçuklu izleri taşır. 26 Ağustos 1922'de Kocatepe'den yönetilen Büyük Taarruz, Kurtuluş Savaşı'nın kazanılmasını sağladı. İlin adı 2004'te Afyon'dan Afyonkarahisar olarak değiştirildi.",
+   "emoji": "🥛"
+  },
+  "TR-04": {
+   "symbol_label": "Ağrı Dağı",
+   "color": "#4F7CAC",
+   "color_reason": "Ağrı Dağı'nın karlı zirvesindeki buzul mavisi.",
+   "elevation_m": 1640,
+   "area_code": "472",
+   "district_count": 8,
+   "foods": [
+    "abdigör köftesi"
+   ],
+   "products": [
+    "hayvancılık ürünleri"
+   ],
+   "festivals": [],
+   "sights": [
+    "Ağrı Dağı",
+    "İshak Paşa Sarayı (Doğubayazıt)",
+    "Doğubayazıt meteor çukuru",
+    "Nuh'un Gemisi Milli Parkı",
+    "Diyadin kaplıcaları"
+   ],
+   "history": "Türkiye'nin en yüksek dağı Ağrı Dağı (5137 m) il sınırları içindedir. Urartu ve Selçuklu izleri taşıyan bölge 16. yüzyılda Osmanlı yönetimine girdi. Doğubayazıt'taki İshak Paşa Sarayı 1784'te tamamlandı.",
+   "emoji": "🏔️"
+  },
+  "TR-05": {
+   "symbol_label": "Amasya elması",
+   "color": "#B22234",
+   "color_reason": "Misket elmasının kırmızısı.",
+   "elevation_m": null,
+   "area_code": "358",
+   "district_count": 7,
+   "foods": [
+    "Amasya çöreği",
+    "bakla dolması",
+    "keşkek"
+   ],
+   "products": [
+    "Amasya misket elması"
+   ],
+   "festivals": [],
+   "sights": [
+    "Kral Kaya Mezarları",
+    "Yalıboyu evleri",
+    "Harşena Kalesi",
+    "Ferhat Su Kanalı",
+    "II. Bayezid Külliyesi",
+    "Borabay Gölü"
+   ],
+   "history": "Pontus Krallığı'nın başkenti olan Amasya, coğrafyacı Strabon'un doğduğu kenttir. Osmanlı döneminde şehzadelerin yetiştirildiği sancak merkezlerinden biri olduğu için 'şehzadeler şehri' olarak anılır. Mustafa Kemal'in 22 Haziran 1919'da yayımladığı Amasya Genelgesi Kurtuluş Savaşı'nın ilk belgelerindendir.",
+   "emoji": "🍎"
+  },
+  "TR-06": {
+   "symbol_label": "Anıtkabir",
+   "color": "#8B6B45",
+   "color_reason": "Anıtkabir'in traverten taşı (koyulaştırılmış ton).",
+   "elevation_m": 890,
+   "area_code": "312",
+   "district_count": 25,
+   "foods": [
+    "Ankara tava",
+    "Beypazarı kurusu",
+    "Ankara simidi"
+   ],
+   "products": [
+    "Ankara keçisi tiftiği",
+    "Beypazarı havucu",
+    "Kalecik karası üzümü"
+   ],
+   "festivals": [
+    "Ankara Uluslararası Film Festivali"
+   ],
+   "sights": [
+    "Anıtkabir",
+    "Ankara Kalesi",
+    "Anadolu Medeniyetleri Müzesi",
+    "Hacı Bayram Veli Camii",
+    "Augustus Tapınağı",
+    "Beypazarı evleri",
+    "Gordion (Polatlı)"
+   ],
+   "history": "Antik çağda Ankyra adıyla bilinen kent, Roma döneminde Galatya eyaletinin merkeziydi. Türkiye Büyük Millet Meclisi 23 Nisan 1920'de burada açıldı. 13 Ekim 1923'te Türkiye'nin başkenti oldu.",
+   "emoji": "🏛️"
+  },
+  "TR-07": {
+   "symbol_label": "Sahiller",
+   "color": "#0077A8",
+   "color_reason": "Akdeniz kıyılarının derin mavisi.",
+   "elevation_m": 49,
+   "area_code": "242",
+   "district_count": 19,
+   "foods": [
+    "Antalya piyazı",
+    "şiş köfte",
+    "hibeş",
+    "tandır kebabı"
+   ],
+   "products": [
+    "turunçgiller",
+    "örtü altı sebzeleri",
+    "Alanya muzu"
+   ],
+   "festivals": [
+    "Antalya Altın Portakal Film Festivali",
+    "Aspendos Uluslararası Opera ve Bale Festivali"
+   ],
+   "sights": [
+    "Kaleiçi",
+    "Aspendos Antik Tiyatrosu",
+    "Perge",
+    "Side",
+    "Termessos",
+    "Düden Şelalesi",
+    "Olimpos",
+    "Myra (Demre)"
+   ],
+   "history": "Kent, MÖ 2. yüzyılda Bergama Kralı II. Attalos tarafından Attaleia adıyla kuruldu. 1207'de Selçuklulara geçti; Yivli Minare bu dönemden kalır. Bugün Türkiye'nin en çok turist ağırlayan illerindendir.",
+   "emoji": "🏖️"
+  },
+  "TR-08": {
+   "symbol_label": "Ladin ormanları",
+   "color": "#2F6B3B",
+   "color_reason": "Karagöl ve Kaçkar çevresindeki ladin ormanları.",
+   "elevation_m": 345,
+   "area_code": "466",
+   "district_count": 9,
+   "foods": [
+    "muhlama",
+    "kara lahana çorbası"
+   ],
+   "products": [
+    "Kafkas arısı balı",
+    "çay"
+   ],
+   "festivals": [
+    "Kafkasör Kültür ve Sanat Festivali (boğa güreşleri)"
+   ],
+   "sights": [
+    "Borçka Karagöl",
+    "Macahel (UNESCO biyosfer alanı)",
+    "Şavşat Karagöl",
+    "Hatila Vadisi Milli Parkı",
+    "Artvin Kalesi",
+    "Çoruh Vadisi"
+   ],
+   "history": "Bölge 16. yüzyılda Osmanlı topraklarına katıldı. 1878'de Rus yönetimine bırakıldı, 1921'de yeniden Türkiye'ye katıldı. Ladin ormanları, Kafkas arısı ve Çoruh Vadisi ile tanınır.",
+   "emoji": "🌲"
+  },
+  "TR-09": {
+   "symbol_label": "Aydın inciri",
+   "color": "#6B4277",
+   "color_reason": "Olgun Aydın incirinin mor kabuğu.",
+   "elevation_m": null,
+   "area_code": "256",
+   "district_count": 17,
+   "foods": [
+    "Söke çöp şiş",
+    "incir tatlısı",
+    "zeytinyağlı otlar"
+   ],
+   "products": [
+    "kuru incir",
+    "zeytin ve zeytinyağı",
+    "pamuk"
+   ],
+   "festivals": [],
+   "sights": [
+    "Afrodisias",
+    "Priene",
+    "Milet",
+    "Didim Apollon Tapınağı",
+    "Dilek Yarımadası Milli Parkı",
+    "Bafa Gölü",
+    "Kuşadası"
+   ],
+   "history": "İyonya ve Karya bölgelerinin buluştuğu bu topraklarda Milet, Priene ve Afrodisias gibi önemli antik kentler kuruldu. Kent, adını 14. yüzyılda bölgeyi yöneten Aydınoğulları Beyliği'nden alır. Büyük Menderes ovası incir, zeytin ve pamuk tarımıyla tanınır.",
+   "icon": "incir"
+  },
+  "TR-10": {
+   "symbol_label": "Edremit zeytini",
+   "color": "#5F6E2A",
+   "color_reason": "Kaz Dağları eteğindeki zeytinliklerin yeşili.",
+   "elevation_m": null,
+   "area_code": "266",
+   "district_count": 20,
+   "foods": [
+    "höşmerim",
+    "Ayvalık tostu",
+    "Susurluk ayranı ve tostu"
+   ],
+   "products": [
+    "Edremit körfezi zeytinyağı",
+    "Sındırgı Yağcıbedir halısı"
+   ],
+   "festivals": [],
+   "sights": [
+    "Ayvalık ve Cunda Adası",
+    "Şeytan Sofrası",
+    "Kaz Dağları Milli Parkı",
+    "Kuşcenneti Milli Parkı",
+    "Erdek"
+   ],
+   "history": "Antik çağda Mysia bölgesinde yer alan il, 14. yüzyılda Karesi Beyliği'nin merkeziydi ve Osmanlı'ya katılan ilk beyliklerdendir. 1919'daki Balıkesir Kongresi, Kurtuluş Savaşı'nın ilk direniş toplantılarındandır.",
+   "emoji": "🫒"
+  },
+  "TR-11": {
+   "symbol_label": "Osmanlı'nın kuruluşu (Söğüt)",
+   "color": "#A3202F",
+   "color_reason": "Söğüt'te doğan Osmanlı'nın sancak kırmızısı.",
+   "elevation_m": 513,
+   "area_code": "228",
+   "district_count": 8,
+   "foods": [],
+   "products": [
+    "Osmaneli ayvası",
+    "Bilecik mermeri"
+   ],
+   "festivals": [
+    "Söğüt Ertuğrul Gazi'yi Anma ve Yörük Şenlikleri"
+   ],
+   "sights": [
+    "Ertuğrul Gazi Türbesi (Söğüt)",
+    "Şeyh Edebali Türbesi",
+    "Orhan Gazi Camii",
+    "Osmaneli konakları",
+    "Vezirhan Kervansarayı"
+   ],
+   "history": "Osmanlı Beyliği 13. yüzyılın sonunda Söğüt'te ortaya çıktı; Ertuğrul Gazi'nin türbesi buradadır. Osman Bey 1299 dolayında Bilecik'i ele geçirdi. İl 'Osmanlı'nın kuruluş yeri' olarak anılır.",
+   "emoji": "🏹"
+  },
+  "TR-12": {
+   "symbol_label": "Bingöl balı",
+   "color": "#C98A00",
+   "color_reason": "Yayla balının amber sarısı.",
+   "elevation_m": 1154,
+   "area_code": "426",
+   "district_count": 8,
+   "foods": [],
+   "products": [
+    "Bingöl balı"
+   ],
+   "festivals": [],
+   "sights": [
+    "Yüzen Adalar (Solhan)",
+    "Bingöl Dağları ve yaylaları"
+   ],
+   "history": "Kentin eski adı Çapakçur'dur. Bölge Urartu, Pers, Roma ve Bizans egemenliklerinin ardından 11. yüzyılda Türk yönetimine girdi. Adı, çok sayıda göle ev sahipliği yapan Bingöl Dağları'ndan gelir.",
+   "emoji": "🍯"
+  },
+  "TR-13": {
+   "symbol_label": "Nemrut Krater Gölü",
+   "color": "#7E5A45",
+   "color_reason": "Ahlat taşının (volkanik tüf) kahve tonu.",
+   "elevation_m": 1605,
+   "area_code": "434",
+   "district_count": 7,
+   "foods": [
+    "büryan kebabı"
+   ],
+   "products": [
+    "tütün",
+    "ceviz"
+   ],
+   "festivals": [],
+   "sights": [
+    "Nemrut Krater Gölü (Tatvan)",
+    "Ahlat Selçuklu Meydan Mezarlığı",
+    "Bitlis Kalesi",
+    "İhlasiye Medresesi",
+    "El Aman Kervansarayı",
+    "Süphan Dağı"
+   ],
+   "history": "Ahlat'taki Selçuklu mezarlığı, Türk-İslam dünyasının en büyük mezarlıklarından biri kabul edilir. Bitlis Emiri Şerefhan, ünlü tarih eseri Şerefname'yi 1597'de burada yazdı. Nemrut Dağı'nın kraterindeki göl, dünyanın büyük krater göllerindendir.",
+   "emoji": "🌋"
+  },
+  "TR-14": {
+   "symbol_label": "Mengen aşçıları",
+   "color": "#C2701A",
+   "color_reason": "Yedigöller'in sonbahar turuncusu.",
+   "elevation_m": 725,
+   "area_code": "374",
+   "district_count": 9,
+   "foods": [
+    "Mengen yemekleri",
+    "kedi batmaz tatlısı",
+    "keşkek"
+   ],
+   "products": [
+    "Bolu çikolatası",
+    "orman ürünleri"
+   ],
+   "festivals": [
+    "Uluslararası Mengen Aşçılık Festivali"
+   ],
+   "sights": [
+    "Abant Gölü",
+    "Yedigöller Milli Parkı",
+    "Gölcük Tabiat Parkı",
+    "Kartalkaya Kayak Merkezi",
+    "Mudurnu evleri",
+    "Göynük"
+   ],
+   "history": "Antik çağda Bithynia bölgesinde Claudiopolis adıyla bilinirdi; Roma İmparatoru Hadrianus'un yakın dostu Antinous burada doğdu. Mengen ilçesi yüzyıllardır saray ve otel mutfaklarına aşçı yetiştirir.",
+   "emoji": "👨‍🍳"
+  },
+  "TR-15": {
+   "symbol_label": "Salda Gölü",
+   "color": "#1C9C96",
+   "color_reason": "Salda Gölü'nün turkuaz suyu.",
+   "elevation_m": 950,
+   "area_code": "248",
+   "district_count": 11,
+   "foods": [
+    "Burdur şiş",
+    "ceviz ezmesi"
+   ],
+   "products": [
+    "ceviz ezmesi",
+    "süt ve süt ürünleri"
+   ],
+   "festivals": [],
+   "sights": [
+    "Salda Gölü",
+    "Sagalassos (Ağlasun)",
+    "İnsuyu Mağarası",
+    "Burdur Gölü",
+    "Kibyra (Gölhisar)",
+    "Hacılar Höyük"
+   ],
+   "history": "Hacılar Höyüğü'nde MÖ 7. binyıla uzanan Neolitik yerleşim izleri bulundu. Pisidia bölgesindeki Sagalassos, Roma döneminin önemli kentlerindendi. Beyaz kumsalı ve turkuaz suyuyla Salda Gölü, 'Türkiye'nin Maldivleri' olarak anılır.",
+   "emoji": "🏝️"
+  },
+  "TR-16": {
+   "symbol_label": "Kestane şekeri",
+   "color": "#137A5E",
+   "color_reason": "'Yeşil Bursa': Yeşil Türbe çinilerinin yeşili.",
+   "elevation_m": 155,
+   "area_code": "224",
+   "district_count": 17,
+   "foods": [
+    "İskender kebap",
+    "kestane şekeri",
+    "pideli köfte",
+    "cantık",
+    "İnegöl köfte"
+   ],
+   "products": [
+    "ipek",
+    "havlu",
+    "şeftali"
+   ],
+   "festivals": [
+    "Uluslararası Bursa Festivali"
+   ],
+   "sights": [
+    "Ulu Cami",
+    "Yeşil Türbe ve Yeşil Cami",
+    "Cumalıkızık",
+    "Uludağ",
+    "Koza Han",
+    "Osman Gazi ve Orhan Gazi türbeleri",
+    "İznik"
+   ],
+   "history": "Osmanlı'nın ilk başkenti olan Bursa, 1326'da Orhan Bey tarafından fethedildi. 'Bursa ve Cumalıkızık: Osmanlı İmparatorluğu'nun Doğuşu' 2014'te UNESCO Dünya Mirası listesine alındı. İpekçilik ve İpek Yolu ticareti kentin ekonomisini yüzyıllarca belirledi.",
+   "emoji": "🌰"
+  },
+  "TR-17": {
+   "symbol_label": "Truva atı",
+   "color": "#1F4E8C",
+   "color_reason": "Çanakkale Boğazı'nın laciverti.",
+   "elevation_m": 2,
+   "area_code": "286",
+   "district_count": 12,
+   "foods": [
+    "peynir helvası",
+    "Ezine peyniri",
+    "sardalye"
+   ],
+   "products": [
+    "Ezine peyniri",
+    "zeytinyağı",
+    "Çanakkale seramiği"
+   ],
+   "festivals": [
+    "18 Mart Çanakkale Deniz Zaferi törenleri",
+    "Troia Kültür ve Sanat Festivali"
+   ],
+   "sights": [
+    "Truva Antik Kenti",
+    "Gelibolu Yarımadası Tarihi Alanı",
+    "Assos",
+    "Bozcaada",
+    "Gökçeada",
+    "Kilitbahir Kalesi"
+   ],
+   "history": "Homeros'un İlyada destanına konu olan Truva bu topraklardadır. 18 Mart 1915'te Boğaz'da kazanılan deniz zaferi ve ardından Gelibolu'daki kara savaşları Birinci Dünya Savaşı'nın dönüm noktalarındandır.",
+   "emoji": "🐴"
+  },
+  "TR-18": {
+   "symbol_label": "Kaya tuzu mağarası",
+   "color": "#6E6A88",
+   "color_reason": "Tuz mağarasının gri-leylak kayaları.",
+   "elevation_m": 730,
+   "area_code": "376",
+   "district_count": 12,
+   "foods": [],
+   "products": [
+    "kaya tuzu"
+   ],
+   "festivals": [
+    "Yaran sohbetleri geleneği"
+   ],
+   "sights": [
+    "Çankırı Tuz Mağarası",
+    "Ilgaz Dağı Milli Parkı",
+    "Taş Mescit (Darüşşifa)",
+    "Çankırı Kalesi",
+    "Çankırı Ulu Camii"
+   ],
+   "history": "Antik çağda Gangra adıyla bilinen kent, Paflagonya bölgesinin merkezlerindendi. 11. yüzyılın sonunda Türk yönetimine girdi; Taş Mescit 13. yüzyıldan kalma bir Selçuklu yapısıdır. Binlerce yıldır işletilen tuz mağarası ilin simgesidir.",
+   "emoji": "🧂"
+  },
+  "TR-19": {
+   "symbol_label": "Leblebi",
+   "color": "#A87326",
+   "color_reason": "Hitit bronzu ve kavrulmuş leblebinin rengi.",
+   "elevation_m": 820,
+   "area_code": "364",
+   "district_count": 14,
+   "foods": [
+    "İskilip dolması",
+    "leblebi"
+   ],
+   "products": [
+    "leblebi",
+    "Osmancık pirinci"
+   ],
+   "festivals": [
+    "Uluslararası Çorum Hitit Festivali"
+   ],
+   "sights": [
+    "Hattuşa (Boğazkale)",
+    "Alacahöyük",
+    "Şapinuva",
+    "Çorum Müzesi",
+    "İncesu Kanyonu",
+    "Çorum Saat Kulesi"
+   ],
+   "history": "Boğazkale'deki Hattuşa, Hitit İmparatorluğu'nun başkentiydi ve 1986'da UNESCO Dünya Mirası listesine girdi. Bilinen en eski barış antlaşmalarından Kadeş Antlaşması'nın Hitit nüshası burada bulunan kil tabletlerdendir.",
+   "emoji": "🫘"
+  },
+  "TR-20": {
+   "symbol_label": "Denizli horozu",
+   "color": "#3E93B5",
+   "color_reason": "Pamukkale travertenlerindeki havuzların mavisi.",
+   "elevation_m": null,
+   "area_code": "258",
+   "district_count": 19,
+   "foods": [
+    "Denizli kebabı"
+   ],
+   "products": [
+    "ev tekstili ve havlu",
+    "Çal üzümü"
+   ],
+   "festivals": [],
+   "sights": [
+    "Pamukkale ve Hierapolis",
+    "Laodikeia",
+    "Kaklık Mağarası",
+    "Tripolis (Buldan)",
+    "Karahayıt"
+   ],
+   "history": "Pamukkale travertenleri ve antik Hierapolis kenti 1988'de UNESCO Dünya Mirası listesine alındı. Laodikeia, İncil'de adı geçen yedi kiliseden birine ev sahipliği yaptı. Denizli horozu uzun ötüşüyle bilinen yerel bir tavuk ırkıdır.",
+   "emoji": "🐓"
+  },
+  "TR-21": {
+   "symbol_label": "Diyarbakır karpuzu",
+   "color": "#3A3D42",
+   "color_reason": "Surların bazalt taşı ('Kara Amid').",
+   "elevation_m": 650,
+   "area_code": "412",
+   "district_count": 17,
+   "foods": [
+    "ciğer kebabı",
+    "kaburga dolması",
+    "meftune",
+    "içli köfte"
+   ],
+   "products": [
+    "karpuz"
+   ],
+   "festivals": [
+    "Diyarbakır Karpuz Festivali"
+   ],
+   "sights": [
+    "Diyarbakır Surları ve Hevsel Bahçeleri",
+    "Diyarbakır Ulu Camii",
+    "On Gözlü Köprü",
+    "Hasan Paşa Hanı",
+    "Zerzevan Kalesi"
+   ],
+   "history": "Dünyanın en uzun ve kesintisiz sur sistemlerinden birine sahip olan kent, Roma döneminde Amida adıyla bilinirdi. Surlar ve Hevsel Bahçeleri 2015'te UNESCO Dünya Mirası listesine alındı.",
+   "emoji": "🍉"
+  },
+  "TR-22": {
+   "symbol_label": "Kırkpınar yağlı güreşleri",
+   "color": "#6B3F22",
+   "color_reason": "Pehlivanların manda derisi kıspetinin kahvesi.",
+   "elevation_m": 41,
+   "area_code": "284",
+   "district_count": 9,
+   "foods": [
+    "tava ciğer",
+    "badem ezmesi"
+   ],
+   "products": [
+    "meyve sabunu",
+    "badem ezmesi"
+   ],
+   "festivals": [
+    "Tarihi Kırkpınar Yağlı Güreşleri",
+    "Kakava (Hıdrellez) şenlikleri"
+   ],
+   "sights": [
+    "Selimiye Camii",
+    "Eski Cami",
+    "Üç Şerefeli Cami",
+    "II. Bayezid Külliyesi Sağlık Müzesi",
+    "Meriç Köprüsü",
+    "Karaağaç ve Lozan Anıtı"
+   ],
+   "history": "1360'larda Osmanlılarca alınan Edirne, İstanbul'un fethine dek yaklaşık 90 yıl Osmanlı başkenti oldu. Mimar Sinan'ın 'ustalık eserim' dediği Selimiye Camii 2011'de UNESCO Dünya Mirası listesine girdi. Kırkpınar güreşleri dünyanın en eski spor organizasyonlarından sayılır.",
+   "emoji": "🤼"
+  },
+  "TR-23": {
+   "symbol_label": "Öküzgözü üzümü",
+   "color": "#6E1A3A",
+   "color_reason": "Öküzgözü üzümünün koyu bordosu.",
+   "elevation_m": 1070,
+   "area_code": "424",
+   "district_count": 11,
+   "foods": [
+    "Harput köftesi",
+    "orcik"
+   ],
+   "products": [
+    "öküzgözü ve boğazkere üzümü",
+    "orcik"
+   ],
+   "festivals": [],
+   "sights": [
+    "Harput Kalesi",
+    "Harput Ulu Camii",
+    "Hazar Gölü",
+    "Keban Barajı",
+    "Buzluk Mağarası"
+   ],
+   "history": "Kentin tarihi merkezi Harput, Urartu döneminden kalma kalesiyle bilinir. 19. yüzyılda yerleşim ovaya taşındı; kent önce Mamuretülaziz, Cumhuriyet döneminde Elazığ adını aldı.",
+   "emoji": "🍇"
+  },
+  "TR-24": {
+   "symbol_label": "Erzincan tulum peyniri",
+   "color": "#9C5530",
+   "color_reason": "Erzincan bakır işçiliğinin rengi.",
+   "elevation_m": 1185,
+   "area_code": "446",
+   "district_count": 9,
+   "foods": [
+    "Erzincan tulum peyniri"
+   ],
+   "products": [
+    "tulum peyniri",
+    "bakır işleri"
+   ],
+   "festivals": [],
+   "sights": [
+    "Kemaliye Taş Yolu ve Karanlık Kanyon",
+    "Girlevik Şelalesi",
+    "Altıntepe",
+    "Ergan Dağı Kayak Merkezi"
+   ],
+   "history": "Altıntepe'deki Urartu kalıntıları ilin eski yerleşim geçmişine tanıklık eder. Kent 27 Aralık 1939 depremiyle büyük yıkım gördü ve bugünkü yerinde yeniden kuruldu.",
+   "emoji": "🧀"
+  },
+  "TR-25": {
+   "symbol_label": "Palandöken",
+   "color": "#3D6A9E",
+   "color_reason": "Palandöken'in kar ve buz mavisi.",
+   "elevation_m": 1853,
+   "area_code": "442",
+   "district_count": 20,
+   "foods": [
+    "cağ kebabı",
+    "kadayıf dolması",
+    "su böreği"
+   ],
+   "products": [
+    "Oltu taşı",
+    "civil peyniri"
+   ],
+   "festivals": [],
+   "sights": [
+    "Çifte Minareli Medrese",
+    "Yakutiye Medresesi",
+    "Palandöken Kayak Merkezi",
+    "Erzurum Kalesi",
+    "Üç Kümbetler",
+    "Tortum Şelalesi"
+   ],
+   "history": "Bizans döneminde Theodosiopolis adıyla anılan kent, 1071 sonrasında Saltuklu Beyliği'nin merkezi oldu. 23 Temmuz–7 Ağustos 1919'daki Erzurum Kongresi, Kurtuluş Savaşı'nın temel kararlarının alındığı toplantılardandır.",
+   "emoji": "⛷️"
+  },
+  "TR-26": {
+   "symbol_label": "Çibörek",
+   "color": "#2D7F86",
+   "color_reason": "Kentin ortasından akan Porsuk Çayı'nın yeşil-mavisi.",
+   "elevation_m": 788,
+   "area_code": "222",
+   "district_count": 14,
+   "foods": [
+    "çibörek",
+    "met helvası",
+    "balaban kebabı"
+   ],
+   "products": [
+    "lületaşı"
+   ],
+   "festivals": [],
+   "sights": [
+    "Odunpazarı evleri",
+    "Kurşunlu Külliyesi",
+    "Midas Anıtı (Han)",
+    "Seyitgazi Külliyesi",
+    "Sazova Parkı",
+    "Porsuk Çayı"
+   ],
+   "history": "Antik Dorylaion kentinin bulunduğu bölge, Frig uygarlığının önemli merkezlerindendir. Kurtuluş Savaşı'nda Kütahya-Eskişehir muharebeleri bu topraklarda yapıldı. Lületaşı dünyada en çok Eskişehir yöresinde çıkarılır.",
+   "emoji": "🥟"
+  },
+  "TR-27": {
+   "symbol_label": "Antep fıstığı ve baklava",
+   "color": "#5E8C22",
+   "color_reason": "Antep fıstığının yeşili.",
+   "elevation_m": 838,
+   "area_code": "342",
+   "district_count": 9,
+   "foods": [
+    "Antep baklavası",
+    "beyran",
+    "yuvalama",
+    "ali nazik",
+    "lahmacun"
+   ],
+   "products": [
+    "Antep fıstığı",
+    "kutnu kumaşı",
+    "bakır işleri"
+   ],
+   "festivals": [
+    "GastroANTEP Kültür Yolu Festivali"
+   ],
+   "sights": [
+    "Zeugma Mozaik Müzesi",
+    "Gaziantep Kalesi",
+    "Bakırcılar Çarşısı",
+    "Rumkale",
+    "Yesemek Açık Hava Müzesi"
+   ],
+   "history": "Kent, 1920-1921'deki Fransız kuşatmasına karşı direnişi nedeniyle 1921'de TBMM tarafından 'Gazi' unvanı aldı. Gaziantep, 2015'te UNESCO Yaratıcı Şehirler Ağı'na gastronomi alanında katılan ilk Türk kentidir.",
+   "icon": "fistik"
+  },
+  "TR-28": {
+   "symbol_label": "Kiraz (Kerasus)",
+   "color": "#B0173A",
+   "color_reason": "Adını kirazdan alan kentin kiraz kırmızısı.",
+   "elevation_m": null,
+   "area_code": "454",
+   "district_count": 16,
+   "foods": [
+    "kara lahana çorbası",
+    "mısır ekmeği"
+   ],
+   "products": [
+    "Giresun tombul fındığı",
+    "kiraz"
+   ],
+   "festivals": [
+    "Aksu Festivali"
+   ],
+   "sights": [
+    "Giresun Adası",
+    "Giresun Kalesi",
+    "Zeytinlik mahallesi",
+    "Kümbet Yaylası",
+    "Bektaş Yaylası"
+   ],
+   "history": "Antik adı Kerasus olan kentten kirazın Avrupa'ya götürüldüğü anlatılır. Giresun Adası, Doğu Karadeniz kıyısındaki tek adadır. İl, kendi adıyla anılan tombul fındığıyla tanınır.",
+   "emoji": "🍒"
+  },
+  "TR-29": {
+   "symbol_label": "Pestil ve köme",
+   "color": "#6F7A85",
+   "color_reason": "Kente adını veren gümüş madenlerinin grisi.",
+   "elevation_m": 1150,
+   "area_code": "456",
+   "district_count": 6,
+   "foods": [
+    "siron",
+    "pestil",
+    "köme"
+   ],
+   "products": [
+    "pestil ve köme"
+   ],
+   "festivals": [],
+   "sights": [
+    "Karaca Mağarası",
+    "Santa Harabeleri",
+    "Tomara Şelalesi",
+    "Limni Gölü",
+    "Zigana Dağı"
+   ],
+   "history": "İl, Bizans ve Trabzon Rum İmparatorluğu dönemlerinden beri gümüş madenciliğiyle bilinir ve adını buradan alır. 15. yüzyılda Osmanlı topraklarına katıldı.",
+   "icon": "pestil"
+  },
+  "TR-30": {
+   "symbol_label": "Ters lale",
+   "color": "#D2552B",
+   "color_reason": "Ters lalenin (ağlayan gelin) turuncu-kızılı.",
+   "elevation_m": null,
+   "area_code": "438",
+   "district_count": 5,
+   "foods": [],
+   "products": [
+    "Hakkari kilimi"
+   ],
+   "festivals": [
+    "Berçelan Yayla Şenliği"
+   ],
+   "sights": [
+    "Cilo-Sat Dağları",
+    "Zap Vadisi",
+    "Meydan Medresesi",
+    "Hakkari Kalesi",
+    "Berçelan Yaylası"
+   ],
+   "history": "Türkiye'nin buzullarını barındıran Cilo ve Sat dağları il sınırları içindedir. Kentte bulunan ve Tunç Çağı'na tarihlenen insan figürlü dikili taşlar (Hakkari stelleri) Anadolu'nun ilginç buluntularındandır.",
+   "emoji": "🌷"
+  },
+  "TR-31": {
+   "symbol_label": "Künefe",
+   "color": "#C27416",
+   "color_reason": "Künefenin kızarmış kadayıf altını.",
+   "elevation_m": 67,
+   "area_code": "326",
+   "district_count": 15,
+   "foods": [
+    "künefe",
+    "humus",
+    "oruk",
+    "kaytaz böreği",
+    "tepsi kebabı"
+   ],
+   "products": [
+    "defne sabunu",
+    "zeytinyağı"
+   ],
+   "festivals": [],
+   "sights": [
+    "Aziz Petrus Kilisesi",
+    "Hatay Arkeoloji Müzesi",
+    "Titus Tüneli",
+    "Harbiye Şelalesi",
+    "Vakıflı köyü"
+   ],
+   "history": "Antik Antiokheia (Antakya), Roma İmparatorluğu'nun en büyük kentlerinden biri ve Hristiyanlık tarihinin önemli merkezlerindendi. Hatay 1938'de bağımsız Hatay Devleti olarak kuruldu, 1939'da Türkiye'ye katıldı. Kent 6 Şubat 2023 depremlerinde ağır yıkım gördü.",
+   "icon": "kunefe"
+  },
+  "TR-32": {
+   "symbol_label": "Yağ gülü",
+   "color": "#C2185B",
+   "color_reason": "Isparta gülünün pembesi.",
+   "elevation_m": 1049,
+   "area_code": "246",
+   "district_count": 13,
+   "foods": [
+    "Isparta fırın kebabı"
+   ],
+   "products": [
+    "gül yağı ve gül suyu",
+    "Isparta halısı",
+    "elma"
+   ],
+   "festivals": [
+    "Isparta Gül Festivali"
+   ],
+   "sights": [
+    "Eğirdir Gölü",
+    "Kovada Gölü Milli Parkı",
+    "Yazılı Kanyon",
+    "Davraz Kayak Merkezi",
+    "Pisidia Antiokheia (Yalvaç)",
+    "Adada"
+   ],
+   "history": "Yağ gülü 1888'de Bulgaristan'dan getirilerek Isparta'da yetiştirilmeye başlandı; il bugün dünyanın önemli gül yağı üretim merkezlerindendir. Yalvaç'taki Pisidia Antiokheia, Pavlus'un yolculuklarıyla bilinir.",
+   "emoji": "🌹"
+  },
+  "TR-33": {
+   "symbol_label": "Mersin limonu",
+   "color": "#A88C00",
+   "color_reason": "Narenciye bahçelerinin limon sarısı.",
+   "elevation_m": 5,
+   "area_code": "324",
+   "district_count": 13,
+   "foods": [
+    "tantuni",
+    "cezerye",
+    "kerebiç",
+    "batırık"
+   ],
+   "products": [
+    "limon ve portakal",
+    "Anamur muzu"
+   ],
+   "festivals": [
+    "Uluslararası Mersin Narenciye Festivali"
+   ],
+   "sights": [
+    "Kızkalesi",
+    "Cennet ve Cehennem Obrukları",
+    "Uzuncaburç",
+    "Tarsus (Kleopatra Kapısı, St. Paul Kuyusu)",
+    "Alahan Manastırı",
+    "Anamur (Mamure) Kalesi"
+   ],
+   "history": "Yumuktepe Höyüğü'nde MÖ 7. binyıla uzanan yerleşim izleri bulunur. Tarsus, Aziz Pavlus'un doğduğu kenttir. Mersin Limanı 19. yüzyıldan bu yana Çukurova'nın dışa açılan kapısıdır; ilin adı 2002'de İçel'den Mersin'e çevrildi.",
+   "emoji": "🍋"
+  },
+  "TR-34": {
+   "symbol_label": "İstanbul Boğazı",
+   "color": "#5B2A86",
+   "color_reason": "Konstantinopolis'ten kalma imparatorluk porfir moru.",
+   "elevation_m": null,
+   "area_code": "212 / 216",
+   "district_count": 39,
+   "foods": [
+    "balık ekmek",
+    "simit",
+    "midye dolma",
+    "Kanlıca yoğurdu"
+   ],
+   "products": [
+    "lokum"
+   ],
+   "festivals": [
+    "İstanbul Film Festivali",
+    "İstanbul Bienali",
+    "İstanbul Lale Festivali"
+   ],
+   "sights": [
+    "Ayasofya",
+    "Topkapı Sarayı",
+    "Sultanahmet Camii",
+    "Süleymaniye Camii",
+    "Yerebatan Sarnıcı",
+    "Galata Kulesi",
+    "Kapalıçarşı",
+    "Dolmabahçe Sarayı"
+   ],
+   "history": "MÖ 7. yüzyılda Byzantion adıyla kuruldu; 330'da Konstantinopolis adıyla Roma'nın yeni başkenti oldu. 1453'te Fatih Sultan Mehmet tarafından fethedilerek Osmanlı başkenti yapıldı. Tarihi alanları 1985'ten beri UNESCO Dünya Mirası listesindedir.",
+   "emoji": "🌉"
+  },
+  "TR-35": {
+   "symbol_label": "Konak Saat Kulesi",
+   "color": "#1F78B4",
+   "color_reason": "Kordon'dan görünen Ege mavisi.",
+   "elevation_m": null,
+   "area_code": "232",
+   "district_count": 30,
+   "foods": [
+    "boyoz",
+    "kumru",
+    "İzmir gevreği",
+    "İzmir köfte"
+   ],
+   "products": [
+    "zeytinyağı"
+   ],
+   "festivals": [
+    "Uluslararası İzmir Festivali",
+    "İzmir Enternasyonal Fuarı"
+   ],
+   "sights": [
+    "Efes Antik Kenti",
+    "Meryem Ana Evi",
+    "Konak Saat Kulesi",
+    "Kemeraltı Çarşısı",
+    "Kadifekale",
+    "Bergama",
+    "Alaçatı",
+    "Şirince"
+   ],
+   "history": "Antik Smyrna, Ege'nin en eski liman kentlerindendir; Homeros'un burada doğduğu rivayet edilir. 9 Eylül 1922'de Türk ordusunun kente girişi Kurtuluş Savaşı'nın zaferle sonuçlanmasını simgeler. Efes ve Bergama UNESCO Dünya Mirası listesindedir.",
+   "emoji": "🕰️"
+  },
+  "TR-36": {
+   "symbol_label": "Kars kaşarı ve gravyeri",
+   "color": "#9A3D2F",
+   "color_reason": "Ani harabelerinin kızıl volkanik taşı.",
+   "elevation_m": 1750,
+   "area_code": "474",
+   "district_count": 8,
+   "foods": [
+    "Kars kazı",
+    "kaşar ve gravyer"
+   ],
+   "products": [
+    "kaşar peyniri",
+    "gravyer peyniri",
+    "bal"
+   ],
+   "festivals": [
+    "Sarıkamış şehitlerini anma yürüyüşü"
+   ],
+   "sights": [
+    "Ani Ören Yeri",
+    "Kars Kalesi",
+    "Kümbet Camii",
+    "Baltık mimarisi yapıları",
+    "Sarıkamış Kayak Merkezi"
+   ],
+   "history": "Ani, Orta Çağ'da Bagratlı Krallığı'nın başkentiydi; 1064'te Alp Arslan tarafından fethedildi ve 2016'da UNESCO Dünya Mirası listesine girdi. Kars 1878-1918 arasında Rus yönetiminde kaldı; kentteki Baltık tarzı binalar bu dönemden kalmadır.",
+   "emoji": "🧀"
+  },
+  "TR-37": {
+   "symbol_label": "Taşköprü sarımsağı",
+   "color": "#85618F",
+   "color_reason": "Taşköprü sarımsağının mor damarları.",
+   "elevation_m": null,
+   "area_code": "366",
+   "district_count": 20,
+   "foods": [
+    "banduma",
+    "etli pide"
+   ],
+   "products": [
+    "Taşköprü sarımsağı",
+    "siyez buğdayı"
+   ],
+   "festivals": [
+    "Taşköprü Kültür ve Sarımsak Festivali"
+   ],
+   "sights": [
+    "Kastamonu Kalesi",
+    "Nasrullah Camii",
+    "Kasaba Köyü Mahmut Bey Camii",
+    "Valla Kanyonu",
+    "Pompeiopolis (Taşköprü)",
+    "Küre Dağları Milli Parkı",
+    "İnebolu"
+   ],
+   "history": "Kastamonu 14. yüzyılda Candaroğulları Beyliği'nin merkeziydi. Atatürk, Ağustos 1925'te şapka devrimini başlattığı konuşmayı Kastamonu'da yaptı.",
+   "emoji": "🧄"
+  },
+  "TR-38": {
+   "symbol_label": "Pastırma",
+   "color": "#A33A22",
+   "color_reason": "Pastırmanın çemen kaplamasının kızılı.",
+   "elevation_m": 1054,
+   "area_code": "352",
+   "district_count": 16,
+   "foods": [
+    "Kayseri mantısı",
+    "yağlama",
+    "pastırmalı yumurta"
+   ],
+   "products": [
+    "pastırma",
+    "sucuk",
+    "Bünyan halısı"
+   ],
+   "festivals": [],
+   "sights": [
+    "Erciyes Dağı",
+    "Kültepe (Kaniş-Karum)",
+    "Gevher Nesibe Şifahanesi",
+    "Kayseri Kalesi",
+    "Sultan Sazlığı",
+    "Ağırnas",
+    "Soğanlı Vadisi"
+   ],
+   "history": "Kültepe'deki Kaniş-Karum, MÖ 2. binyılda Asurlu tüccarların ticaret merkeziydi; burada bulunan tabletler Anadolu'nun bilinen en eski yazılı belgelerindendir. Roma döneminde Kaisareia adını aldı. Mimar Sinan, Kayseri'nin Ağırnas köyünde doğdu.",
+   "emoji": "🥩"
+  },
+  "TR-39": {
+   "symbol_label": "İğneada longozu",
+   "color": "#2E7D5B",
+   "color_reason": "Longoz ormanlarının yeşili.",
+   "elevation_m": 209,
+   "area_code": "288",
+   "district_count": 8,
+   "foods": [
+    "Kırklareli köftesi"
+   ],
+   "products": [
+    "hardaliye"
+   ],
+   "festivals": [
+    "Kakava (Hıdrellez) şenlikleri"
+   ],
+   "sights": [
+    "İğneada Longoz Ormanları Milli Parkı",
+    "Dupnisa Mağarası",
+    "Vize Ayasofya Kilisesi",
+    "Demirköy Fatih Dökümhanesi",
+    "Hızırbey Külliyesi"
+   ],
+   "history": "Istranca (Yıldız) Dağları eteğindeki il, Balkan Savaşları ve Birinci Dünya Savaşı döneminde el değiştirdi; 10 Kasım 1922'de işgalden kurtuldu. Demirköy'deki dökümhanenin İstanbul'un fethinde kullanılan topların döküldüğü yer olduğu kabul edilir.",
+   "emoji": "🌳"
+  },
+  "TR-40": {
+   "symbol_label": "Neşet Ertaş ve bağlama",
+   "color": "#A57F2C",
+   "color_reason": "Bozkırın başak sarısı.",
+   "elevation_m": 985,
+   "area_code": "386",
+   "district_count": 7,
+   "foods": [
+    "Kırşehir çullaması"
+   ],
+   "products": [],
+   "festivals": [
+    "Ahilik Kültürü Haftası"
+   ],
+   "sights": [
+    "Cacabey Medresesi",
+    "Ahi Evran Türbesi",
+    "Kaman-Kalehöyük",
+    "Japon Bahçesi (Kaman)",
+    "Seyfe Gölü",
+    "Terme kaplıcaları"
+   ],
+   "history": "13. yüzyılda Ahi Evran'ın öncülüğünde gelişen esnaf örgütü Ahiliğin merkezi olarak bilinir. Cacabey Medresesi, Selçuklu döneminde gökbilim eğitimi için inşa edildi. 'Bozkırın tezenesi' Neşet Ertaş ve abdallık müzik geleneği ilin kültürel kimliğindendir.",
+   "emoji": "🪕"
+  },
+  "TR-41": {
+   "symbol_label": "İzmit pişmaniyesi",
+   "color": "#24557A",
+   "color_reason": "İzmit Körfezi'nin laciverti.",
+   "elevation_m": 4,
+   "area_code": "262",
+   "district_count": 12,
+   "foods": [
+    "pişmaniye"
+   ],
+   "products": [
+    "pişmaniye",
+    "otomotiv ve sanayi ürünleri"
+   ],
+   "festivals": [],
+   "sights": [
+    "Seka Park",
+    "Kartepe",
+    "Maşukiye",
+    "Ormanya",
+    "Çoban Mustafa Paşa Külliyesi (Gebze)",
+    "Kerpe koyları (Kandıra)"
+   ],
+   "history": "Antik çağda Nikomedia adıyla Bithynia Krallığı'nın başkenti, Roma İmparatoru Diocletianus döneminde imparatorluğun doğu başkentiydi. Bugün Türkiye'nin en büyük sanayi bölgelerinden biridir.",
+   "icon": "pismaniye"
+  },
+  "TR-42": {
+   "symbol_label": "Mevlana ve sema",
+   "color": "#1A8C7E",
+   "color_reason": "Mevlana Türbesi'nin turkuaz kubbesi (Kubbe-i Hadrâ).",
+   "elevation_m": 1016,
+   "area_code": "332",
+   "district_count": 31,
+   "foods": [
+    "etli ekmek",
+    "fırın kebabı",
+    "tirit",
+    "bamya çorbası",
+    "sac arası"
+   ],
+   "products": [
+    "buğday",
+    "Mevlana şekeri"
+   ],
+   "festivals": [
+    "Şeb-i Arus (Mevlana'yı anma) törenleri"
+   ],
+   "sights": [
+    "Mevlana Müzesi",
+    "Alaeddin Camii",
+    "Karatay Medresesi",
+    "İnce Minareli Medrese",
+    "Çatalhöyük",
+    "Sille",
+    "Beyşehir Eşrefoğlu Camii"
+   ],
+   "history": "Çatalhöyük, MÖ 7400 dolaylarına uzanan ve dünyanın en eski kentsel yerleşimlerinden sayılan bir Neolitik yerleşimdir. Konya 12-13. yüzyıllarda Anadolu Selçuklu Devleti'nin başkentiydi. Mevlana Celaleddin Rumi hayatının büyük bölümünü burada geçirdi ve 1273'te burada öldü.",
+   "icon": "semazen"
+  },
+  "TR-43": {
+   "symbol_label": "Kütahya çinisi",
+   "color": "#1F4FA0",
+   "color_reason": "Kütahya çinisinin kobalt mavisi.",
+   "elevation_m": 949,
+   "area_code": "274",
+   "district_count": 13,
+   "foods": [
+    "cimcik"
+   ],
+   "products": [
+    "çini",
+    "porselen"
+   ],
+   "festivals": [],
+   "sights": [
+    "Aizanoi ve Zeus Tapınağı (Çavdarhisar)",
+    "Kütahya Kalesi",
+    "Çini Müzesi",
+    "Germiyan Sokağı",
+    "Evliya Çelebi Konağı",
+    "Eynal kaplıcaları (Simav)"
+   ],
+   "history": "14. yüzyılda Germiyanoğulları Beyliği'nin merkezi olan Kütahya, 16. yüzyıldan sonra İznik ile birlikte Osmanlı çiniciliğinin başlıca merkezi oldu. Ünlü gezgin Evliya Çelebi'nin ailesi Kütahyalıdır.",
+   "emoji": "🏺"
+  },
+  "TR-44": {
+   "symbol_label": "Malatya kayısısı",
+   "color": "#D06A10",
+   "color_reason": "Kayısının turuncusu (kayısı emojisi olmadığı için şeftali kullanıldı).",
+   "elevation_m": 954,
+   "area_code": "422",
+   "district_count": 13,
+   "foods": [
+    "kağıt kebabı",
+    "kayısılı tatlılar"
+   ],
+   "products": [
+    "kuru kayısı"
+   ],
+   "festivals": [
+    "Malatya Kayısı Festivali"
+   ],
+   "sights": [
+    "Arslantepe Höyüğü",
+    "Battalgazi Ulu Camii",
+    "Levent Vadisi",
+    "Tohma Kanyonu",
+    "İnönü Evi Müzesi"
+   ],
+   "history": "Arslantepe Höyüğü, devlet örgütlenmesinin ilk izlerini taşıyan buluntularıyla 2021'de UNESCO Dünya Mirası listesine alındı. Malatya, dünyadaki kuru kayısı üretiminin önemli bölümünü karşılar. Kent 6 Şubat 2023 depremlerinde ağır hasar gördü.",
+   "emoji": "🍑"
+  },
+  "TR-45": {
+   "symbol_label": "Mesir macunu",
+   "color": "#8A3B1F",
+   "color_reason": "Baharatlı mesir macununun kızıl-kahvesi.",
+   "elevation_m": 71,
+   "area_code": "236",
+   "district_count": 17,
+   "foods": [
+    "Manisa kebabı",
+    "mesir macunu"
+   ],
+   "products": [
+    "sultaniye çekirdeksiz kuru üzüm",
+    "mesir macunu"
+   ],
+   "festivals": [
+    "Uluslararası Manisa Mesir Macunu Festivali"
+   ],
+   "sights": [
+    "Sardes Antik Kenti",
+    "Spil Dağı Milli Parkı",
+    "Muradiye Camii",
+    "Sultan Camii",
+    "Kula Volkanik Jeoparkı"
+   ],
+   "history": "Lidya Krallığı'nın başkenti Sardes, ilk madeni paranın basıldığı yer olarak bilinir. Osmanlı döneminde şehzadelerin sancak merkezlerinden biriydi. Mesir macunu geleneğinin 16. yüzyılda Hafsa Sultan'ın iyileşmesiyle başladığına inanılır.",
+   "emoji": "🍬"
+  },
+  "TR-46": {
+   "symbol_label": "Maraş dondurması",
+   "color": "#B3261E",
+   "color_reason": "Maraş biberinin kırmızısı.",
+   "elevation_m": 568,
+   "area_code": "344",
+   "district_count": 11,
+   "foods": [
+    "Maraş dondurması",
+    "eli böğründe",
+    "tarhana çorbası"
+   ],
+   "products": [
+    "Maraş biberi (pul biber)",
+    "tarhana"
+   ],
+   "festivals": [],
+   "sights": [
+    "Kahramanmaraş Kalesi",
+    "Kahramanmaraş Ulu Camii",
+    "Germanicia mozaikleri",
+    "Menzelet Barajı",
+    "Yedikuyular Kayak Merkezi"
+   ],
+   "history": "Kent, 1920'deki Fransız işgaline karşı halkın verdiği mücadele nedeniyle 1973'te TBMM tarafından 'Kahraman' unvanıyla onurlandırıldı. Antik Germanicia kenti bu topraklardadır. Kahramanmaraş, 6 Şubat 2023 depremlerinin merkez üssü oldu.",
+   "emoji": "🍦"
+  },
+  "TR-47": {
+   "symbol_label": "Mardin taş evleri",
+   "color": "#9E7438",
+   "color_reason": "Mardin taşının bal rengi.",
+   "elevation_m": 1083,
+   "area_code": "482",
+   "district_count": 10,
+   "foods": [
+    "kaburga dolması",
+    "sembusek",
+    "içli köfte"
+   ],
+   "products": [
+    "telkari (Midyat)",
+    "badem şekeri"
+   ],
+   "festivals": [
+    "Mardin Bienali"
+   ],
+   "sights": [
+    "Deyrulzafaran Manastırı",
+    "Zinciriye Medresesi",
+    "Kasımiye Medresesi",
+    "Midyat taş evleri",
+    "Dara Antik Kenti",
+    "Mor Gabriel Manastırı"
+   ],
+   "history": "Mezopotamya ovasına bakan yamaçlarda kurulan kent, Artuklu Beyliği'nin önemli merkezlerindendi. Taş evleri, medreseleri ve manastırlarıyla farklı inanç ve kültürlerin bir arada yaşadığı bir kent olarak bilinir.",
+   "emoji": "🏘️"
+  },
+  "TR-48": {
+   "symbol_label": "Mavi Yolculuk",
+   "color": "#0F8EA8",
+   "color_reason": "Mavi Yolculuk koylarının turkuazı.",
+   "elevation_m": null,
+   "area_code": "252",
+   "district_count": 13,
+   "foods": [
+    "çökertme kebabı"
+   ],
+   "products": [
+    "çam balı",
+    "Bodrum mandalinası",
+    "Datça bademi"
+   ],
+   "festivals": [],
+   "sights": [
+    "Bodrum Kalesi",
+    "Ölüdeniz",
+    "Kaunos kaya mezarları (Dalyan)",
+    "Knidos (Datça)",
+    "Saklıkent Kanyonu",
+    "Gökova Körfezi",
+    "Marmaris"
+   ],
+   "history": "Karya ve Likya bölgelerinin buluştuğu ilde, Halikarnassos'taki Mausoleion antik dünyanın yedi harikasından biriydi. 14. yüzyılda Menteşe Beyliği'nin merkezi olan bölge daha sonra Osmanlı'ya katıldı. Türkiye'deki çam balının büyük bölümü Muğla'da üretilir.",
+   "emoji": "⛵"
+  },
+  "TR-49": {
+   "symbol_label": "Malazgirt Zaferi (1071)",
+   "color": "#B8232F",
+   "color_reason": "Muş lalesinin kırmızısı.",
+   "elevation_m": null,
+   "area_code": "436",
+   "district_count": 6,
+   "foods": [],
+   "products": [],
+   "festivals": [
+    "Malazgirt Zaferi yıl dönümü etkinlikleri (26 Ağustos)"
+   ],
+   "sights": [
+    "Malazgirt Meydan Muharebesi alanı",
+    "Malazgirt Kalesi",
+    "Muş Ovası"
+   ],
+   "history": "26 Ağustos 1071'de Malazgirt'te Selçuklu Sultanı Alp Arslan'ın Bizans ordusunu yenmesi Anadolu'nun kapılarını Türklere açtı. Muş Ovası, Murat Nehri'nin suladığı verimli bir tarım alanıdır. Endemik Muş lalesi ilin simgesidir.",
+   "emoji": "⚔️"
+  },
+  "TR-50": {
+   "symbol_label": "Peri bacaları",
+   "color": "#C47A45",
+   "color_reason": "Kapadokya tüfünün bej-turuncusu.",
+   "elevation_m": 1194,
+   "area_code": "384",
+   "district_count": 8,
+   "foods": [
+    "testi kebabı"
+   ],
+   "products": [
+    "Avanos çömlekleri",
+    "patates",
+    "Kapadokya şarapları"
+   ],
+   "festivals": [
+    "Hacı Bektaş Veli Anma Törenleri"
+   ],
+   "sights": [
+    "Göreme Açık Hava Müzesi",
+    "Derinkuyu Yeraltı Şehri",
+    "Kaymaklı Yeraltı Şehri",
+    "Uçhisar Kalesi",
+    "Paşabağ peri bacaları",
+    "Avanos"
+   ],
+   "history": "Volkanik tüfün aşınmasıyla oluşan peri bacaları ve kayaya oyulmuş kiliseler 1985'te UNESCO Dünya Mirası listesine alındı. Kent, 18. yüzyılda Sadrazam Nevşehirli Damat İbrahim Paşa'nın köyü Muşkara'nın geliştirilmesiyle bugünkü kimliğini kazandı.",
+   "icon": "peribacasi"
+  },
+  "TR-51": {
+   "symbol_label": "Niğde patatesi",
+   "color": "#5A6E86",
+   "color_reason": "Aladağlar'ın kayalık gri-mavisi.",
+   "elevation_m": 1229,
+   "area_code": "388",
+   "district_count": 6,
+   "foods": [],
+   "products": [
+    "patates",
+    "Niğde elması",
+    "Niğde gazozu"
+   ],
+   "festivals": [],
+   "sights": [
+    "Aladağlar Milli Parkı",
+    "Gümüşler Manastırı",
+    "Niğde Alaeddin Camii",
+    "Tyana su kemerleri (Kemerhisar)",
+    "Niğde Kalesi"
+   ],
+   "history": "Antik Tyana kenti Kemerhisar'dadır. Selçuklu döneminde gelişen Niğde, Alaeddin Camii ve Sungur Bey Camii gibi yapılarıyla bilinir. İl, Türkiye'nin önemli patates ve elma üretim alanlarındandır.",
+   "emoji": "🥔"
+  },
+  "TR-52": {
+   "symbol_label": "Fındık",
+   "color": "#8B5A2B",
+   "color_reason": "Fındık kabuğunun kahvesi.",
+   "elevation_m": 5,
+   "area_code": "452",
+   "district_count": 19,
+   "foods": [
+    "pancar (kara lahana) çorbası",
+    "mısır ekmeği"
+   ],
+   "products": [
+    "fındık"
+   ],
+   "festivals": [],
+   "sights": [
+    "Boztepe",
+    "Yason Burnu",
+    "Perşembe Yaylası",
+    "Çambaşı Yaylası",
+    "Taşbaşı Kilisesi"
+   ],
+   "history": "Antik Kotyora kenti bugünkü Ordu yakınındadır. İl, Türkiye'nin en çok fındık üreten ilidir. Boztepe'den kentin ve Karadeniz'in panoraması izlenir.",
+   "emoji": "🌰"
+  },
+  "TR-53": {
+   "symbol_label": "Rize çayı",
+   "color": "#2F7D33",
+   "color_reason": "Çay bahçelerinin yeşili.",
+   "elevation_m": 6,
+   "area_code": "464",
+   "district_count": 12,
+   "foods": [
+    "hamsili pilav",
+    "muhlama",
+    "Laz böreği"
+   ],
+   "products": [
+    "çay",
+    "Rize bezi (feretiko)"
+   ],
+   "festivals": [],
+   "sights": [
+    "Ayder Yaylası",
+    "Zil Kale",
+    "Fırtına Vadisi",
+    "Kaçkar Dağları",
+    "Palovit Şelalesi",
+    "Rize Kalesi"
+   ],
+   "history": "Türkiye'de çay tarımı 1930'larda Rize'de yaygınlaştı; ilk çay fabrikası 1947'de burada açıldı. Kaçkar Dağları ve Fırtına Vadisi ilin yayla kültürünün merkezidir.",
+   "emoji": "🍵"
+  },
+  "TR-54": {
+   "symbol_label": "Islama köfte",
+   "color": "#2B7A8C",
+   "color_reason": "Sapanca Gölü'nün yeşil-mavisi.",
+   "elevation_m": 31,
+   "area_code": "264",
+   "district_count": 16,
+   "foods": [
+    "ıslama köfte",
+    "kabak tatlısı"
+   ],
+   "products": [
+    "fındık",
+    "bal kabağı"
+   ],
+   "festivals": [],
+   "sights": [
+    "Sapanca Gölü",
+    "Acarlar Longozu",
+    "Poyrazlar Gölü",
+    "Justinianus Köprüsü (Beşköprü)",
+    "Karasu sahili"
+   ],
+   "history": "Bizans İmparatoru Justinianus döneminde yapılan Sangarius Köprüsü (Beşköprü) bu topraklardadır. Kurtuluş Savaşı'nın dönüm noktası Sakarya Meydan Muharebesi, adını il topraklarından geçen Sakarya Nehri'nden alır. İl 1999 Marmara Depremi'nde ağır hasar gördü.",
+   "icon": "islamakofte"
+  },
+  "TR-55": {
+   "symbol_label": "Bandırma Vapuru (19 Mayıs 1919)",
+   "color": "#C8102E",
+   "color_reason": "19 Mayıs ve bayrak kırmızısı.",
+   "elevation_m": null,
+   "area_code": "362",
+   "district_count": 17,
+   "foods": [
+    "Bafra pidesi",
+    "Samsun pidesi"
+   ],
+   "products": [
+    "Bafra tütünü",
+    "Bafra pirinci",
+    "fındık"
+   ],
+   "festivals": [
+    "19 Mayıs Atatürk'ü Anma, Gençlik ve Spor Bayramı"
+   ],
+   "sights": [
+    "Bandırma Gemi Müzesi",
+    "Onur Anıtı",
+    "Amisos Tepesi",
+    "Kızılırmak Deltası Kuş Cenneti",
+    "Şahinkaya Kanyonu"
+   ],
+   "history": "Mustafa Kemal'in 19 Mayıs 1919'da Bandırma Vapuru ile Samsun'a çıkması Kurtuluş Savaşı'nın başlangıcı kabul edilir. Antik Amisos kenti bugünkü Samsun'un temelidir.",
+   "emoji": "🚢"
+  },
+  "TR-56": {
+   "symbol_label": "Büryan kebabı",
+   "color": "#9C3A1C",
+   "color_reason": "Büryanın piştiği tandır kuyusunun kızılı.",
+   "elevation_m": 930,
+   "area_code": "484",
+   "district_count": 7,
+   "foods": [
+    "büryan kebabı",
+    "perde pilavı"
+   ],
+   "products": [
+    "Siirt fıstığı",
+    "Siirt battaniyesi",
+    "Pervari balı"
+   ],
+   "festivals": [
+    "Tillo ışık olayı (ekinoks günleri)"
+   ],
+   "sights": [
+    "Tillo ve İbrahim Hakkı Türbesi",
+    "Veysel Karani Türbesi (Baykan)",
+    "Siirt Ulu Camii",
+    "Botan Vadisi Milli Parkı"
+   ],
+   "history": "Tillo'daki İbrahim Hakkı Hazretleri türbesine ekinoks günlerinde güneş ışığının ulaştığı düzenek 18. yüzyıldan kalmadır. Siirt Ulu Camii Selçuklu dönemi eseridir.",
+   "emoji": "🍖"
+  },
+  "TR-57": {
+   "symbol_label": "Liman kenti",
+   "color": "#23577F",
+   "color_reason": "Türkiye'nin en kuzey ucundaki Karadeniz mavisi.",
+   "elevation_m": 28,
+   "area_code": "368",
+   "district_count": 9,
+   "foods": [
+    "Sinop mantısı",
+    "nokul"
+   ],
+   "products": [
+    "gemi maketleri"
+   ],
+   "festivals": [],
+   "sights": [
+    "Tarihi Sinop Cezaevi",
+    "Hamsilos Koyu",
+    "İnceburun Feneri",
+    "Erfelek Şelaleleri",
+    "Sinop Kalesi"
+   ],
+   "history": "Miletoslu kolonistlerin kurduğu Sinope, filozof Diyojen'in doğduğu kenttir. Türkiye'nin en kuzey noktası İnceburun il sınırları içindedir. 1853 Sinop Baskını Kırım Savaşı'nın önemli olaylarındandır.",
+   "emoji": "⚓"
+  },
+  "TR-58": {
+   "symbol_label": "Kangal köpeği",
+   "color": "#97743F",
+   "color_reason": "Kangal köpeğinin açık kahve postu.",
+   "elevation_m": 1285,
+   "area_code": "346",
+   "district_count": 17,
+   "foods": [
+    "Sivas köftesi",
+    "madımak"
+   ],
+   "products": [
+    "Sivas halısı"
+   ],
+   "festivals": [],
+   "sights": [
+    "Divriği Ulu Camii ve Darüşşifası",
+    "Gök Medrese",
+    "Çifte Minareli Medrese",
+    "Sivas Kongre Binası",
+    "Kangal Balıklı Kaplıca",
+    "Gökpınar Gölü (Gürün)"
+   ],
+   "history": "4-11 Eylül 1919'daki Sivas Kongresi, Kurtuluş Savaşı'nda ulusal birliği sağlayan kararların alındığı toplantıdır. Divriği Ulu Camii ve Darüşşifası, 1985'te Türkiye'den UNESCO Dünya Mirası listesine giren ilk eserlerdendir.",
+   "emoji": "🐕"
+  },
+  "TR-59": {
+   "symbol_label": "Trakya ayçiçeği",
+   "color": "#B8860B",
+   "color_reason": "Ayçiçeği tarlalarının sarısı.",
+   "elevation_m": 37,
+   "area_code": "282",
+   "district_count": 11,
+   "foods": [
+    "Tekirdağ köftesi",
+    "Hayrabolu tatlısı"
+   ],
+   "products": [
+    "ayçiçeği",
+    "Şarköy şarapları"
+   ],
+   "festivals": [
+    "Tekirdağ Kiraz Festivali"
+   ],
+   "sights": [
+    "Rákóczi Müzesi",
+    "Namık Kemal Evi",
+    "Rüstem Paşa Külliyesi",
+    "Uçmakdere",
+    "Şarköy"
+   ],
+   "history": "Antik çağda Bisanthe adıyla bilinen kent Marmara kıyısında önemli bir liman oldu. Macar bağımsızlık önderi II. Ferenc Rákóczi sürgün yıllarını burada geçirdi; evi bugün müzedir. Şair Namık Kemal Tekirdağlıdır.",
+   "emoji": "🌻"
+  },
+  "TR-60": {
+   "symbol_label": "Narince bağ yaprağı",
+   "color": "#5A7F2E",
+   "color_reason": "Tokat yaprak sarmasının asma yaprağı yeşili.",
+   "elevation_m": 623,
+   "area_code": "356",
+   "district_count": 12,
+   "foods": [
+    "Tokat kebabı",
+    "yaprak sarması",
+    "bat"
+   ],
+   "products": [
+    "Narince üzüm yaprağı",
+    "Tokat yazması"
+   ],
+   "festivals": [],
+   "sights": [
+    "Gök Medrese",
+    "Ballıca Mağarası",
+    "Taşhan",
+    "Tokat Kalesi",
+    "Zile Kalesi"
+   ],
+   "history": "Julius Caesar, MÖ 47'de Zile'de kazandığı zaferi 'Veni, vidi, vici' sözleriyle duyurdu. Tokat, Danişmentli ve Selçuklu dönemlerinden kalma medrese ve hanlarıyla bilinir.",
+   "emoji": "🍃"
+  },
+  "TR-61": {
+   "symbol_label": "Hamsi",
+   "color": "#3B6E8F",
+   "color_reason": "Hamsinin gümüşi mavisi.",
+   "elevation_m": null,
+   "area_code": "462",
+   "district_count": 18,
+   "foods": [
+    "hamsi tava",
+    "Akçaabat köftesi",
+    "kuymak",
+    "Vakfıkebir ekmeği"
+   ],
+   "products": [
+    "fındık",
+    "çay",
+    "Trabzon hasırı (bilezik)"
+   ],
+   "festivals": [
+    "Hıdırnebi Yayla Şenliği"
+   ],
+   "sights": [
+    "Sümela Manastırı",
+    "Uzungöl",
+    "Trabzon Ayasofya",
+    "Atatürk Köşkü",
+    "Boztepe"
+   ],
+   "history": "Miletoslu kolonistlerin kurduğu Trapezus, 1204-1461 arasında Trabzon Rum İmparatorluğu'nun başkentiydi ve 1461'de Fatih Sultan Mehmet tarafından fethedildi. Kanuni Sultan Süleyman Trabzon'da doğdu.",
+   "emoji": "🐟"
+  },
+  "TR-62": {
+   "symbol_label": "Munzur Vadisi",
+   "color": "#2A8C82",
+   "color_reason": "Munzur Çayı'nın berrak yeşil-mavisi.",
+   "elevation_m": 914,
+   "area_code": "428",
+   "district_count": 8,
+   "foods": [],
+   "products": [],
+   "festivals": [
+    "Munzur Kültür ve Doğa Festivali"
+   ],
+   "sights": [
+    "Munzur Vadisi Milli Parkı",
+    "Munzur Gözeleri",
+    "Pertek Kalesi",
+    "Pülümür Vadisi"
+   ],
+   "history": "Munzur Dağları ve vadileriyle çevrili il, Türkiye'nin en büyük milli parklarından Munzur Vadisi'ne ev sahipliği yapar. İlin eski adı Dersim'dir; 1935'te Tunceli adını aldı.",
+   "emoji": "🏞️"
+  },
+  "TR-63": {
+   "symbol_label": "İsot",
+   "color": "#6E1F1A",
+   "color_reason": "Güneşte kurutulan isotun koyu bordosu.",
+   "elevation_m": null,
+   "area_code": "414",
+   "district_count": 13,
+   "foods": [
+    "Urfa kebabı",
+    "çiğ köfte",
+    "şıllık tatlısı",
+    "lahmacun"
+   ],
+   "products": [
+    "isot",
+    "Harran pamuğu",
+    "Halfeti karagülü"
+   ],
+   "festivals": [
+    "Sıra geceleri geleneği"
+   ],
+   "sights": [
+    "Göbeklitepe",
+    "Balıklıgöl",
+    "Harran kümbet evleri",
+    "Halfeti",
+    "Şanlıurfa Müzesi ve Haleplibahçe mozaikleri",
+    "Karahantepe"
+   ],
+   "history": "Göbeklitepe, yaklaşık 11.500 yıllık geçmişiyle bilinen en eski anıtsal tapınak yapılarındandır ve 2018'de UNESCO Dünya Mirası listesine alındı. Hz. İbrahim'in doğduğuna inanılan kent 'Peygamberler şehri' olarak anılır. 1984'te Kurtuluş Savaşı'ndaki direnişi nedeniyle 'Şanlı' unvanı aldı.",
+   "emoji": "🌶️"
+  },
+  "TR-64": {
+   "symbol_label": "Uşak halısı",
+   "color": "#A52A2A",
+   "color_reason": "Uşak halılarının kök boya kırmızısı.",
+   "elevation_m": 907,
+   "area_code": "276",
+   "district_count": 6,
+   "foods": [
+    "Uşak tarhanası"
+   ],
+   "products": [
+    "Uşak halısı",
+    "battaniye ve tekstil"
+   ],
+   "festivals": [],
+   "sights": [
+    "Ulubey Kanyonu",
+    "Uşak Arkeoloji Müzesi (Karun Hazinesi)",
+    "Blaundus Antik Kenti",
+    "Clandras Köprüsü"
+   ],
+   "history": "Lidya Kralı Karun'a ait olduğu düşünülen 'Karun Hazinesi', yurt dışından geri getirilerek Uşak'ta sergilenir. Uşak halıları 15-17. yüzyıllarda Avrupa saraylarına ve kiliselerine ihraç edildi.",
+   "emoji": "🧶"
+  },
+  "TR-65": {
+   "symbol_label": "Van kedisi",
+   "color": "#2A6FB0",
+   "color_reason": "Van Gölü'nün mavisi.",
+   "elevation_m": null,
+   "area_code": "432",
+   "district_count": 13,
+   "foods": [
+    "Van kahvaltısı",
+    "otlu peynir",
+    "murtuğa",
+    "kavut"
+   ],
+   "products": [
+    "otlu peynir",
+    "inci kefali"
+   ],
+   "festivals": [
+    "İnci kefalinin ilkbahar göçü"
+   ],
+   "sights": [
+    "Akdamar Kilisesi",
+    "Van Kalesi",
+    "Hoşap Kalesi",
+    "Muradiye Şelalesi",
+    "Çavuştepe",
+    "Van Gölü"
+   ],
+   "history": "Van, MÖ 9. yüzyılda Urartu Krallığı'nın başkenti Tuşpa'ydı; Van Kalesi bu dönemden kalır. Türkiye'nin en büyük gölü olan Van Gölü sodalı suyuyla bilinir; gölde yaşayabilen tek balık inci kefalidir.",
+   "emoji": "🐈"
+  },
+  "TR-66": {
+   "symbol_label": "Arabaşı çorbası",
+   "color": "#2D5E3E",
+   "color_reason": "Türkiye'nin ilk milli parkı Yozgat Çamlığı'nın yeşili.",
+   "elevation_m": 1317,
+   "area_code": "354",
+   "district_count": 14,
+   "foods": [
+    "arabaşı çorbası",
+    "madımak"
+   ],
+   "products": [],
+   "festivals": [],
+   "sights": [
+    "Yozgat Çamlığı Milli Parkı",
+    "Çapanoğlu Camii",
+    "Kerkenes Dağı ören yeri",
+    "Sarıkaya Roma Hamamı (Basilica Therma)"
+   ],
+   "history": "Türkiye'nin ilk milli parkı Yozgat Çamlığı 1958'de ilan edildi. Kent 18. yüzyılda Çapanoğulları ailesinin yönetiminde gelişti. Sarıkaya'daki Roma dönemi kaplıca yapısı Basilica Therma bugün de kullanılmaktadır.",
+   "emoji": "🍲"
+  },
+  "TR-67": {
+   "symbol_label": "Taş kömürü",
+   "color": "#2B2B2B",
+   "color_reason": "Kömürün siyahı.",
+   "elevation_m": null,
+   "area_code": "372",
+   "district_count": 8,
+   "foods": [],
+   "products": [
+    "taş kömürü",
+    "Devrek bastonu",
+    "Osmanlı çileği (Ereğli)"
+   ],
+   "festivals": [],
+   "sights": [
+    "Gökgöl Mağarası",
+    "Cehennemağzı Mağaraları (Ereğli)",
+    "Filyos (Tios) Antik Kenti",
+    "Zonguldak Maden Müzesi"
+   ],
+   "history": "Türkiye'de taş kömürü 1829'da Uzun Mehmet tarafından Zonguldak yöresinde bulundu ve il, ülkenin kömür madenciliğinin merkezi oldu. Ereğli antik Herakleia Pontike kentidir.",
+   "emoji": "⛏️"
+  },
+  "TR-68": {
+   "symbol_label": "Sultanhanı Kervansarayı",
+   "color": "#A06A3A",
+   "color_reason": "Kervansaray taşının toprak rengi.",
+   "elevation_m": 980,
+   "area_code": "382",
+   "district_count": 8,
+   "foods": [],
+   "products": [],
+   "festivals": [],
+   "sights": [
+    "Ihlara Vadisi",
+    "Sultanhanı Kervansarayı",
+    "Hasan Dağı",
+    "Güzelyurt",
+    "Selime Katedrali",
+    "Aşıklı Höyük"
+   ],
+   "history": "Aşıklı Höyük, Anadolu'nun bilinen en eski köy yerleşimlerinden biridir. Sultanhanı, 1229'da yapılan ve Anadolu'nun en büyük Selçuklu kervansaraylarından biridir. Aksaray 1989'da Niğde'den ayrılarak il oldu.",
+   "emoji": "🐫"
+  },
+  "TR-69": {
+   "symbol_label": "Dede Korkut",
+   "color": "#7A4E2A",
+   "color_reason": "Dede Korkut'un kopuzunun ahşap kahvesi.",
+   "elevation_m": 1550,
+   "area_code": "458",
+   "district_count": 3,
+   "foods": [
+    "lor dolması",
+    "tel helvası"
+   ],
+   "products": [],
+   "festivals": [
+    "Uluslararası Dede Korkut Kültür ve Sanat Şöleni"
+   ],
+   "sights": [
+    "Bayburt Kalesi",
+    "Baksı Müzesi",
+    "Aydıntepe Yeraltı Şehri",
+    "Dede Korkut anıt mezarı (Masat köyü)"
+   ],
+   "history": "Çoruh Nehri kıyısındaki Bayburt Kalesi, bölgenin Orta Çağ boyunca taşıdığı stratejik önemi gösterir. Bayburt, Dede Korkut hikâyelerinin geçtiği yerlerden biri olarak kabul edilir. 1989'da Gümüşhane'den ayrılarak il oldu.",
+   "emoji": "📜"
+  },
+  "TR-70": {
+   "symbol_label": "Türkçenin resmî dil ilanı (1277)",
+   "color": "#2C3E7A",
+   "color_reason": "Karamanoğlu fermanının mürekkep laciverti.",
+   "elevation_m": 1033,
+   "area_code": "338",
+   "district_count": 6,
+   "foods": [],
+   "products": [
+    "Divle obruk peyniri"
+   ],
+   "festivals": [
+    "Türk Dil Bayramı (13 Mayıs)"
+   ],
+   "sights": [
+    "Binbir Kilise",
+    "Karaman Kalesi",
+    "Hatuniye Medresesi",
+    "Taşkale tahıl ambarları",
+    "Manazan Mağaraları",
+    "Divle Obruğu"
+   ],
+   "history": "Karamanoğlu Mehmet Bey'in 13 Mayıs 1277'de yayımladığı fermanla Türkçe divanda ve resmî işlerde tek dil ilan edildi; bu gün Türk Dil Bayramı olarak kutlanır. Kent 13-15. yüzyıllarda Karamanoğulları Beyliği'nin merkeziydi. 1989'da Konya'dan ayrılarak il oldu.",
+   "emoji": "📖"
+  },
+  "TR-71": {
+   "symbol_label": "Makine ve Kimya Endüstrisi (MKE)",
+   "color": "#9A4A2E",
+   "color_reason": "Kentten geçen Kızılırmak'ın kızıl tortusu.",
+   "elevation_m": 740,
+   "area_code": "318",
+   "district_count": 9,
+   "foods": [],
+   "products": [
+    "makine ve kimya sanayi ürünleri"
+   ],
+   "festivals": [
+    "Hasandede anma törenleri"
+   ],
+   "sights": [
+    "Hasandede Türbesi",
+    "Kapulukaya Barajı",
+    "Kızılırmak kıyısı"
+   ],
+   "history": "1925'te kurulan silah ve mühimmat fabrikalarıyla gelişen kent, Makine ve Kimya Endüstrisi'nin önemli üretim merkezidir. 1989'da Ankara'dan ayrılarak il oldu.",
+   "emoji": "⚙️"
+  },
+  "TR-72": {
+   "symbol_label": "Raman petrolü",
+   "color": "#9C7A4A",
+   "color_reason": "Hasankeyf'in kalker taşı.",
+   "elevation_m": 550,
+   "area_code": "488",
+   "district_count": 6,
+   "foods": [],
+   "products": [
+    "petrol"
+   ],
+   "festivals": [],
+   "sights": [
+    "Hasankeyf",
+    "Malabadi Köprüsü",
+    "Zeynel Bey Türbesi",
+    "Raman Dağı"
+   ],
+   "history": "Türkiye'de ilk ticari petrol 1940'ta Raman Dağı'nda bulundu ve kent petrolle büyüdü. Binlerce yıllık Hasankeyf'in bir bölümü Ilısu Barajı sularının altında kaldı; bazı tarihi yapılar yeni alana taşındı. 1990'da Siirt'ten ayrılarak il oldu.",
+   "emoji": "🛢️"
+  },
+  "TR-73": {
+   "symbol_label": "Cudi Dağı",
+   "color": "#3F7F6E",
+   "color_reason": "Cizre'den geçen Dicle'nin yeşili.",
+   "elevation_m": 1400,
+   "area_code": "486",
+   "district_count": 7,
+   "foods": [],
+   "products": [
+    "asfaltit"
+   ],
+   "festivals": [],
+   "sights": [
+    "Cudi Dağı",
+    "Nuh Türbesi (Cizre)",
+    "Mem ü Zin Türbesi (Cizre)",
+    "Kızıl Medrese (Cizre)"
+   ],
+   "history": "Cudi Dağı, bazı geleneklerde Nuh'un gemisinin konduğu yer olarak anılır. Cizre, Mem ü Zin destanının geçtiği kent olarak bilinir. 1990'da Siirt'ten ayrılarak il oldu.",
+   "emoji": "⛰️"
+  },
+  "TR-74": {
+   "symbol_label": "Amasra salatası",
+   "color": "#1F7F8C",
+   "color_reason": "Amasra koylarının turkuazı.",
+   "elevation_m": 25,
+   "area_code": "378",
+   "district_count": 4,
+   "foods": [
+    "Amasra salatası",
+    "Amasra balığı"
+   ],
+   "products": [],
+   "festivals": [],
+   "sights": [
+    "Amasra ve Amasra Kalesi",
+    "İnkumu",
+    "Güzelcehisar lav sütunları",
+    "Tarihi Bartın evleri"
+   ],
+   "history": "Antik Amastris (Amasra), Pontus ve Bizans dönemlerinde önemli bir limandı; 15. yüzyılda Osmanlı topraklarına katıldı. 1991'de Zonguldak'tan ayrılarak il oldu.",
+   "emoji": "🥗"
+  },
+  "TR-75": {
+   "symbol_label": "Çıldır Gölü atlı kızakları",
+   "color": "#5A8CB5",
+   "color_reason": "Kışın donan Çıldır Gölü'nün buz mavisi.",
+   "elevation_m": 1810,
+   "area_code": "478",
+   "district_count": 6,
+   "foods": [
+    "Ardahan kazı"
+   ],
+   "products": [
+    "kaz",
+    "kaşar peyniri"
+   ],
+   "festivals": [
+    "Çıldır Gölü atlı kızak etkinlikleri"
+   ],
+   "sights": [
+    "Çıldır Gölü",
+    "Şeytan Kalesi",
+    "Ardahan Kalesi"
+   ],
+   "history": "Ardahan 1878-1918 arasında Rus yönetiminde kaldı ve 1921'de Türkiye'ye katıldı. Kışın donan Çıldır Gölü üzerinde atlı kızak gezileri ve buz altından balık avı yapılır. 1992'de Kars'tan ayrılarak il oldu.",
+   "emoji": "🛷"
+  },
+  "TR-76": {
+   "symbol_label": "Iğdır kavunu",
+   "color": "#8C9A2A",
+   "color_reason": "Kavunun sarı-yeşil kabuğu.",
+   "elevation_m": 850,
+   "area_code": "476",
+   "district_count": 4,
+   "foods": [
+    "bozbaş"
+   ],
+   "products": [
+    "Iğdır kayısısı",
+    "Iğdır kavunu"
+   ],
+   "festivals": [],
+   "sights": [
+    "Ağrı Dağı'nın kuzey yamaçları",
+    "Iğdır Soykırım Anıtı ve Müzesi",
+    "Aras Nehri ovası"
+   ],
+   "history": "Aras ovasında yer alan il, Ermenistan, Azerbaycan (Nahçıvan) ve İran'a sınırı olan tek Türk ilidir. 1878-1918 arasında Rus yönetiminde kaldı. 1992'de Kars'tan ayrılarak il oldu.",
+   "emoji": "🍈"
+  },
+  "TR-77": {
+   "symbol_label": "Termal kaplıcaları",
+   "color": "#5B8A9A",
+   "color_reason": "Kaplıca buharının mavi-grisi.",
+   "elevation_m": null,
+   "area_code": "226",
+   "district_count": 6,
+   "foods": [
+    "Yalova sütlüsü"
+   ],
+   "products": [
+    "kesme çiçek"
+   ],
+   "festivals": [],
+   "sights": [
+    "Termal kaplıcaları",
+    "Atatürk Köşkü (Yürüyen Köşk)",
+    "Sudüşen Şelalesi",
+    "Karaca Arboretumu"
+   ],
+   "history": "Termal kaplıcaları Roma ve Bizans dönemlerinden beri kullanılır. Atatürk Yalova'yı sık ziyaret etti; Yürüyen Köşk bir ağacı kurtarmak için kaydırılan yapısıyla bilinir. 1995'te İstanbul'dan ayrılarak il oldu.",
+   "emoji": "♨️"
+  },
+  "TR-78": {
+   "symbol_label": "Safranbolu evleri",
+   "color": "#C77D0A",
+   "color_reason": "Safranbolu'ya adını veren safranın sarı-turuncusu.",
+   "elevation_m": null,
+   "area_code": "370",
+   "district_count": 6,
+   "foods": [
+    "Safranbolu lokumu",
+    "peruhi"
+   ],
+   "products": [
+    "safran",
+    "demir-çelik"
+   ],
+   "festivals": [],
+   "sights": [
+    "Safranbolu çarşısı ve evleri",
+    "Cinci Hanı",
+    "Hıdırlık Tepesi",
+    "Yörük Köyü",
+    "Bulak (Mencilis) Mağarası",
+    "İncekaya Su Kemeri"
+   ],
+   "history": "Safranbolu, Osmanlı kent dokusunu koruyan evleriyle 1994'te UNESCO Dünya Mirası listesine alındı. Karabük, 1937'de kurulan demir-çelik fabrikasıyla gelişen bir sanayi kentidir; 1995'te Zonguldak'tan ayrılarak il oldu.",
+   "emoji": "🏡"
+  },
+  "TR-79": {
+   "symbol_label": "Kilis zeytinyağı",
+   "color": "#7A7A1E",
+   "color_reason": "Zeytinyağının altın yeşili.",
+   "elevation_m": 664,
+   "area_code": "348",
+   "district_count": 4,
+   "foods": [
+    "Kilis tava",
+    "cennet çamuru"
+   ],
+   "products": [
+    "zeytinyağı"
+   ],
+   "festivals": [],
+   "sights": [
+    "Ravanda Kalesi",
+    "Oylum Höyük",
+    "Kilis Mevlevihanesi"
+   ],
+   "history": "Suriye sınırındaki Kilis, Halep ile Anadolu arasındaki ticaret yolu üzerinde gelişti. Oylum Höyük bölgenin en büyük höyüklerindendir. 1995'te Gaziantep'ten ayrılarak il oldu.",
+   "emoji": "🌿"
+  },
+  "TR-80": {
+   "symbol_label": "Yer fıstığı",
+   "color": "#9A6B3A",
+   "color_reason": "Yer fıstığı kabuğunun rengi.",
+   "elevation_m": 121,
+   "area_code": "328",
+   "district_count": 7,
+   "foods": [],
+   "products": [
+    "yer fıstığı"
+   ],
+   "festivals": [],
+   "sights": [
+    "Karatepe-Aslantaş Açık Hava Müzesi",
+    "Hierapolis-Kastabala",
+    "Toprakkale",
+    "Zorkun Yaylası"
+   ],
+   "history": "Karatepe-Aslantaş'ta bulunan Fenike ve Luvi dillerindeki çift dilli yazıtlar, Anadolu hiyerogliflerinin çözülmesine yardımcı oldu. Türkiye'nin yer fıstığı üretiminin önemli bölümü Osmaniye'dedir. 1996'da Adana'dan ayrılarak il oldu.",
+   "emoji": "🥜"
+  },
+  "TR-81": {
+   "symbol_label": "Güzeldere Şelalesi",
+   "color": "#2F8A86",
+   "color_reason": "Melen Çayı'nın yeşil-mavisi.",
+   "elevation_m": 160,
+   "area_code": "380",
+   "district_count": 8,
+   "foods": [],
+   "products": [
+    "fındık"
+   ],
+   "festivals": [],
+   "sights": [
+    "Güzeldere Şelalesi",
+    "Efteni Gölü",
+    "Konuralp Antik Tiyatrosu",
+    "Akçakoca Ceneviz Kalesi",
+    "Samandere Şelalesi",
+    "Kardüz Yaylası"
+   ],
+   "history": "Konuralp'te Bithynia döneminden kalma Prusias ad Hypium antik kentinin tiyatrosu bulunur. 1999 Düzce Depremi'nde büyük yıkım yaşadı; aynı yıl Bolu'dan ayrılarak il oldu.",
+   "emoji": "💧"
+  }
+ }
+}

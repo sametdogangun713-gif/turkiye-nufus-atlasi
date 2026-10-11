@@ -74,8 +74,10 @@ turkstat_pipeline.py             Veri hattı ve CLI
 data/sources.json                Kaynak tanımları
 data/fallback_turkey_data.json   Donmuş resmi veri (Vercel bu dosyadan çalışır)
 data/official_reference.json     Resmi yüzölçümü + son ADNKS nüfusu
+data/province_profiles.json      İl profilleri: simge, kültürel renk, rakım, alan kodu, ilçe, mutfak, gezilecek yerler, tarihçe
 templates/index.html             Sayfa şablonu (il sayfaları dahil)
-templates/_turkey_map.svg        81 il SVG haritası
+templates/_turkey_map.svg        81 il + komşu ülkeler SVG haritası (üretilir)
+templates/_province_icons.svg    Emojisi olmayan 8 il için elle çizilmiş SVG simgeler
 static/css, static/js            Arayüz (map_app.js) ve service worker (sw.js)
 static/fonts, static/icons       Yerel yazı tipleri, ikonlar, paylaşım görseli
 tools/                           Harita, referans veri, yazı tipi ve görsel üreticileri
@@ -85,22 +87,29 @@ tests/                           pytest
 Yardımcı araçlar:
 
 ```bash
-uv run python tools/build_map.py path/to/tr-cities.json   # SVG haritayı yeniden üret
+uv run python tools/build_map.py tr-cities.json countries-50m.json   # SVG haritayı yeniden üret
 uv run python tools/fetch_fonts.py                        # yazı tiplerini indir
 uv run --with pillow python tools/make_images.py          # PWA ikonları ve og.png
 ```
 
 ## Arayüz notları
 
-- Tema: *İznik*. Sırlı çini beyazı zemin, kobalt mürekkep, İznik kırmızısı seçim rengi; gece teması da var.
+- Tema: varsayılan açık tema beyaz zemin ve beyaz iller; karanlık tema siyah ve gri tonları. İlk açılışta cihaz ayarı (`prefers-color-scheme`), seçim yapılınca `localStorage` kullanılır. Geçiş yumuşak renk geçişiyle yapılır.
+- Harita varsayılan olarak nötrdür; "Verileri renklendir" düğmesi seçili göstergenin renk rampasını açar.
+- Her ilin bir kültürel rengi ve simgesi vardır (`data/province_profiles.json`). Renk, il panelinde vurgu rengidir; okunur tonu temaya göre OKLCH'de otomatik üretilir (metin 4,5:1, grafik 3:1).
+- İl, ülke ve deniz adları ayrı bir HTML katmanındadır; yakınlaştırmada sabit boyutta kalır. Büyük iller önce yerleşir, çakışan etiket gizlenir, küçük iller yakınlaşınca görünür.
+- Yakınlaştırma: tekerlek, sürükleme ve pinch; 1x ile 3x arası, il seçiminde en çok 2,2x. Harita ekrandan kaçmaz.
+- İl paneli: Genel, Kültür ve lezzet, Gezilecek yerler, Demografi sekmeleri. Mobilde alttan açılan sayfa (tutamaktan aşağı çekince kapanır).
 - Renk rampaları OKLCH'de üretildi ve dataviz doğrulayıcısından geçti. Doğal artış ve göçte sıfır çevresi nötr gri.
-- Animasyonlar yalnızca `transform`/`opacity` ile yapılır. Yakınlaştırma HTML katmanında; metrik geçişi kalıcı bir kopya katmanının opaklığıyla; sıralama listesi `translateY` ile yeniden dizilir. Sıcak yollarda CSS özel özelliği yerine doğrudan `transform` yazılır.
+- Animasyonlar çoğunlukla `transform`/`opacity` ile yapılır. Yakınlaştırma HTML katmanında tek rAF döngüsüyle; iller açılışta batıdan doğuya sırayla belirir; üzerine gelinen il büyür ve simgesi zıplar; il paneli renk dalgası, sırayla gelen satırlar ve artarak sayan değerlerle açılır; sıralama listesi `translateY` ile yeniden dizilir. "Hareketi azalt" açıkken animasyonlar kapanır. Sıcak yollarda CSS özel özelliği yerine doğrudan `transform` yazılır.
 - Erişilebilirlik: klavyeyle il gezinme, tablo görünümü, "tablo görünümüne geç" bağlantısı, `prefers-reduced-motion` desteği.
 - Gizlilik: yazı tipleri kendi sunucumuzdan gelir; çerez ve üçüncü taraf istek yoktur.
 
 ## Lisanslar ve atıf
 
 - Harita sınırları: [alpers/Turkey-Maps-GeoJSON](https://github.com/alpers/Turkey-Maps-GeoJSON), Apache License 2.0.
+- Komşu ülkeler: [Natural Earth](https://www.naturalearthdata.com/) (kamu malı), [world-atlas](https://github.com/topojson/world-atlas) 2.0.2 üzerinden.
+- İl profilleri: elle derlendi; il merkezi rakımı Vikipedi'den, en az iki kaynağın uzlaştığı ya da çelişkisiz tek kaynaktaki değer alınır, kaynaklar çelişirse boş bırakılır. Emin olunmayan alanlar panelde "veri yok" olarak görünür.
 - Eurostat verisi: CC BY 4.0, kaynak Eurostat; Türkiye verisini TÜİK sağlar.
 - Yüzölçümü ve son ADNKS nüfusu: Vikipedi "Türkiye'nin illeri" tablosu üzerinden (HGM, TÜİK).
 - Yazı tipleri: Bricolage Grotesque ve Instrument Sans, SIL Open Font License 1.1 (`static/fonts/OFL-*.txt`).

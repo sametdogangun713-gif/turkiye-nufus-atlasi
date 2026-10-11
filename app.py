@@ -252,6 +252,24 @@ async def cache_headers(request: Request, call_next):
     return resp
 
 
+PROFILES_JSON = ROOT / "data" / "province_profiles.json"
+_profiles_cache: dict[int, str] = {}
+
+
+def profiles_json() -> str:
+    """İl profilleri (simge, kültürel renk, rakım, alan kodu, gezilecek yerler...).
+    Tek dosyadan okunur, sayfaya gömülür; dosya değişince yeniden okunur."""
+    try:
+        key = PROFILES_JSON.stat().st_mtime_ns
+    except OSError:
+        return "{}"
+    if key not in _profiles_cache:
+        data = json.loads(PROFILES_JSON.read_text(encoding="utf-8"))
+        _profiles_cache.clear()
+        _profiles_cache[key] = json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+    return _profiles_cache[key]
+
+
 def site_url(request: Request) -> str:
     return (os.getenv("SITE_URL") or str(request.base_url)).rstrip("/")
 
@@ -300,6 +318,7 @@ def _page_context(request: Request, snap: Snapshot, p: dict[str, Any] | None) ->
         "provinces": snap.provinces,
         "years": {k: _year(snap, k) for k in st.NUMERIC_FIELDS},
         "initial_json": snap.payload_json,
+        "profiles_json": profiles_json(),
         "tr_int": tr_int,
         "tr_dec": tr_dec,
         "jsonld": json.dumps(_jsonld(base, snap, p), ensure_ascii=False).replace("</", "<\\/"),
