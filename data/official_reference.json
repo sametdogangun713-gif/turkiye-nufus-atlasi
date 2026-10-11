@@ -1,0 +1,412 @@
+{
+ "source": "tr.wikipedia.org/wiki/Türkiye'nin_illeri (yüzölçümü: HGM, nüfus: TÜİK ADNKS)",
+ "fetched": "2026-10-10",
+ "population_year": 2025,
+ "provinces": {
+  "TR-01": {
+   "area_km2": 13844,
+   "population": 2283609,
+   "year": 2025
+  },
+  "TR-02": {
+   "area_km2": 7337,
+   "population": 617821,
+   "year": 2025
+  },
+  "TR-03": {
+   "area_km2": 14016,
+   "population": 751808,
+   "year": 2025
+  },
+  "TR-04": {
+   "area_km2": 11099,
+   "population": 491489,
+   "year": 2025
+  },
+  "TR-05": {
+   "area_km2": 5628,
+   "population": 342242,
+   "year": 2025
+  },
+  "TR-06": {
+   "area_km2": 25632,
+   "population": 5910320,
+   "year": 2025
+  },
+  "TR-07": {
+   "area_km2": 20177,
+   "population": 2777677,
+   "year": 2025
+  },
+  "TR-08": {
+   "area_km2": 7393,
+   "population": 167531,
+   "year": 2025
+  },
+  "TR-09": {
+   "area_km2": 8116,
+   "population": 1172107,
+   "year": 2025
+  },
+  "TR-10": {
+   "area_km2": 14583,
+   "population": 1284517,
+   "year": 2025
+  },
+  "TR-11": {
+   "area_km2": 4179,
+   "population": 228995,
+   "year": 2025
+  },
+  "TR-12": {
+   "area_km2": 8003,
+   "population": 282299,
+   "year": 2025
+  },
+  "TR-13": {
+   "area_km2": 8294,
+   "population": 360423,
+   "year": 2025
+  },
+  "TR-14": {
+   "area_km2": 8313,
+   "population": 327173,
+   "year": 2025
+  },
+  "TR-15": {
+   "area_km2": 7175,
+   "population": 277226,
+   "year": 2025
+  },
+  "TR-16": {
+   "area_km2": 10813,
+   "population": 3263011,
+   "year": 2025
+  },
+  "TR-17": {
+   "area_km2": 9817,
+   "population": 573976,
+   "year": 2025
+  },
+  "TR-18": {
+   "area_km2": 7542,
+   "population": 200549,
+   "year": 2025
+  },
+  "TR-19": {
+   "area_km2": 12428,
+   "population": 519590,
+   "year": 2025
+  },
+  "TR-20": {
+   "area_km2": 12134,
+   "population": 1060975,
+   "year": 2025
+  },
+  "TR-21": {
+   "area_km2": 15101,
+   "population": 1852356,
+   "year": 2025
+  },
+  "TR-22": {
+   "area_km2": 6145,
+   "population": 422438,
+   "year": 2025
+  },
+  "TR-23": {
+   "area_km2": 9383,
+   "population": 605678,
+   "year": 2025
+  },
+  "TR-24": {
+   "area_km2": 11815,
+   "population": 239625,
+   "year": 2025
+  },
+  "TR-25": {
+   "area_km2": 25006,
+   "population": 736877,
+   "year": 2025
+  },
+  "TR-26": {
+   "area_km2": 13960,
+   "population": 927956,
+   "year": 2025
+  },
+  "TR-27": {
+   "area_km2": 6803,
+   "population": 2222415,
+   "year": 2025
+  },
+  "TR-28": {
+   "area_km2": 6972,
+   "population": 455074,
+   "year": 2025
+  },
+  "TR-29": {
+   "area_km2": 6668,
+   "population": 138807,
+   "year": 2025
+  },
+  "TR-30": {
+   "area_km2": 7095,
+   "population": 279681,
+   "year": 2025
+  },
+  "TR-31": {
+   "area_km2": 5524,
+   "population": 1577531,
+   "year": 2025
+  },
+  "TR-32": {
+   "area_km2": 8946,
+   "population": 445303,
+   "year": 2025
+  },
+  "TR-33": {
+   "area_km2": 16010,
+   "population": 1956428,
+   "year": 2025
+  },
+  "TR-34": {
+   "area_km2": 5461,
+   "population": 15754053,
+   "year": 2025
+  },
+  "TR-35": {
+   "area_km2": 11891,
+   "population": 4504185,
+   "year": 2025
+  },
+  "TR-36": {
+   "area_km2": 10193,
+   "population": 268991,
+   "year": 2025
+  },
+  "TR-37": {
+   "area_km2": 13064,
+   "population": 379934,
+   "year": 2025
+  },
+  "TR-38": {
+   "area_km2": 16970,
+   "population": 1458991,
+   "year": 2025
+  },
+  "TR-39": {
+   "area_km2": 6459,
+   "population": 379595,
+   "year": 2025
+  },
+  "TR-40": {
+   "area_km2": 6584,
+   "population": 242777,
+   "year": 2025
+  },
+  "TR-41": {
+   "area_km2": 3397,
+   "population": 2161171,
+   "year": 2025
+  },
+  "TR-42": {
+   "area_km2": 40838,
+   "population": 2343409,
+   "year": 2025
+  },
+  "TR-43": {
+   "area_km2": 11634,
+   "population": 570478,
+   "year": 2025
+  },
+  "TR-44": {
+   "area_km2": 12259,
+   "population": 755854,
+   "year": 2025
+  },
+  "TR-45": {
+   "area_km2": 13339,
+   "population": 1477756,
+   "year": 2025
+  },
+  "TR-46": {
+   "area_km2": 14520,
+   "population": 1146278,
+   "year": 2025
+  },
+  "TR-47": {
+   "area_km2": 8780,
+   "population": 903576,
+   "year": 2025
+  },
+  "TR-48": {
+   "area_km2": 12654,
+   "population": 1099547,
+   "year": 2025
+  },
+  "TR-49": {
+   "area_km2": 8718,
+   "population": 389127,
+   "year": 2025
+  },
+  "TR-50": {
+   "area_km2": 5485,
+   "population": 320150,
+   "year": 2025
+  },
+  "TR-51": {
+   "area_km2": 7234,
+   "population": 374492,
+   "year": 2025
+  },
+  "TR-52": {
+   "area_km2": 5914,
+   "population": 768087,
+   "year": 2025
+  },
+  "TR-53": {
+   "area_km2": 3835,
+   "population": 346947,
+   "year": 2025
+  },
+  "TR-54": {
+   "area_km2": 4824,
+   "population": 1123693,
+   "year": 2025
+  },
+  "TR-55": {
+   "area_km2": 9725,
+   "population": 1392403,
+   "year": 2025
+  },
+  "TR-56": {
+   "area_km2": 5717,
+   "population": 332369,
+   "year": 2025
+  },
+  "TR-57": {
+   "area_km2": 5717,
+   "population": 225848,
+   "year": 2025
+  },
+  "TR-58": {
+   "area_km2": 28164,
+   "population": 631401,
+   "year": 2025
+  },
+  "TR-59": {
+   "area_km2": 6190,
+   "population": 1208441,
+   "year": 2025
+  },
+  "TR-60": {
+   "area_km2": 10042,
+   "population": 614141,
+   "year": 2025
+  },
+  "TR-61": {
+   "area_km2": 4628,
+   "population": 823323,
+   "year": 2025
+  },
+  "TR-62": {
+   "area_km2": 7582,
+   "population": 85083,
+   "year": 2025
+  },
+  "TR-63": {
+   "area_km2": 19242,
+   "population": 2265800,
+   "year": 2025
+  },
+  "TR-64": {
+   "area_km2": 5555,
+   "population": 374405,
+   "year": 2025
+  },
+  "TR-65": {
+   "area_km2": 20921,
+   "population": 1112013,
+   "year": 2025
+  },
+  "TR-66": {
+   "area_km2": 13690,
+   "population": 413208,
+   "year": 2025
+  },
+  "TR-67": {
+   "area_km2": 3342,
+   "population": 585203,
+   "year": 2025
+  },
+  "TR-68": {
+   "area_km2": 7659,
+   "population": 441136,
+   "year": 2025
+  },
+  "TR-69": {
+   "area_km2": 3746,
+   "population": 82836,
+   "year": 2025
+  },
+  "TR-70": {
+   "area_km2": 8678,
+   "population": 262355,
+   "year": 2025
+  },
+  "TR-71": {
+   "area_km2": 4791,
+   "population": 282830,
+   "year": 2025
+  },
+  "TR-72": {
+   "area_km2": 4477,
+   "population": 662626,
+   "year": 2025
+  },
+  "TR-73": {
+   "area_km2": 7078,
+   "population": 573666,
+   "year": 2025
+  },
+  "TR-74": {
+   "area_km2": 2330,
+   "population": 206663,
+   "year": 2025
+  },
+  "TR-75": {
+   "area_km2": 4934,
+   "population": 90392,
+   "year": 2025
+  },
+  "TR-76": {
+   "area_km2": 3664,
+   "population": 205071,
+   "year": 2025
+  },
+  "TR-77": {
+   "area_km2": 798,
+   "population": 311635,
+   "year": 2025
+  },
+  "TR-78": {
+   "area_km2": 4142,
+   "population": 249614,
+   "year": 2025
+  },
+  "TR-79": {
+   "area_km2": 1412,
+   "population": 157363,
+   "year": 2025
+  },
+  "TR-80": {
+   "area_km2": 3320,
+   "population": 564123,
+   "year": 2025
+  },
+  "TR-81": {
+   "area_km2": 2492,
+   "population": 415622,
+   "year": 2025
+  }
+ }
+}

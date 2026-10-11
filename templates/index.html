@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="tr" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>{{ title }}</title>
+  <meta name="description" content="{{ description }}">
+  <link rel="canonical" href="{{ canonical }}">
+  <meta name="theme-color" content="#F3F5F4">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="tr_TR">
+  <meta property="og:site_name" content="Türkiye Nüfus Atlası">
+  <meta property="og:title" content="{{ title }}">
+  <meta property="og:description" content="{{ description }}">
+  <meta property="og:url" content="{{ canonical }}">
+  <meta property="og:image" content="{{ og_image }}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="/static/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="/static/icons/apple-touch-icon.png">
+  <link rel="preload" href="/static/fonts/BricolageGrotesque-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/static/fonts/InstrumentSans-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/static/fonts/fonts.css?v={{ v }}">
+  <link rel="stylesheet" href="/static/css/styles.css?v={{ v }}">
+  <script>
+    // Tema ilk boyamadan önce uygulanır (yanıp sönme olmaz)
+    try { const t = localStorage.getItem("tna-theme"); if (t) document.documentElement.dataset.theme = t; } catch {}
+  </script>
+  <script type="application/ld+json">{{ jsonld | safe }}</script>
+</head>
+<body data-page="{{ 'province' if province else 'home' }}" {% if province %}data-province="{{ province.plate_code }}"{% endif %}>
+  <a class="skip" href="#table-view">Tablo görünümüne geç</a>
+  <header class="masthead">
+    <a class="wordmark" href="/" aria-label="Türkiye Nüfus Atlası, ana sayfa">
+      <svg class="star" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3l3.6 9.4L29 16l-9.4 3.6L16 29l-3.6-9.4L3 16l9.4-3.6z"/></svg>
+      <span>Türkiye Nüfus Atlası</span>
+    </a>
+
+    <nav class="metrics" role="tablist" aria-label="Gösterge">
+      <button role="tab" data-metric="population" aria-selected="true">Nüfus</button>
+      <button role="tab" data-metric="population_density" aria-selected="false">Yoğunluk</button>
+      <button role="tab" data-metric="birth_rate" aria-selected="false">Doğum</button>
+      <button role="tab" data-metric="death_rate" aria-selected="false">Ölüm</button>
+      <button role="tab" data-metric="natural_growth_rate" aria-selected="false">Doğal artış</button>
+      <button role="tab" data-metric="net_migration_rate" aria-selected="false">Göç</button>
+      <button role="tab" data-metric="median_age" aria-selected="false">Yaş</button>
+      <span class="metrics-ink" aria-hidden="true"></span>
+    </nav>
+
+    <div class="tools">
+      <div class="search" role="combobox" aria-expanded="false" aria-haspopup="listbox" aria-owns="search-list">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg>
+        <input id="search-input" type="search" placeholder="İl ara" autocomplete="off" spellcheck="false" aria-label="İl ara" aria-autocomplete="list" aria-controls="search-list">
+        <kbd aria-hidden="true">/</kbd>
+        <ul id="search-list" class="search-list" role="listbox" hidden></ul>
+      </div>
+      <span id="status" class="status" data-mode="loading" role="status"><i></i><span>Yükleniyor</span></span>
+      <button id="theme-toggle" class="icon-btn" aria-label="Gece temasına geç">
+        <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="atlas">
+    <section class="map-area" aria-label="Harita">
+      <div class="lede-row">
+        <div class="lede" id="lede">
+          <h1 id="headline">{{ lede_h }}</h1>
+          <p id="subline">{{ lede_p }}</p>
+        </div>
+        <div class="view-switch" role="tablist" aria-label="Görünüm">
+          <button role="tab" id="tab-map" aria-selected="true" aria-controls="map-clip">Harita</button>
+          <button role="tab" id="tab-table" aria-selected="false" aria-controls="table-view">Tablo</button>
+        </div>
+      </div>
+
+      <div class="map-clip" id="map-clip">
+        <div class="map-stage" id="map-stage">
+          {% include "_turkey_map.svg" %}
+        </div>
+      </div>
+
+      <!-- Tablo görünümü: sunucuda üretilir (arama motorları ve ekran okuyucular için) -->
+      <div class="table-view" id="table-view" tabindex="-1" hidden>
+        <table class="data-table" id="data-table">
+          <caption>81 il, demografi göstergeleri. Sıralamak için sütun başlığına basın.</caption>
+          <thead>
+            <tr>
+              <th scope="col" data-k="plate_code" aria-sort="ascending"><button>Plaka</button></th>
+              <th scope="col" data-k="province_name"><button>İl</button></th>
+              <th scope="col" data-k="region"><button>Bölge</button></th>
+              <th scope="col" data-k="population" class="num"><button>Nüfus <small>{{ years.population }}</small></button></th>
+              <th scope="col" data-k="population_density" class="num"><button>Yoğunluk <small>kişi/km²</small></button></th>
+              <th scope="col" data-k="birth_rate" class="num"><button>Doğum <small>‰ {{ years.birth_rate }}</small></button></th>
+              <th scope="col" data-k="death_rate" class="num"><button>Ölüm <small>‰ {{ years.death_rate }}</small></button></th>
+              <th scope="col" data-k="natural_growth_rate" class="num"><button>Doğal artış <small>‰</small></button></th>
+              <th scope="col" data-k="net_migration_rate" class="num"><button>Net göç <small>‰ {{ years.net_migration_rate }}</small></button></th>
+              <th scope="col" data-k="median_age" class="num"><button>Ortanca yaş <small>{{ years.median_age }}</small></button></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for p in provinces %}
+            <tr data-code="{{ p.plate_code }}"{% if province and province.plate_code == p.plate_code %} class="sel"{% endif %}>
+              <td>{{ p.plate_code[3:] }}</td>
+              <th scope="row"><a href="/il/{{ p.slug }}">{{ p.province_name }}</a></th>
+              <td>{{ p.region }}</td>
+              <td class="num">{{ tr_int(p.population) }}</td>
+              <td class="num">{{ tr_int(p.population_density) }}</td>
+              <td class="num">{{ tr_dec(p.birth_rate) }}</td>
+              <td class="num">{{ tr_dec(p.death_rate) }}</td>
+              <td class="num">{{ tr_dec(p.natural_growth_rate) }}</td>
+              <td class="num">{{ tr_dec(p.net_migration_rate) }}</td>
+              <td class="num">{{ tr_dec(p.median_age) }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="legend" id="legend">
+        <p class="legend-title"><span id="legend-title">Nüfus</span> <span id="legend-unit" class="unit">kişi</span></p>
+        <ol id="legend-scale" class="legend-scale"></ol>
+      </div>
+
+      <button id="zoom-reset" class="icon-btn zoom-reset" aria-label="Tüm Türkiye'yi göster" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4H4v5M15 4h5v5M9 20H4v-5M15 20h5v-5"/></svg>
+        <span>Tüm Türkiye</span>
+      </button>
+    </section>
+
+    <aside class="panel" id="panel" aria-label="İl ayrıntıları">
+      <div class="views">
+        <section class="view view-rank" id="view-rank" aria-labelledby="rank-title">
+          <header class="rank-head">
+            <h2 id="rank-title">Nüfusa göre iller</h2>
+            <button id="rank-order" class="text-btn" aria-label="Sıralama yönünü değiştir">En yüksek önce</button>
+          </header>
+          <div class="rank-scroll" id="rank-scroll">
+            <ol class="rank-list" id="rank-list"></ol>
+          </div>
+        </section>
+
+        <section class="view view-detail" id="view-detail" aria-labelledby="dt-name" aria-hidden="true">
+          <header class="dt-head">
+            <button id="dt-back" class="text-btn back" aria-label="Sıralamaya dön">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Sıralama
+            </button>
+            <p class="dt-meta"><span id="dt-plate" class="plate">01</span><span id="dt-region">Akdeniz Bölgesi</span></p>
+            <h2 id="dt-name">Adana</h2>
+            <p id="dt-summary" class="dt-summary"></p>
+          </header>
+          <div class="dt-rows" id="dt-rows"></div>
+          <p class="dt-key">
+            <span><i class="k-dot"></i>bu il</span>
+            <span><i class="k-peer"></i>aynı bölgedeki iller</span>
+            <span><i class="k-nat"></i>Türkiye</span>
+            <span><i class="k-trend"></i>yıllara göre</span>
+          </p>
+        </section>
+      </div>
+      <footer class="sources">
+        <details>
+          <summary>Kaynak: TÜİK ve Eurostat. Yüzölçümü: HGM.</summary>
+          <p id="sources"></p>
+          <p class="credits">Harita sınırları: alpers/Turkey-Maps-GeoJSON (Apache-2.0). Eurostat verisi CC BY 4.0. <a href="/api/docs">API belgeleri</a></p>
+        </details>
+      </footer>
+    </aside>
+  </main>
+
+  <div id="tooltip" class="tooltip" role="tooltip" aria-hidden="true">
+    <div class="tt">
+      <p class="tt-top"><span id="tt-plate" class="plate">01</span><span id="tt-region">Akdeniz</span></p>
+      <p class="tt-name" id="tt-name">Adana</p>
+      <p class="tt-value"><b id="tt-value">—</b> <span id="tt-unit"></span></p>
+      <p class="tt-rank" id="tt-rank"></p>
+      <div class="tt-vital" aria-label="Doğum ve ölüm hızı">
+        <div class="tt-bar"><i id="tt-birth-bar"></i><i id="tt-death-bar"></i></div>
+        <p><span>Doğum <b id="tt-birth">—</b></span><span>Ölüm <b id="tt-death">—</b></span></p>
+      </div>
+    </div>
+  </div>
+
+  <script type="application/json" id="initial-data">{{ initial_json | safe }}</script>
+  <script src="/static/js/map_app.js?v={{ v }}" type="module"></script>
+</body>
+</html>

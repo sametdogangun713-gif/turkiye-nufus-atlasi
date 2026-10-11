@@ -1,0 +1,62 @@
+{
+  "_doc": [
+    "Senkronizasyon kaynakları. 'enabled': false olanlar atlanır.",
+    "format: auto | xlsx | xls | csv | html | json | jsonstat",
+    "jsonstat: Eurostat API. URL'deki filtreler geo ve time dışındaki her boyutu tek değere indirmeli.",
+    "  Türkiye illeri NUTS-3 düzeyindedir (TR100 = İstanbul). Veriyi Eurostat'a TÜİK iletir.",
+    "  En güncel ve en az 70 ili dolu olan yıl otomatik seçilir.",
+    "Tablo biçimleri (xls/csv/html): column 'last' = il satırındaki son sayısal hücre, sayı = sütun indeksi, metin = başlık adı.",
+    "Desteklenen metrikler: population, birth_rate, death_rate, net_migration_rate, median_age"
+  ],
+  "sources": [
+    {
+      "metric": "birth_rate",
+      "description": "Kaba doğum hızı (binde), NUTS-3",
+      "source_name": "Eurostat demo_r_gind3 (TÜİK verisi)",
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/demo_r_gind3?format=JSON&lang=EN&geoLevel=nuts3&sinceTimePeriod=2020&indic_de=GBIRTHRT",
+      "format": "jsonstat",
+      "enabled": true
+    },
+    {
+      "metric": "death_rate",
+      "description": "Kaba ölüm hızı (binde), NUTS-3",
+      "source_name": "Eurostat demo_r_gind3 (TÜİK verisi)",
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/demo_r_gind3?format=JSON&lang=EN&geoLevel=nuts3&sinceTimePeriod=2020&indic_de=GDEATHRT",
+      "format": "jsonstat",
+      "enabled": true
+    },
+    {
+      "metric": "net_migration_rate",
+      "description": "Kaba net göç hızı, istatistiksel düzeltme dahil (binde), NUTS-3. İç ve dış göçü birlikte kapsar.",
+      "source_name": "Eurostat demo_r_gind3 (TÜİK verisi)",
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/demo_r_gind3?format=JSON&lang=EN&geoLevel=nuts3&sinceTimePeriod=2020&indic_de=CNMIGRATRT",
+      "format": "jsonstat",
+      "enabled": true
+    },
+    {
+      "metric": "median_age",
+      "description": "Ortanca yaş, NUTS-3",
+      "source_name": "Eurostat demo_r_pjanind3 (TÜİK verisi)",
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/demo_r_pjanind3?format=JSON&lang=EN&geoLevel=nuts3&sinceTimePeriod=2020&indic_de=MEDAGEPOP&unit=YR",
+      "format": "jsonstat",
+      "enabled": true
+    },
+    {
+      "metric": "population",
+      "description": "1 Ocak nüfusu, NUTS-3. 1 Ocak Y = ADNKS Y-1 yıl sonu; year_offset bunu düzeltir. Geçmiş seri için.",
+      "source_name": "Eurostat demo_r_pjanaggr3 (TÜİK ADNKS)",
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/demo_r_pjanaggr3?format=JSON&lang=EN&geoLevel=nuts3&sinceTimePeriod=2021&sex=T&age=TOTAL&unit=NR",
+      "format": "jsonstat",
+      "year_offset": -1,
+      "enabled": true
+    },
+    {
+      "metric": "population",
+      "description": "En güncel ADNKS yılı. tools/fetch_reference.py ile yenilenir.",
+      "source_name": "TÜİK ADNKS",
+      "url": "data/official_reference.json",
+      "format": "reference",
+      "enabled": true
+    }
+  ]
+}

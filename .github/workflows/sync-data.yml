@@ -1,0 +1,49 @@
+name: Veriyi resmi kaynaklarla eşitle
+
+# Her ayın 3'ünde ve elle tetiklenince: kaynakları çek, yedek veriyi güncelle, değiştiyse commit at.
+# Vercel, main dalına gelen her commit'i otomatik yayınlar.
+on:
+  schedule:
+    - cron: "0 4 3 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-data
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --all-extras --frozen
+
+      - name: Resmi yüzölçümü ve son ADNKS nüfusu
+        run: uv run python tools/fetch_reference.py
+        continue-on-error: true  # Vikipedi tablo yapısı değişirse önceki dosya kullanılır
+
+      - name: Eşitle ve dondur
+        run: |
+          uv run python turkstat_pipeline.py --reset
+          uv run python turkstat_pipeline.py --sync
+          uv run python turkstat_pipeline.py --status
+          uv run python turkstat_pipeline.py --freeze
+
+      - name: Testler
+        run: uv run pytest -q
+
+      - name: Değişiklik varsa commit at
+        run: |
+          if git diff --quiet -- data/; then
+            echo "Veri değişmedi."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/fallback_turkey_data.json data/official_reference.json
+          git commit -m "data: resmi kaynaklarla aylık eşitleme"
+          git push

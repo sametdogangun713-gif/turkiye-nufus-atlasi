@@ -1,0 +1,39 @@
+[project]
+name = "turkiye-nufus-atlasi"
+version = "1.0.0"
+description = "Türkiye'nin 81 ilinde nüfus, doğum, ölüm, göç ve yaş verileri: etkileşimli harita"
+readme = "README.md"
+requires-python = ">=3.12"
+# Yalnızca web uygulamasının çalışma zamanı bağımlılıkları (Vercel paketi küçük kalsın)
+dependencies = [
+    "fastapi>=0.143.0",
+    "jinja2>=3.1.6",
+]
+
+[project.optional-dependencies]
+# Veri hattı (turkstat_pipeline.py, tools/): uv sync --extra pipeline
+pipeline = [
+    "httpx>=0.28.1",
+    "openpyxl>=3.1.5",
+    "pandas>=3.0.6",
+    "selectolax>=1.0.0",
+    "tenacity>=9.2.1",
+    "truststore>=0.10",
+    "xlrd>=2.0.2",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4",
+    "uvicorn[standard]>=0.54.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+# Vercel: StaticFiles mount'u CDN'e taşınır. Önbellek middleware'i olduğu için
+# CDN tanıtımını açıkça açıyoruz. Dosyalar pakette de kalır (exclude = false):
+# uygulama sürüm özeti ve /sw.js için bunları çalışma anında okur.
+[tool.vercel.fastapi.static]
+cdn = true
+exclude = false

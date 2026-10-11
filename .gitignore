@@ -1,0 +1,19 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Üretilen yerel veri (depoda yalnızca fallback_turkey_data.json ve official_reference.json tutulur)
+data/demographics.db
+data/demographics.db-*
+data/cache_turkey_demographics.json
+data/*.tmp
+
+# Araç ve platform klasörleri
+.vercel/
+.claude/
+.env
+.env.*
+.DS_Store
+Thumbs.db
