@@ -375,8 +375,44 @@ h1, h2, p { margin: 0; }
 
 /* Detay */
 .view-detail { overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; }
-.dt-head { padding: 18px 24px 16px; border-bottom: 1px solid var(--rule); }
-.back { display: inline-flex; align-items: center; gap: 4px; margin-bottom: 14px; }
+.dt-head { position: relative; padding: 18px 24px 16px; border-bottom: 1px solid var(--rule); }
+
+/* Belirgin kapatma düğmesi: dolu mürekkep daire, üzerine gelince İznik kırmızısı */
+.close-btn {
+  position: absolute; top: 14px; right: 18px; z-index: 2;
+  display: grid; place-items: center; width: 40px; height: 40px; padding: 0;
+  border: 0; border-radius: 50%; cursor: pointer;
+  background: var(--ink); color: var(--glaze);
+  box-shadow: 0 6px 16px -8px rgba(20, 33, 61, .6);
+  transition: background-color .2s, transform .2s var(--ease);
+}
+.close-btn:hover { background: var(--red); transform: rotate(90deg); }
+.close-btn:active { transform: rotate(90deg) scale(.92); }
+.close-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; }
+
+/* Harita üstündeki seçim hapı: tamamı tıklanabilir, seçimi kapatır */
+.map-clip { position: relative; }
+.sel-pill {
+  position: absolute; top: 12px; left: 50%; z-index: 4;
+  display: inline-flex; align-items: center; gap: 8px;
+  height: 38px; padding: 0 8px 0 10px;
+  border: 1px solid var(--rule-2); border-radius: 999px; cursor: pointer;
+  background: var(--sheet); color: var(--ink); box-shadow: var(--shadow);
+  font: 600 14px var(--font-ui);
+  opacity: 0; visibility: hidden;
+  transform: translate(-50%, -8px) scale(.96);
+  transition: opacity .2s var(--ease), transform .3s var(--ease), visibility 0s .3s;
+}
+.sel-pill.show { opacity: 1; visibility: visible; transform: translate(-50%, 0); transition-delay: 0s; }
+.sel-pill .plate { color: var(--red); }
+.sel-pill svg {
+  width: 22px; height: 22px; padding: 4px; border-radius: 50%;
+  fill: none; stroke: var(--glaze); stroke-width: 2.6; stroke-linecap: round;
+  background: var(--ink); transition: background-color .2s;
+}
+.sel-pill:hover svg { background: var(--red); }
+.map-area.has-sel .map-clip { cursor: zoom-out; }
+.back { display: inline-flex; align-items: center; gap: 4px; margin-bottom: 14px; min-height: 40px; }
 .back svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .dt-meta { display: flex; align-items: center; gap: 10px; color: var(--ink-2); font-size: 13px; }
 .dt-meta .plate { color: var(--ink); }

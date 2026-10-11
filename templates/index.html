@@ -81,6 +81,11 @@
         <div class="map-stage" id="map-stage">
           {% include "_turkey_map.svg" %}
         </div>
+        <!-- Seçili il: haritanın üstünde belirgin kapatma hapı -->
+        <button class="sel-pill" id="sel-pill" aria-label="Seçimi kapat" tabindex="-1">
+          <span class="plate" id="sel-plate">01</span><b id="sel-name">Adana</b>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg>
+        </button>
       </div>
 
       <!-- Tablo görünümü: sunucuda üretilir (arama motorları ve ekran okuyucular için) -->
@@ -145,6 +150,9 @@
 
         <section class="view view-detail" id="view-detail" aria-labelledby="dt-name" aria-hidden="true">
           <header class="dt-head">
+            <button id="dt-close" class="close-btn" aria-label="İli kapat ve sıralamaya dön" title="Kapat (Esc)">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+            </button>
             <button id="dt-back" class="text-btn back" aria-label="Sıralamaya dön">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Sıralama
             </button>

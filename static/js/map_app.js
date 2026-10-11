@@ -678,19 +678,57 @@ function select(code, { zoom = false, push = true } = {}) {
   Rank.markSelected(code);
   Table.markSelected(code);
   Detail.open(code);
+  SelPill.show(code);
   if (zoom && !state.tabular) MapView.focus(code);
   writeUrl(push);
 }
 
 function deselect({ push = true } = {}) {
+  if (!state.selected) return;
+  // Klavye odağı kapanan panelde kalmasın: sıralamaya taşı
+  if (Detail.view.contains(document.activeElement)) $("#rank-order").focus({ preventScroll: true });
   state.selected = null;
   MapView.markSelected(null);
   Rank.markSelected(null);
   Table.markSelected(null);
   Detail.close();
+  SelPill.hide();
   MapView.resetZoom();
+  hover(null);
   writeUrl(push);
 }
+
+/* ---------------------------------------------------------- Seçimi kapatma */
+// Üç yol: paneldeki çarpı, haritadaki "il ✕" hapı, haritada il dışında boş bir yere basmak (+ Esc).
+const SelPill = {
+  init() {
+    this.el = $("#sel-pill");
+    this.area = $(".map-area");
+    this.el.addEventListener("click", () => deselect());
+    $("#dt-close").addEventListener("click", () => deselect());
+    // Haritanın boş alanı (deniz, kenar boşluğu, başlık bölgesi) seçimi kapatır.
+    // Denetimler, bağlantılar, lejant ve tablo görünümü hariç.
+    this.area.addEventListener("click", (e) => {
+      if (!state.selected || state.tabular) return;
+      if (e.target.closest(".province, button, a, input, .legend, .table-view, .view-switch")) return;
+      deselect();
+    });
+  },
+  show(code) {
+    const p = state.byCode.get(code);
+    $("#sel-plate").textContent = code.slice(3);
+    $("#sel-name").textContent = p.province_name;
+    this.el.setAttribute("aria-label", `${p.province_name} seçimini kapat`);
+    this.el.tabIndex = 0;
+    this.el.classList.add("show");
+    this.area.classList.add("has-sel");
+  },
+  hide() {
+    this.el.classList.remove("show");
+    this.el.tabIndex = -1;
+    this.area.classList.remove("has-sel");
+  },
+};
 
 /* ------------------------------------------------------------------- Tablo */
 const Table = {
@@ -967,6 +1005,7 @@ async function main() {
   Detail.drawStrips();
   Search.init();
   Table.init();
+  SelPill.init();
 
   const h = readUrl();
   state.metric = h.metric || "population";
