@@ -1,0 +1,9 @@
+# Yerelden `vercel deploy` yapılırsa yüklenmeyecekler (git üzerinden yayında zaten depoda yoklar)
+.venv/
+.claude/
+.pytest_cache/
+**/__pycache__/
+data/demographics.db*
+data/cache_turkey_demographics.json
+data/*.tmp
+.env*
