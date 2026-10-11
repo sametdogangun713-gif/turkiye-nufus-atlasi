@@ -13,6 +13,7 @@ data/*.tmp
 # Araç ve platform klasörleri
 .vercel/
 .claude/
+.serena/
 .env
 .env.*
 .DS_Store
